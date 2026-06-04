@@ -7,6 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(concert-wrapped
     src/main.cpp
+    src/Utilities.cpp
+    src/models/Concert.cpp
+    src/repositories/ConcertRepository.cpp
 )
 
 target_include_directories(concert-wrapped PRIVATE src)
