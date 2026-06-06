@@ -25,7 +25,7 @@ int main()
         std::cout << "1. Add Concert\n";
         std::cout << "2. View Concerts\n";
         std::cout << "3. View Stats\n";
-        std::cout << "3. Exit\n";
+        std::cout << "4. Exit\n";
         std::cout << "Selection: ";
 
         if (!Utilities::parse_int(input) || input < 1 || input > 4)
