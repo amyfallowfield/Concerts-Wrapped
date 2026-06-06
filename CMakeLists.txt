@@ -10,6 +10,7 @@ add_executable(concert-wrapped
     src/Utilities.cpp
     src/models/Concert.cpp
     src/repositories/ConcertRepository.cpp
+    src/services/StatsManager.cpp
     src/services/StorageManager.cpp
 )
 
