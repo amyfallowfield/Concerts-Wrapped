@@ -26,10 +26,14 @@ void ConcertRepository::add()
 
     while (true)
     {
+        double input;
+
         std::cout << "Cost: £";
 
-        if (!Utilities::parse_int(cost) || cost < 0)
+        if (!Utilities::parse_float(input) || input < 0)
             continue;
+
+        cost = static_cast<int32_t>(input * 100);
 
         break;
     }
@@ -42,6 +46,7 @@ void ConcertRepository::print()
     for (const Concert& concert : concerts)
     {
         concert.print();
+        std::cout << '\n';
     }
 }
 

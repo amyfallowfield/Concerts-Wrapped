@@ -27,7 +27,7 @@ void Concert::print() const
     std::cout << "Venue: " << venue << '\n';
     std::cout << "City: " << city << '\n';
     std::cout << "Date: " << date << '\n';
-    std::cout << "Cost: £" << cost << '\n';
+    std::cout << "Cost: £" << cost / 100.0 << '\n';
 }
 
 json Concert::to_json() const

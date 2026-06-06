@@ -13,8 +13,8 @@ void StatsManager::print_stats(const std::vector<Concert>& concerts)
     else
     {
         std::cout << "Total Shows: " << total_shows(concerts) << '\n';
-        std::cout << "Total Cost: " << total_cost(concerts) << '\n';
-        std::cout << "Average Cost: £" << average_cost(concerts) << '\n';
+        std::cout << "Total Cost: " << total_cost(concerts) / 100.0 << '\n';
+        std::cout << "Average Cost: £" << average_cost(concerts) / 100.0 << '\n';
     }
 }
 
