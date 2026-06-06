@@ -22,6 +22,12 @@ public:
 
     void print() const;
     json to_json() const;
+
+    std::string get_artist() const;
+    std::string get_venue() const;
+    std::string get_city() const;
+    std::string get_date() const;
+    int32_t get_cost() const;
 };
 
 #endif

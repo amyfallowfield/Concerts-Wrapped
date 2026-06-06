@@ -40,3 +40,9 @@ json Concert::to_json() const
         {"cost", cost}
     };
 }
+
+std::string Concert::get_artist() const { return artist; }
+std::string Concert::get_venue() const { return venue; }
+std::string Concert::get_city() const { return city; }
+std::string Concert::get_date() const { return date; }
+int32_t Concert::get_cost() const { return cost; }
