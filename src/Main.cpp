@@ -4,11 +4,14 @@
 
 #include "models/Concert.h"
 #include "repositories/ConcertRepository.h"
+#include "services/StorageManager.h"
 #include "Utilities.h"
 
 int main()
 {
     std::cout << "\n===== Concerts Wrapped =====\n\n";
+    StorageManager storage = StorageManager();
+    storage.load();
 
     ConcertRepository repo = ConcertRepository();
 
@@ -37,6 +40,7 @@ int main()
         }
         case 3:
         {
+            storage.save(repo.get_all());
             return 0;
         }
         }

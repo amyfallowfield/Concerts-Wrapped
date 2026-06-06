@@ -10,6 +10,10 @@ add_executable(concert-wrapped
     src/Utilities.cpp
     src/models/Concert.cpp
     src/repositories/ConcertRepository.cpp
+    src/services/StorageManager.cpp
 )
 
+find_package(nlohmann_json CONFIG REQUIRED)
+
+target_link_libraries(concert-wrapped PRIVATE nlohmann_json::nlohmann_json)
 target_include_directories(concert-wrapped PRIVATE src)
