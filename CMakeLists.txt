@@ -12,6 +12,7 @@ add_executable(concert-wrapped
     src/repositories/ConcertRepository.cpp
     src/services/StatsManager.cpp
     src/services/StorageManager.cpp
+    src/services/ValidationManager.cpp
 )
 
 find_package(nlohmann_json CONFIG REQUIRED)

@@ -4,11 +4,13 @@
 #include <vector>
 
 #include "models/Concert.h"
+#include "services/ValidationManager.h"
 
 class ConcertRepository
 {
 private:
     std::vector<Concert> concerts;
+    ValidationManager validator = ValidationManager();
 
 public:
     void add();
