@@ -1,11 +1,40 @@
 #include <iostream>
 
+#include "models/Artist.h"
 #include "models/Concert.h"
+#include "services/StorageManager.h"
 #include "services/ValidationManager.h"
 #include "ConcertRepository.h"
 #include "Utilities.h"
 
+ConcertRepository::ConcertRepository()
+{
+    StorageManager storage = StorageManager();
+    concerts = storage.load<Concert>();
+    artists = storage.load<Artist>();
+}
+
 void ConcertRepository::add()
+{
+    Concert new_concert = create_concert();
+    update_artists(new_concert);
+
+    concerts.push_back(new_concert);
+}
+
+void ConcertRepository::print()
+{
+    for (const Concert& concert : concerts)
+    {
+        concert.print();
+        std::cout << '\n';
+    }
+}
+
+std::vector<Concert> ConcertRepository::get_concerts() { return concerts; }
+std::vector<Artist> ConcertRepository::get_artists() { return artists; }
+
+Concert ConcertRepository::create_concert()
 {
     std::string artist;
     std::string venue;
@@ -72,19 +101,23 @@ void ConcertRepository::add()
         break;
     }
 
-    concerts.push_back(Concert{artist, venue, city, date, cost});
+    return {artist, venue, city, date, cost};
 }
 
-void ConcertRepository::print()
+void ConcertRepository::update_artists(const Concert& new_concert)
 {
-    for (const Concert& concert : concerts)
+    auto artist_it = std::find_if(artists.begin(), artists.end(),
+        [&](const Artist& existing_artist) {
+            return existing_artist.name == new_concert.get_artist();
+    });
+
+    if (artist_it == artists.end())
     {
-        concert.print();
-        std::cout << '\n';
+        artists.push_back(Artist{new_concert.get_artist(), new_concert.get_date(), new_concert.get_cost()});
     }
-}
-
-std::vector<Concert> ConcertRepository::get_all()
-{
-    return concerts;
+    else
+    {
+        Artist& current_artist = *artist_it;
+        current_artist.update(new_concert.get_date(), new_concert.get_cost());
+    }
 }

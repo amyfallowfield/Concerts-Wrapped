@@ -8,10 +8,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(concert-wrapped
     src/main.cpp
     src/Utilities.cpp
+    src/models/Artist.cpp
     src/models/Concert.cpp
     src/repositories/ConcertRepository.cpp
     src/services/ConcertStatsManager.cpp
-    src/services/StorageManager.cpp
     src/services/ValidationManager.cpp
 )
 

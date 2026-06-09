@@ -14,8 +14,6 @@ int main()
 
     ConcertStatsManager stats = ConcertStatsManager();
     StorageManager storage = StorageManager();
-    storage.load();
-
     ConcertRepository repo = ConcertRepository();
 
     while (true)
@@ -47,12 +45,13 @@ int main()
         }
         case 3:
         {
-            stats.print_stats(repo.get_all());
+            stats.print_stats(repo.get_concerts());
             break;
         }
         case 4:
         {
-            storage.save(repo.get_all());
+            storage.save(repo.get_concerts());
+            storage.save(repo.get_artists());
             return 0;
         }
         }
