@@ -1,10 +1,10 @@
 #include <iostream>
 #include <vector>
 
-#include "StatsManager.h"
+#include "ConcertStatsManager.h"
 #include "models/Concert.h"
 
-void StatsManager::print_stats(const std::vector<Concert>& concerts)
+void ConcertStatsManager::print_stats(const std::vector<Concert>& concerts)
 {
     if (total_shows(concerts) == 0)
     {
@@ -18,12 +18,12 @@ void StatsManager::print_stats(const std::vector<Concert>& concerts)
     }
 }
 
-int32_t StatsManager::total_shows(const std::vector<Concert>& concerts)
+int32_t ConcertStatsManager::total_shows(const std::vector<Concert>& concerts)
 {
     return concerts.size();
 }
 
-int32_t StatsManager::total_cost(const std::vector<Concert>& concerts)
+int32_t ConcertStatsManager::total_cost(const std::vector<Concert>& concerts)
 {
     int32_t total{};
 
@@ -35,7 +35,7 @@ int32_t StatsManager::total_cost(const std::vector<Concert>& concerts)
     return total;
 }
 
-int32_t StatsManager::average_cost(const std::vector<Concert>& concerts)
+int32_t ConcertStatsManager::average_cost(const std::vector<Concert>& concerts)
 {
     return static_cast<int32_t>(total_cost(concerts) / total_shows(concerts));
 }

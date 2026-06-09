@@ -2,7 +2,7 @@
 
 #include "models/Concert.h"
 
-struct StatsManager
+struct ConcertStatsManager
 {
     void print_stats(const std::vector<Concert>& concerts);
     int32_t total_shows(const std::vector<Concert>& concerts);

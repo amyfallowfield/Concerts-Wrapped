@@ -4,7 +4,7 @@
 
 #include "models/Concert.h"
 #include "repositories/ConcertRepository.h"
-#include "services/StatsManager.h"
+#include "services/ConcertStatsManager.h"
 #include "services/StorageManager.h"
 #include "Utilities.h"
 
@@ -12,7 +12,7 @@ int main()
 {
     std::cout << "\n===== Concerts Wrapped =====\n\n";
 
-    StatsManager stats = StatsManager();
+    ConcertStatsManager stats = ConcertStatsManager();
     StorageManager storage = StorageManager();
     storage.load();
 
