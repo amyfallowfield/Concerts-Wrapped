@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "models/Artist.h"
-#include "models/Concert.h"
-#include "services/ValidationManager.h"
+#include "Artist.h"
+#include "Concert.h"
+#include "ValidationManager.h"
 
 class ConcertRepository
 {

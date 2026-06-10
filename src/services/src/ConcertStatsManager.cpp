@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "ConcertStatsManager.h"
-#include "models/Concert.h"
+#include "Concert.h"
 
 void ConcertStatsManager::print_stats(const std::vector<Concert>& concerts)
 {

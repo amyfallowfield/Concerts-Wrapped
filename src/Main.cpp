@@ -2,11 +2,11 @@
 #include <limits>
 #include <vector>
 
-#include "models/Concert.h"
-#include "repositories/ConcertRepository.h"
-#include "services/ConcertStatsManager.h"
-#include "services/StorageManager.h"
 #include "Utilities.h"
+#include "Concert.h"
+#include "ConcertRepository.h"
+#include "ConcertStatsManager.h"
+#include "StorageManager.h"
 
 int main()
 {

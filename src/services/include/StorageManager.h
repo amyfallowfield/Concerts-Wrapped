@@ -4,8 +4,8 @@
 #include <fstream>
 #include <vector>
 
-#include "models/Artist.h"
-#include "models/Concert.h"
+#include "Artist.h"
+#include "Concert.h"
 
 template<typename T>
 struct FilePaths;

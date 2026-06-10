@@ -1,6 +1,6 @@
 #include <vector>
 
-#include "models/Concert.h"
+#include "Concert.h"
 
 struct ConcertStatsManager
 {

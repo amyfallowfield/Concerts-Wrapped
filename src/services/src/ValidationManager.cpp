@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "ValidationManager.h"
-#include "models/Concert.h"
+#include "Concert.h"
 
 ValidationResult<std::string> ValidationManager::validate_artist(std::string& input)
 {

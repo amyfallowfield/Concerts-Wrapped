@@ -1,11 +1,11 @@
 #include <iostream>
 
-#include "models/Artist.h"
-#include "models/Concert.h"
-#include "services/StorageManager.h"
-#include "services/ValidationManager.h"
+#include "Artist.h"
+#include "Concert.h"
 #include "ConcertRepository.h"
+#include "StorageManager.h"
 #include "Utilities.h"
+#include "ValidationManager.h"
 
 ConcertRepository::ConcertRepository()
 {
