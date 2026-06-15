@@ -16,6 +16,7 @@ add_executable(concert-wrapped
     src/services/src/ArtistStatsManager.cpp
     src/services/src/ArtistStatsManager.cpp
     src/screens/src/screenManager.cpp
+    src/services/src/Logger.cpp
 )
 
 find_package(nlohmann_json CONFIG REQUIRED)

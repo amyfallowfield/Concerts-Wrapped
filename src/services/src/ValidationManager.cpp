@@ -2,8 +2,9 @@
 #include <regex>
 #include <vector>
 
-#include "ValidationManager.h"
 #include "Concert.h"
+#include "Logger.h"
+#include "ValidationManager.h"
 
 ValidationResult<std::string> ValidationManager::validate_artist(std::string& input)
 {
@@ -67,17 +68,27 @@ ValidationResult<int> ValidationManager::validate_cost(int& input)
 
 ValidationResult<std::string> ValidationManager::validate_string(std::string& input, const std::string& attribute)
 {
-    if (input.find_first_not_of(WHITESPACE) == std::string::npos) { return {false, input, attribute + " must contain non-whitespace characters"}; }
+    if (input.find_first_not_of(WHITESPACE) == std::string::npos)
+    {
+        return {false, input, attribute + " must contain non-whitespace characters"};
+    }
 
     return {true, input, {}};
 }
 
 void ValidationManager::clean_string(std::string& input)
 {
+    std::string original = input;
+
     if (input.find_first_not_of(WHITESPACE) == std::string::npos) { return; }
 
     input.erase(0, input.find_first_not_of(WHITESPACE));
     input.erase(input.find_last_not_of(WHITESPACE) + 1);
 
     std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c) { return std::tolower(c); });
+
+    if (original != input)
+    {
+        Logger::Warn("ValidationManager", "clean_string", "Input has been cleaned from " + original + " to " + input);
+    }
 }

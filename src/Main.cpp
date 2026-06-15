@@ -6,6 +6,13 @@
 
 int main()
 {
-    ScreenManager screen_manager = ScreenManager();
-    screen_manager.run();
+    try
+    {
+        ScreenManager screen_manager = ScreenManager();
+        screen_manager.run();
+    }
+    catch (const std::exception& e)
+    {
+        std::cout << "Fatal error: " << e.what() << "\n";
+    }
 }

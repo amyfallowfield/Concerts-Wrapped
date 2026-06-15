@@ -32,6 +32,8 @@ private:
     Screen current_screen;
 
     void show_menu();
+
+    std::string enum_to_string(Screen screen);
 };
 
 #endif

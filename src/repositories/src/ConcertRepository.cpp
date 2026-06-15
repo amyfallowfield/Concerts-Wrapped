@@ -1,5 +1,7 @@
 #include <iostream>
+#include <string>
 
+#include "../../services/include/Logger.h"
 #include "Artist.h"
 #include "Concert.h"
 #include "ConcertRepository.h"
@@ -20,6 +22,8 @@ void ConcertRepository::add()
     update_artists(new_concert);
 
     concerts.push_back(new_concert);
+
+    Logger::Info("ConcertRepository", "add", "Concert created successfully");
 }
 
 void ConcertRepository::print()
@@ -48,9 +52,11 @@ Concert ConcertRepository::create_concert()
         std::getline(std::cin, artist);
 
         ValidationResult result = validator.validate_artist(artist);
+
         if (result.is_valid) { break; }
 
         std::cout << result.error_message;
+        Logger::Warn("ConcertRepository", "create_concert", result.error_message);
     }
 
     while (true)
@@ -59,9 +65,11 @@ Concert ConcertRepository::create_concert()
         std::getline(std::cin, venue);
 
         ValidationResult result = validator.validate_venue(venue);
+
         if (result.is_valid) { break; }
 
         std::cout << result.error_message;
+        Logger::Warn("ConcertRepository", "create_concert", result.error_message);
     }
 
     while (true)
@@ -70,9 +78,11 @@ Concert ConcertRepository::create_concert()
         std::getline(std::cin, city);
 
         ValidationResult result = validator.validate_city(city);
+
         if (result.is_valid) { break; }
 
         std::cout << result.error_message;
+        Logger::Warn("ConcertRepository", "create_concert", result.error_message);
     }
 
     while (true)
@@ -81,9 +91,11 @@ Concert ConcertRepository::create_concert()
         std::getline(std::cin, date);
 
         ValidationResult result = validator.validate_date(date);
+
         if (result.is_valid) { break; }
 
         std::cout << result.error_message;
+        Logger::Warn("ConcertRepository", "create_concert", result.error_message);
     }
 
     while (true)
@@ -96,9 +108,13 @@ Concert ConcertRepository::create_concert()
             continue;
 
         cost = static_cast<int32_t>(input * 100);
-        validator.validate_cost(cost).value;
 
-        break;
+        ValidationResult result = validator.validate_cost(cost);
+
+        if (result.is_valid) { break; }
+
+        std::cout << result.error_message;
+        Logger::Warn("ConcertRepository", "create_concert", result.error_message);
     }
 
     return {artist, venue, city, date, cost};
@@ -114,10 +130,12 @@ void ConcertRepository::update_artists(const Concert& new_concert)
     if (artist_it == artists.end())
     {
         artists.push_back(Artist{new_concert.get_artist(), new_concert.get_date(), new_concert.get_cost()});
+        Logger::Info("ConcertRepository", "update_artists", "Artist created successfully");
     }
     else
     {
         Artist& current_artist = *artist_it;
         current_artist.update(new_concert.get_date(), new_concert.get_cost());
+        Logger::Info("ConcertRepository", "update_artists", "Artist update successfully");
     }
 }

@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 
+#include "Logger.h"
 #include "Artist.h"
 #include "Concert.h"
 
@@ -24,27 +25,30 @@ struct FilePaths<Artist>
 
 struct StorageManager
 {
-        template<typename T>
-        bool save(const std::vector<T>& items)
+    template<typename T>
+    bool save(const std::vector<T>& items)
+    {
+        json json_array = json::array();
+
+        for (const T& item : items)
         {
-            json json_array = json::array();
-
-            for (const T& item : items)
-            {
-                json_array.push_back(item.to_json());
-            }
-
-            std::ofstream file(FilePaths<T>::path);
-
-            if (!file.is_open())
-            {
-                throw std::runtime_error(std::format("Failed to open {}", FilePaths<T>::path));
-                return false;
-            }
-
-            file << json_array.dump(4);
-            return true;
+            json_array.push_back(item.to_json());
         }
+
+        std::ofstream file(FilePaths<T>::path);
+
+        if (!file.is_open())
+        {
+            throw std::runtime_error(std::format("Failed to open {}", FilePaths<T>::path));
+            return false;
+        }
+
+        file << json_array.dump(4);
+
+        Logger::Info("StorageManager", "save", std::string(FilePaths<T>::path) + " saved successfully");
+
+        return true;
+    }
 
     template<typename T>
     std::vector<T> load()
@@ -63,6 +67,8 @@ struct StorageManager
         {
             items.push_back(T{item});
         }
+
+        Logger::Info("StorageManager", "load", std::to_string(items.size()) + " items from " + std::string(FilePaths<T>::path) + " loaded successfully");
 
         return items;
     }

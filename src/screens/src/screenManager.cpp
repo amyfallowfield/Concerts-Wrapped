@@ -1,4 +1,5 @@
 #include "../include/screenManager.h"
+#include "../../services/include/Logger.h"
 #include "Utilities.h"
 #include "Concert.h"
 #include "ConcertRepository.h"
@@ -16,6 +17,8 @@ void ScreenManager::run()
 
     while (current_screen != Screen::Exit)
     {
+        Screen previous_screen = current_screen;
+
         switch(current_screen)
         {
         case Screen::Menu:
@@ -37,7 +40,11 @@ void ScreenManager::run()
             artist_stats.print_stats(repo.get_artists());
             current_screen = Screen::Menu;
             break;
+        default:
+            throw std::runtime_error("Screen value is not recognised"); 
         }
+
+        Logger::Info("screenManager", "run", "Screen changed from " + enum_to_string(previous_screen) + " to " + enum_to_string(current_screen));
     }
 
     storage.save(repo.get_concerts());
@@ -80,5 +87,19 @@ void ScreenManager::show_menu()
     case 5:
         current_screen = Screen::Exit;
         break;
+    }
+}
+
+std::string ScreenManager::enum_to_string(Screen screen)
+{
+    switch(screen)
+    {
+    case Screen::Menu: { return "menu"; }
+    case Screen::AddConcert: { return "add concert"; }
+    case Screen::ViewConcerts: { return "view concerts"; }
+    case Screen::ConcertStats: { return "concert stats"; }
+    case Screen::ArtistStats: { return "artist stats"; }
+    case Screen::Exit: { return "exit"; }
+    default: { return "Error"; }
     }
 }
