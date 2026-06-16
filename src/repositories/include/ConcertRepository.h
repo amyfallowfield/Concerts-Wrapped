@@ -17,8 +17,16 @@ private:
     Concert create_concert();
     void update_artists(const Concert& new_concert);
 
-    std::string get_input(std::string prompt, std::function<ValidationResult<std::string>(std::string&)> validation_method);
-    int32_t get_monetary_input(std::string prompt, std::function<ValidationResult<int32_t>(int32_t)> validation_method);
+    std::string get_string_input(std::string prompt);
+    int32_t get_monetary_input(std::string prompt);
+
+    template <typename T>
+    T get_input(
+        const std::string& prompt,
+        std::function<T(const std::string&)> input_method,
+        std::function<T(T&)> transformation_method,
+        std::function<ValidationResult<T>(T&)> validation_method
+    );
 
 public:
     ConcertRepository();
