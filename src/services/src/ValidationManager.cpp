@@ -59,7 +59,7 @@ ValidationResult<std::string> ValidationManager::validate_date(std::string& inpu
     return {true, input, {}};
 }
 
-ValidationResult<int> ValidationManager::validate_cost(int& input)
+ValidationResult<int32_t> ValidationManager::validate_cost(int32_t& input)
 {
     if (input < 0) { return {false, input, "Cost cannot be negative"}; }
     

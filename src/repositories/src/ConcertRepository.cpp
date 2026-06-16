@@ -40,84 +40,14 @@ std::vector<Artist> ConcertRepository::get_artists() { return artists; }
 
 Concert ConcertRepository::create_concert()
 {
-    std::string artist;
-    std::string venue;
-    std::string city;
-    std::string date;
-    int32_t cost;
-
-    while (true)
-    {
-        std::cout << "Artist Name: ";
-        std::getline(std::cin, artist);
-
-        ValidationResult result = validator.validate_artist(artist);
-
-        if (result.is_valid) { break; }
-
-        std::cout << result.error_message;
-        Logger::Warn("ConcertRepository", "create_concert", result.error_message);
-    }
-
-    while (true)
-    {
-        std::cout << "Venue Name: ";
-        std::getline(std::cin, venue);
-
-        ValidationResult result = validator.validate_venue(venue);
-
-        if (result.is_valid) { break; }
-
-        std::cout << result.error_message;
-        Logger::Warn("ConcertRepository", "create_concert", result.error_message);
-    }
-
-    while (true)
-    {
-        std::cout << "City: ";
-        std::getline(std::cin, city);
-
-        ValidationResult result = validator.validate_city(city);
-
-        if (result.is_valid) { break; }
-
-        std::cout << result.error_message;
-        Logger::Warn("ConcertRepository", "create_concert", result.error_message);
-    }
-
-    while (true)
-    {
-        std::cout << "Date [Format: DD-MM-YYYY]: ";
-        std::getline(std::cin, date);
-
-        ValidationResult result = validator.validate_date(date);
-
-        if (result.is_valid) { break; }
-
-        std::cout << result.error_message;
-        Logger::Warn("ConcertRepository", "create_concert", result.error_message);
-    }
-
-    while (true)
-    {
-        double input;
-
-        std::cout << "Cost: £";
-
-        if (!Utilities::parse_float(input))
-            continue;
-
-        cost = static_cast<int32_t>(input * 100);
-
-        ValidationResult result = validator.validate_cost(cost);
-
-        if (result.is_valid) { break; }
-
-        std::cout << result.error_message;
-        Logger::Warn("ConcertRepository", "create_concert", result.error_message);
-    }
-
+    std::string artist = get_input("Artist Name: ", [&](std::string& input) { return validator.validate_artist(input); });
+    std::string venue = get_input("Venue Name: ", [&](std::string& input) { return validator.validate_venue(input); });
+    std::string city = get_input("City: ", [&](std::string& input) { return validator.validate_city(input); });
+    std::string date = get_input("Date [Format: DD-MM-YYYY]: ", [&](std::string& input) { return validator.validate_date(input); });
+    int32_t cost = get_monetary_input("Cost: £", [&](int32_t input) { return validator.validate_cost(input); });
+    
     return {artist, venue, city, date, cost};
+
 }
 
 void ConcertRepository::update_artists(const Concert& new_concert)
@@ -137,5 +67,45 @@ void ConcertRepository::update_artists(const Concert& new_concert)
         Artist& current_artist = *artist_it;
         current_artist.update(new_concert.get_date(), new_concert.get_cost());
         Logger::Info("ConcertRepository", "update_artists", "Artist update successfully");
+    }
+}
+
+std::string ConcertRepository::get_input(std::string prompt, std::function<ValidationResult<std::string>(std::string&)> validation_method)
+{
+    std::string input;
+
+    while (true)
+    {
+        std::cout << prompt;
+        std::getline(std::cin, input);
+
+        ValidationResult<std::string> result = validation_method(input);
+
+        if (result.is_valid) { return result.value; }
+
+        std::cout << result.error_message;
+        Logger::Warn("ConcertRepository", "get_input", result.error_message);
+    }
+}
+
+int32_t ConcertRepository::get_monetary_input(std::string prompt, std::function<ValidationResult<int32_t>(int32_t)> validation_method)
+{
+    double input;
+
+    while (true)
+    {
+        std::cout << prompt;
+
+        if (!Utilities::parse_float(input))
+            continue;
+
+        input = static_cast<int32_t>(input * 100);
+
+        ValidationResult<int32_t> result = validation_method(input);
+
+        if (result.is_valid) { return result.value; }
+
+        std::cout << result.error_message;
+        Logger::Warn("ConcertRepository", "get_monetary_input", result.error_message);
     }
 }

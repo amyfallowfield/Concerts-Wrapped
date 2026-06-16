@@ -17,6 +17,9 @@ private:
     Concert create_concert();
     void update_artists(const Concert& new_concert);
 
+    std::string get_input(std::string prompt, std::function<ValidationResult<std::string>(std::string&)> validation_method);
+    int32_t get_monetary_input(std::string prompt, std::function<ValidationResult<int32_t>(int32_t)> validation_method);
+
 public:
     ConcertRepository();
 
