@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
 
-#include "ConcertStatsManager.h"
 #include "Concert.h"
+#include "ConcertStatsManager.h"
 
 void ConcertStatsManager::print_stats(const std::vector<Concert>& concerts)
 {

@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 
-#include "../../services/include/Logger.h"
 #include "Artist.h"
 #include "Concert.h"
 #include "ConcertRepository.h"
+#include "Logger.h"
 #include "StorageManager.h"
 #include "Utilities.h"
 #include "ValidationManager.h"
@@ -43,35 +43,35 @@ Concert ConcertRepository::create_concert()
     std::string artist = 
         get_input<std::string>(
             "Artist Name: ",
-            [&](const std::string& prompt) { return get_string_input(prompt); },
+            [&](const std::string& prompt) { return _get_string_input(prompt); },
             [&](std::string& input) { return input; },
             [&](std::string& input) { return validator.validate_artist(input); });
 
     std::string venue = 
         get_input<std::string>(
             "Venue Name: ",
-            [&](const std::string& prompt) { return get_string_input(prompt); },
+            [&](const std::string& prompt) { return _get_string_input(prompt); },
             [&](std::string& input) { return input; },
             [&](std::string& input) { return validator.validate_venue(input); });
 
     std::string city = 
         get_input<std::string>(
             "City: ",
-            [&](const std::string& prompt) { return get_string_input(prompt); },
+            [&](const std::string& prompt) { return _get_string_input(prompt); },
             [&](std::string& input) { return input; },
             [&](std::string& input) { return validator.validate_city(input); });
 
     std::string date = 
         get_input<std::string>(
             "Date [Format: DD-MM-YYYY]: ",
-            [&](const std::string& prompt) { return get_string_input(prompt); },
+            [&](const std::string& prompt) { return _get_string_input(prompt); },
             [&](std::string& input) { return input; },
             [&](std::string& input) { return validator.validate_date(input); });
 
     int32_t cost = 
         get_input<int32_t>(
             "Cost: £",
-            [&](const std::string& prompt) { return get_monetary_input(prompt); },
+            [&](const std::string& prompt) { return _get_monetary_input(prompt); },
             [&](int32_t& input) { return static_cast<int32_t>(input * 100);; },
             [&](int32_t& input) { return validator.validate_cost(input); });
     
@@ -82,7 +82,7 @@ void ConcertRepository::update_artists(const Concert& new_concert)
 {
     auto artist_it = std::find_if(artists.begin(), artists.end(),
         [&](const Artist& existing_artist) {
-            return existing_artist.name == new_concert.get_artist();
+            return existing_artist.get_name() == new_concert.get_artist();
     });
 
     if (artist_it == artists.end())
@@ -98,7 +98,7 @@ void ConcertRepository::update_artists(const Concert& new_concert)
     }
 }
 
-std::string ConcertRepository::get_string_input(std::string prompt)
+std::string ConcertRepository::_get_string_input(std::string prompt)
 {
     std::string input;
     std::cout << prompt;
@@ -107,7 +107,7 @@ std::string ConcertRepository::get_string_input(std::string prompt)
     return input;
 }
 
-int32_t ConcertRepository::get_monetary_input(std::string prompt)
+int32_t ConcertRepository::_get_monetary_input(std::string prompt)
 {
     double input;
 

@@ -4,9 +4,9 @@
 #include <fstream>
 #include <vector>
 
-#include "Logger.h"
 #include "Artist.h"
 #include "Concert.h"
+#include "Logger.h"
 
 template<typename T>
 struct FilePaths;

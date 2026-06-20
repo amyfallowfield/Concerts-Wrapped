@@ -2,7 +2,7 @@
 #include <limits>
 #include <vector>
 
-#include "screens/include/ScreenManager.h"
+#include "ScreenManager.h"
 
 int main()
 {

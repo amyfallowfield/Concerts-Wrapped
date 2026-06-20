@@ -9,6 +9,15 @@
 
 class ConcertRepository
 {
+public:
+    ConcertRepository();
+
+    void add();
+    void print();
+
+    std::vector<Concert> get_concerts();
+    std::vector<Artist> get_artists();
+
 private:
     std::vector<Artist> artists;
     std::vector<Concert> concerts;
@@ -17,8 +26,8 @@ private:
     Concert create_concert();
     void update_artists(const Concert& new_concert);
 
-    std::string get_string_input(std::string prompt);
-    int32_t get_monetary_input(std::string prompt);
+    std::string _get_string_input(std::string prompt);
+    int32_t _get_monetary_input(std::string prompt);
 
     template <typename T>
     T get_input(
@@ -27,14 +36,6 @@ private:
         std::function<T(T&)> transformation_method,
         std::function<ValidationResult<T>(T&)> validation_method
     );
-
-public:
-    ConcertRepository();
-
-    void add();
-    void print();
-    std::vector<Concert> get_concerts();
-    std::vector<Artist> get_artists();
 };
 
 #endif

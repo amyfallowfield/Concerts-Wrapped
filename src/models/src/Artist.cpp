@@ -7,10 +7,10 @@ using json = nlohmann::json;
 
 Artist::Artist(std::string name, std::string date, int cost)
     : name(name),
-    first_seen(date),
-    last_seen(date),
-    count(1),
-    total_cost(cost)
+      first_seen(date),
+      last_seen(date),
+      count(1),
+      total_cost(cost)
 {}
 
 Artist::Artist(const json& data)
@@ -20,6 +20,13 @@ Artist::Artist(const json& data)
       count(data.at("count")),
       total_cost(data.at("total_cost"))
 {}
+
+void Artist::update(std::string date, int cost)
+{
+    last_seen = date;
+    count ++;
+    total_cost += cost;
+}
 
 json Artist::to_json() const
 {
@@ -32,9 +39,8 @@ json Artist::to_json() const
     };
 }
 
-void Artist::update(std::string date, int cost)
-{
-    last_seen = date;
-    count ++;
-    total_cost += cost;
-}
+std::string Artist::get_name() const { return name; };
+std::string Artist::get_first_seen() const { return first_seen; };
+std::string Artist::get_last_seen() const { return last_seen; };
+int Artist::get_count() const { return count; };
+int Artist::get_total_cost() const { return total_cost; };

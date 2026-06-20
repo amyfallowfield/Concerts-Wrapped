@@ -15,7 +15,7 @@ add_executable(concert-wrapped
     src/services/src/ValidationManager.cpp
     src/services/src/ArtistStatsManager.cpp
     src/services/src/ArtistStatsManager.cpp
-    src/screens/src/screenManager.cpp
+    src/screens/src/ScreenManager.cpp
     src/services/src/Logger.cpp
 )
 
@@ -25,5 +25,6 @@ target_link_libraries(concert-wrapped PRIVATE nlohmann_json::nlohmann_json)
 target_include_directories(concert-wrapped PRIVATE
     src/models/include
     src/repositories/include
+    src/screens/include
     src/services/include
 )

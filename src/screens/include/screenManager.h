@@ -1,8 +1,8 @@
 #ifndef SCREEN_MANAGER_H
 #define SCREEN_MANAGER_H
 
-#include "ConcertRepository.h"
 #include "ArtistStatsManager.h"
+#include "ConcertRepository.h"
 #include "ConcertStatsManager.h"
 #include "StorageManager.h"
 
@@ -28,7 +28,6 @@ private:
     ConcertStatsManager concert_stats;
     StorageManager storage;
     ConcertRepository repo;
-
     Screen current_screen;
 
     void show_menu();

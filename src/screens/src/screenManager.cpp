@@ -1,11 +1,11 @@
-#include "../include/screenManager.h"
-#include "../../services/include/Logger.h"
-#include "Utilities.h"
+#include "ArtistStatsManager.h"
 #include "Concert.h"
 #include "ConcertRepository.h"
-#include "ArtistStatsManager.h"
 #include "ConcertStatsManager.h"
+#include "Logger.h"
+#include "ScreenManager.h"
 #include "StorageManager.h"
+#include "Utilities.h"
 
 ScreenManager::ScreenManager()
     : current_screen(Screen::Menu)
@@ -44,7 +44,7 @@ void ScreenManager::run()
             throw std::runtime_error("Screen value is not recognised"); 
         }
 
-        Logger::Info("screenManager", "run", "Screen changed from " + enum_to_string(previous_screen) + " to " + enum_to_string(current_screen));
+        Logger::Info("ScreenManager", "run", "Screen changed from " + enum_to_string(previous_screen) + " to " + enum_to_string(current_screen));
     }
 
     storage.save(repo.get_concerts());
