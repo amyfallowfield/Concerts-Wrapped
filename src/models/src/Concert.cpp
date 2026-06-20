@@ -5,8 +5,9 @@
 
 using json = nlohmann::json;
 
-Concert::Concert(std::string artist, std::string venue, std::string city, std::string date, int32_t cost)
-    : artist(artist),
+Concert::Concert(int32_t id, std::string artist, std::string venue, std::string city, std::string date, int32_t cost)
+    : id(id),
+      artist(artist),
       venue(venue),
       city(city),
       date(date),
@@ -14,7 +15,8 @@ Concert::Concert(std::string artist, std::string venue, std::string city, std::s
 {}
 
 Concert::Concert(const json& data)
-    : artist(data.at("artist")),
+    : id(data.at("id")),
+      artist(data.at("artist")),
       venue(data.at("venue")),
       city(data.at("city")),
       date(data.at("date")),
@@ -23,6 +25,7 @@ Concert::Concert(const json& data)
 
 void Concert::print() const
 {
+    std::cout << "ID: " << id << '\n';
     std::cout << "Artist: " << artist << '\n';
     std::cout << "Venue: " << venue << '\n';
     std::cout << "City: " << city << '\n';
@@ -33,6 +36,7 @@ void Concert::print() const
 json Concert::to_json() const
 {
     return json{
+        {"id", id},
         {"artist", artist},
         {"venue", venue},
         {"city", city},
@@ -41,6 +45,12 @@ json Concert::to_json() const
     };
 }
 
+bool Concert::operator==(const Concert& other) const
+{
+    return id == other.get_id();
+}
+
+int32_t Concert::get_id() const { return id; }
 std::string Concert::get_artist() const { return artist; }
 std::string Concert::get_venue() const { return venue; }
 std::string Concert::get_city() const { return city; }

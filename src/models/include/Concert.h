@@ -10,12 +10,14 @@ using json = nlohmann::json;
 class Concert
 {
 public:
-    Concert(std::string artist, std::string venue, std::string city, std::string date, int32_t cost);
+    Concert(int32_t id, std::string artist, std::string venue, std::string city, std::string date, int32_t cost);
     Concert(const json& data);
 
     void print() const;
     json to_json() const;
+    bool operator==(const Concert& other) const;
 
+    int32_t get_id() const;
     std::string get_artist() const;
     std::string get_venue() const;
     std::string get_city() const;
@@ -23,6 +25,7 @@ public:
     int32_t get_cost() const;
 
 private:
+    int32_t id;
     std::string artist;
     std::string venue;
     std::string city;

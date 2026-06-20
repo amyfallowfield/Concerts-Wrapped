@@ -5,21 +5,22 @@
 #include "Concert.h"
 #include "ConcertRepository.h"
 #include "Logger.h"
-#include "StorageManager.h"
+#include "Performance.h"
 #include "Utilities.h"
 #include "ValidationManager.h"
 
 ConcertRepository::ConcertRepository()
 {
-    StorageManager storage = StorageManager();
-    concerts = storage.load<Concert>();
     artists = storage.load<Artist>();
+    concerts = storage.load<Concert>();
+    performances = storage.load<Performance>();
 }
 
 void ConcertRepository::add()
 {
     Concert new_concert = create_concert();
     update_artists(new_concert);
+    update_performances(new_concert);
 
     concerts.push_back(new_concert);
 
@@ -35,8 +36,9 @@ void ConcertRepository::print()
     }
 }
 
-std::vector<Concert> ConcertRepository::get_concerts() { return concerts; }
 std::vector<Artist> ConcertRepository::get_artists() { return artists; }
+std::vector<Concert> ConcertRepository::get_concerts() { return concerts; }
+std::vector<Performance> ConcertRepository::get_performances() { return performances; }
 
 Concert ConcertRepository::create_concert()
 {
@@ -72,10 +74,11 @@ Concert ConcertRepository::create_concert()
         get_input<int32_t>(
             "Cost: £",
             [&](const std::string& prompt) { return _get_monetary_input(prompt); },
-            [&](int32_t& input) { return static_cast<int32_t>(input * 100);; },
+            [&](int32_t& input) { return static_cast<int32_t>(input * 100); },
             [&](int32_t& input) { return validator.validate_cost(input); });
     
-    return {artist, venue, city, date, cost};
+    // TODO: Static variable to constantly increment id
+    return {1, artist, venue, city, date, cost};
 }
 
 void ConcertRepository::update_artists(const Concert& new_concert)
@@ -87,15 +90,22 @@ void ConcertRepository::update_artists(const Concert& new_concert)
 
     if (artist_it == artists.end())
     {
+        // TODO: Just use concert for constructor to reduce long parameter list
         artists.push_back(Artist{new_concert.get_artist(), new_concert.get_date(), new_concert.get_cost()});
         Logger::Info("ConcertRepository", "update_artists", "Artist created successfully");
     }
     else
     {
         Artist& current_artist = *artist_it;
-        current_artist.update(new_concert.get_date(), new_concert.get_cost());
+        current_artist.update(new_concert);
         Logger::Info("ConcertRepository", "update_artists", "Artist update successfully");
     }
+}
+
+void ConcertRepository::update_performances(const Concert& new_concert)
+{
+    // Hardcoded value will be updated once roles are implemented
+    performances.push_back(Performance(new_concert.get_id(), new_concert.get_artist(), "Headliner"));
 }
 
 std::string ConcertRepository::_get_string_input(std::string prompt)

@@ -9,6 +9,7 @@ add_executable(concert-wrapped
     src/Main.cpp
     src/models/src/Artist.cpp
     src/models/src/Concert.cpp
+    src/models/src/Performance.cpp
     src/repositories/src/ConcertRepository.cpp
     src/services/src/ConcertStatsManager.cpp
     src/services/src/Utilities.cpp

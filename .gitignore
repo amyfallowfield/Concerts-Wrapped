@@ -69,5 +69,4 @@ Testing/
 .cache/
 
 # user data files
-concert_data.json
-artist_data.json
+data/**

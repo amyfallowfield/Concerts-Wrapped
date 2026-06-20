@@ -21,11 +21,14 @@ Artist::Artist(const json& data)
       total_cost(data.at("total_cost"))
 {}
 
-void Artist::update(std::string date, int cost)
+void Artist::update(const Concert& concert)
 {
-    last_seen = date;
+    if (concert.get_date() > last_seen)
+    {
+        last_seen = concert.get_date();
+    }
     count ++;
-    total_cost += cost;
+    total_cost += concert.get_cost();
 }
 
 json Artist::to_json() const

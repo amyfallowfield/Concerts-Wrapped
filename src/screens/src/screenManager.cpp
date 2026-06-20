@@ -47,8 +47,9 @@ void ScreenManager::run()
         Logger::Info("ScreenManager", "run", "Screen changed from " + enum_to_string(previous_screen) + " to " + enum_to_string(current_screen));
     }
 
-    storage.save(repo.get_concerts());
     storage.save(repo.get_artists());
+    storage.save(repo.get_concerts());
+    storage.save(repo.get_performances());
 }
 
 void ScreenManager::show_menu()

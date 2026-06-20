@@ -1,6 +1,7 @@
 #ifndef STORAGE_MANAGER_H
 #define STORAGE_MANAGER_H
 
+#include <filesystem>
 #include <fstream>
 #include <vector>
 
@@ -12,15 +13,24 @@ template<typename T>
 struct FilePaths;
 
 template<>
-struct FilePaths<Concert>
+struct FilePaths<Artist>
 {
-    static constexpr const char* path = "concert_data.json";
+    static inline const std::filesystem::path path =
+    std::filesystem::path("data") / "artist_data.json";
 };
 
 template<>
-struct FilePaths<Artist>
+struct FilePaths<Concert>
 {
-    static constexpr const char* path = "artist_data.json";
+    static inline const std::filesystem::path path =
+    std::filesystem::path("data") / "concert_data.json";
+};
+
+template<>
+struct FilePaths<Performance>
+{
+    static inline const std::filesystem::path path =
+    std::filesystem::path("data") / "performance_data.json";
 };
 
 struct StorageManager
@@ -35,17 +45,18 @@ struct StorageManager
             json_array.push_back(item.to_json());
         }
 
+        std::filesystem::create_directories(FilePaths<T>::path.parent_path());
         std::ofstream file(FilePaths<T>::path);
 
         if (!file.is_open())
         {
-            throw std::runtime_error(std::format("Failed to open {}", FilePaths<T>::path));
+            throw std::runtime_error(std::format("Failed to open {}", FilePaths<T>::path.string()));
             return false;
         }
 
         file << json_array.dump(4);
 
-        Logger::Info("StorageManager", "save", std::string(FilePaths<T>::path) + " saved successfully");
+        Logger::Info("StorageManager", "save", FilePaths<T>::path.string() + " saved successfully");
 
         return true;
     }
@@ -68,7 +79,7 @@ struct StorageManager
             items.push_back(T{item});
         }
 
-        Logger::Info("StorageManager", "load", std::to_string(items.size()) + " items from " + std::string(FilePaths<T>::path) + " loaded successfully");
+        Logger::Info("StorageManager", "load", std::to_string(items.size()) + " items from " + FilePaths<T>::path.string() + " loaded successfully");
 
         return items;
     }

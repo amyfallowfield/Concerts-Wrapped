@@ -5,6 +5,8 @@
 
 #include "Artist.h"
 #include "Concert.h"
+#include "Performance.h"
+#include "StorageManager.h"
 #include "ValidationManager.h"
 
 class ConcertRepository
@@ -17,14 +19,18 @@ public:
 
     std::vector<Concert> get_concerts();
     std::vector<Artist> get_artists();
+    std::vector<Performance> get_performances();
 
 private:
+    StorageManager storage = StorageManager();
     std::vector<Artist> artists;
     std::vector<Concert> concerts;
+    std::vector<Performance> performances;
     ValidationManager validator = ValidationManager();
 
     Concert create_concert();
     void update_artists(const Concert& new_concert);
+    void update_performances(const Concert& new_concert);
 
     std::string _get_string_input(std::string prompt);
     int32_t _get_monetary_input(std::string prompt);

@@ -5,6 +5,8 @@
 #include <nlohmann/json.hpp>
 #include <string>
 
+#include "Concert.h"
+
 using json = nlohmann::json;
 
 class Artist
@@ -13,7 +15,7 @@ public:
     Artist(std::string name, std::string date, int cost);
     Artist(const json& data);
 
-    void update(std::string date, int cost);
+    void update(const Concert& concert);
 
     json to_json() const;
 
