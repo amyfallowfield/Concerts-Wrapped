@@ -12,7 +12,7 @@ using json = nlohmann::json;
 class Artist
 {
 public:
-    Artist(std::string name, std::string date, int cost);
+    Artist(const Concert& concert);
     Artist(const json& data);
 
     void update(const Concert& concert);

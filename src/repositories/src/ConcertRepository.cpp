@@ -127,7 +127,7 @@ Concert ConcertRepository::create_concert()
             [&](const std::string& prompt) { return _get_monetary_input(prompt); },
             [&](int32_t& input) { return static_cast<int32_t>(input * 100); },
             [&](int32_t& input) { return validator.validate_cost(input); });
-    
+
     // TODO: Static variable to constantly increment id
     return {1, artist, venue, city, date, cost};
 }
@@ -153,8 +153,7 @@ void ConcertRepository::update_artists(const Concert& new_concert)
 
     if (artist_it == artists.end())
     {
-        // TODO: Just use concert for constructor to reduce long parameter list
-        artists.push_back(Artist{new_concert.get_artist(), new_concert.get_date(), new_concert.get_cost()});
+        artists.push_back(Artist{new_concert});
         Logger::Info("ConcertRepository", "update_artists", "Artist created successfully");
     }
     else
