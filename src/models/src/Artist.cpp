@@ -5,12 +5,12 @@
 
 using json = nlohmann::json;
 
-Artist::Artist(std::string name, std::string date, int cost)
-    : name(name),
-      first_seen(date),
-      last_seen(date),
+Artist::Artist(const Concert& concert)
+    : name(concert.get_artist()),
+      first_seen(concert.get_date()),
+      last_seen(concert.get_date()),
       count(1),
-      total_cost(cost)
+      total_cost(concert.get_cost())
 {}
 
 Artist::Artist(const json& data)

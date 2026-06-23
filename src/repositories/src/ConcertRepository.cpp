@@ -128,8 +128,7 @@ Concert ConcertRepository::create_concert()
             [&](int32_t& input) { return static_cast<int32_t>(input * 100); },
             [&](int32_t& input) { return validator.validate_cost(input); });
 
-    // TODO: Static variable to constantly increment id
-    return {1, artist, venue, city, date, cost};
+    return {artist, venue, city, date, cost};
 }
 
 int32_t ConcertRepository::get_concert_id()

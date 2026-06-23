@@ -5,14 +5,18 @@
 
 using json = nlohmann::json;
 
-Concert::Concert(int32_t id, std::string artist, std::string venue, std::string city, std::string date, int32_t cost)
-    : id(id),
+int32_t Concert::next_id = 1;
+
+Concert::Concert(std::string artist, std::string venue, std::string city, std::string date, int32_t cost)
+    : id(next_id),
       artist(artist),
       venue(venue),
       city(city),
       date(date),
       cost(cost)
-{}
+{
+    next_id = id > next_id ? ++id : ++next_id;
+}
 
 Concert::Concert(const json& data)
     : id(data.at("id")),
@@ -21,7 +25,9 @@ Concert::Concert(const json& data)
       city(data.at("city")),
       date(data.at("date")),
       cost(data.at("cost"))
-{}
+{
+    next_id = id > next_id ? ++id : ++next_id;
+}
 
 void Concert::print() const
 {
