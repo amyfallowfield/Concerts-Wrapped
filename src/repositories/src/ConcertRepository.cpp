@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <string>
 
@@ -25,6 +26,56 @@ void ConcertRepository::add()
     concerts.push_back(new_concert);
 
     Logger::Info("ConcertRepository", "add", "Concert created successfully");
+}
+
+void ConcertRepository::remove()
+{
+    int32_t id = get_concert_id();
+    Concert deleted_concert = _get_concert_from_id(id);
+
+    auto it = std::find_if(
+        performances.begin(), performances.end(),
+        [&](const Performance& performance)
+        {
+           return performance.get_artist() == deleted_concert.get_artist();
+        }
+    );
+
+    if (it == performances.end())
+    {
+        artists.erase(
+            std::remove_if(
+                artists.begin(), artists.end(),
+                [&](const Artist& artist)
+                {
+                    return artist.get_name() == deleted_concert.get_artist();
+                }
+            ),
+            artists.end()
+        );
+    }
+
+    concerts.erase(
+        std::remove_if(
+            concerts.begin(), concerts.end(),
+            [&](const Concert& concert)
+            {
+                return concert.get_id() == deleted_concert.get_id();
+            }
+        ),
+        concerts.end()
+    );
+
+    performances.erase(
+        std::remove_if(
+            performances.begin(), performances.end(),
+            [&](const Performance& performance)
+            {
+                return performance.get_show_id() == deleted_concert.get_id();
+            }
+        ),
+        performances.end()
+    );
 }
 
 void ConcertRepository::print()
@@ -81,6 +132,18 @@ Concert ConcertRepository::create_concert()
     return {1, artist, venue, city, date, cost};
 }
 
+int32_t ConcertRepository::get_concert_id()
+{
+    int32_t id = 
+        get_input<int32_t>(
+            "ID: ",
+            [&](const std::string& prompt) { return _get_monetary_input(prompt); },
+            [&](int32_t& input) { return input; },
+            [&](int32_t& input) { return validator.validate_id(input, concerts); });
+
+    return id;
+}
+
 void ConcertRepository::update_artists(const Concert& new_concert)
 {
     auto artist_it = std::find_if(artists.begin(), artists.end(),
@@ -106,6 +169,19 @@ void ConcertRepository::update_performances(const Concert& new_concert)
 {
     // Hardcoded value will be updated once roles are implemented
     performances.push_back(Performance(new_concert.get_id(), new_concert.get_artist(), "Headliner"));
+}
+
+Concert ConcertRepository::_get_concert_from_id(int32_t id)
+{
+    auto it = std::find_if(
+        concerts.begin(), concerts.end(),
+        [&](const Concert& concert)
+        {
+            return concert.get_id() == id;
+        }
+    );
+
+    return *it;
 }
 
 std::string ConcertRepository::_get_string_input(std::string prompt)

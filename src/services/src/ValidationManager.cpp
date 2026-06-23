@@ -66,6 +66,23 @@ ValidationResult<int32_t> ValidationManager::validate_cost(int32_t& input)
     return {true, input, {}};
 }
 
+ValidationResult<int> ValidationManager::validate_id(int& input, const std::vector<Concert>& concerts)
+{
+    if (input < 0) { return {false, input, "Cost cannot be negative"}; }
+
+    auto it = std::find_if(
+        concerts.begin(), concerts.end(),
+        [&](const Concert& concert)
+        {
+            return concert.get_id() == input;
+        }
+    );
+
+    if (it == concerts.end()) { return {false, input, "ID does not match existing concert"}; }
+    
+    return {true, input, {}};
+}
+
 ValidationResult<std::string> ValidationManager::validate_string(std::string& input, const std::string& attribute)
 {
     if (input.find_first_not_of(WHITESPACE) == std::string::npos)

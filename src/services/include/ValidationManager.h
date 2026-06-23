@@ -19,6 +19,7 @@ public:
     ValidationResult<std::string> validate_city(std::string& input);
     ValidationResult<std::string> validate_date(std::string& input);
     ValidationResult<int32_t> validate_cost(int32_t& input);
+    ValidationResult<int> validate_id(int& input, const std::vector<Concert>& concerts);
 
 private:
     static constexpr auto WHITESPACE = " \t\n\r";

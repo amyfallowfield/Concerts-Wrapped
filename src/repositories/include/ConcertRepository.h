@@ -15,6 +15,7 @@ public:
     ConcertRepository();
 
     void add();
+    void remove();
     void print();
 
     std::vector<Concert> get_concerts();
@@ -32,6 +33,8 @@ private:
     void update_artists(const Concert& new_concert);
     void update_performances(const Concert& new_concert);
 
+    Concert _get_concert_from_id(int id);
+
     std::string _get_string_input(std::string prompt);
     int32_t _get_monetary_input(std::string prompt);
 
@@ -42,6 +45,7 @@ private:
         std::function<T(T&)> transformation_method,
         std::function<ValidationResult<T>(T&)> validation_method
     );
+    int get_concert_id();
 };
 
 #endif

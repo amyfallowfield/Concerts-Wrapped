@@ -32,6 +32,10 @@ void ScreenManager::run()
             repo.print();
             current_screen = Screen::Menu;
             break;
+        case Screen::DeleteConcert:
+            repo.remove();
+            current_screen = Screen::Menu;
+            break;
         case Screen::ConcertStats:
             concert_stats.print_stats(repo.get_concerts());
             current_screen = Screen::Menu;
@@ -58,12 +62,13 @@ void ScreenManager::show_menu()
 
     std::cout << "1. Add Concert\n";
     std::cout << "2. View All Concerts\n";
-    std::cout << "3. View Concert Stats\n";
-    std::cout << "4. View Artist Stats\n";
-    std::cout << "5. Exit\n";
+    std::cout << "3. Delete A Concert\n";
+    std::cout << "4. View Concert Stats\n";
+    std::cout << "5. View Artist Stats\n";
+    std::cout << "6. Exit\n";
     std::cout << "Selection: ";
 
-    if (!Utilities::parse_int(input) || input < 1 || input > 5)
+    if (!Utilities::parse_int(input) || input < 1 || input > 6)
     {
         std::cout << '\n';
         return;
@@ -80,12 +85,15 @@ void ScreenManager::show_menu()
         current_screen = Screen::ViewConcerts;
         break;
     case 3:
-        current_screen = Screen::ConcertStats;
+        current_screen = Screen::DeleteConcert;
         break;
     case 4:
-        current_screen = Screen::ArtistStats;
+        current_screen = Screen::ConcertStats;
         break;
     case 5:
+        current_screen = Screen::ArtistStats;
+        break;
+    case 6:
         current_screen = Screen::Exit;
         break;
     }

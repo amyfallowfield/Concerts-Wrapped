@@ -4,7 +4,7 @@
 
 using json = nlohmann::json;
 
-Performance::Performance(int show_id, std::string artist, std::string role)
+Performance::Performance(int32_t show_id, std::string artist, std::string role)
     : show_id(show_id),
       artist(artist),
       role(role)
@@ -24,3 +24,7 @@ json Performance::to_json() const
         {"role", role},
     };
 }
+
+int32_t Performance::get_show_id() const { return show_id; };
+std::string Performance::get_artist() const { return artist; };
+std::string Performance::get_role() const { return role; };
