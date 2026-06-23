@@ -36,7 +36,8 @@ private:
     Concert _get_concert_from_id(int id);
 
     std::string _get_string_input(std::string prompt);
-    int32_t _get_monetary_input(std::string prompt);
+    int32_t _get_numerical_input(std::string prompt);
+    double _get_decimal_input(std::string prompt);
 
     template <typename T>
     T get_input(

@@ -121,14 +121,15 @@ Concert ConcertRepository::create_concert()
             [&](std::string& input) { return input; },
             [&](std::string& input) { return validator.validate_date(input); });
 
-    int32_t cost = 
-        get_input<int32_t>(
+    double cost = 
+        get_input<double>(
             "Cost: £",
-            [&](const std::string& prompt) { return _get_monetary_input(prompt); },
-            [&](int32_t& input) { return static_cast<int32_t>(input * 100); },
-            [&](int32_t& input) { return validator.validate_cost(input); });
+            [&](const std::string& prompt) { return _get_decimal_input(prompt); },
+            [&](double& input) { return input * 100; },
+            [&](double& input) { return validator.validate_cost(input); });
+    int32_t cost_as_int = static_cast<int32_t>(cost);
 
-    return {artist, venue, city, date, cost};
+    return {artist, venue, city, date, cost_as_int};
 }
 
 int32_t ConcertRepository::get_concert_id()
@@ -136,7 +137,7 @@ int32_t ConcertRepository::get_concert_id()
     int32_t id = 
         get_input<int32_t>(
             "ID: ",
-            [&](const std::string& prompt) { return _get_monetary_input(prompt); },
+            [&](const std::string& prompt) { return _get_numerical_input(prompt); },
             [&](int32_t& input) { return input; },
             [&](int32_t& input) { return validator.validate_id(input, concerts); });
 
@@ -191,14 +192,26 @@ std::string ConcertRepository::_get_string_input(std::string prompt)
     return input;
 }
 
-int32_t ConcertRepository::_get_monetary_input(std::string prompt)
+int32_t ConcertRepository::_get_numerical_input(std::string prompt)
+{
+    int32_t input;
+
+    std::cout << prompt;
+    
+    if (!Utilities::parse_int(input))
+        return -1;
+
+    return input;
+}
+
+double ConcertRepository::_get_decimal_input(std::string prompt)
 {
     double input;
 
     std::cout << prompt;
-    
+
     if (!Utilities::parse_float(input))
-        return -1;
+        return -1.0;
 
     return input;
 }
@@ -216,7 +229,7 @@ T ConcertRepository::get_input(
 
         ValidationResult<T> result = validation_method(input);
 
-        if (result.is_valid) { return result.value; }
+        if (result.is_valid) { return transformation_method(result.value); }
 
         std::cout << result.error_message;
         Logger::Warn("ConcertRepository", "get_input", result.error_message);
