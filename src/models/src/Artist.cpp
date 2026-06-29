@@ -1,17 +1,25 @@
 #include <nlohmann/json.hpp>
 #include <string>
+#include <vector>
 
 #include "Artist.h"
 
 using json = nlohmann::json;
 
-Artist::Artist(const Concert& concert)
-    : name(concert.get_artist()),
-      first_seen(concert.get_date()),
-      last_seen(concert.get_date()),
-      count(1),
-      total_cost(concert.get_cost())
-{}
+Artist::Artist(const std::vector<Concert>& concerts)
+    : name(concerts[0].get_artist()),
+      first_seen("00-00-9999"),
+      last_seen("00-00-0000"),
+      count(concerts.size()),
+      total_cost(0)
+{
+    for (const Concert& concert : concerts)
+    {
+        first_seen = concert.get_date() < first_seen ? concert.get_date() : first_seen;
+        last_seen = concert.get_date() > last_seen ? concert.get_date() : last_seen;
+        total_cost += concert.get_cost();
+    }
+}
 
 Artist::Artist(const json& data)
     : name(data.at("name")),
@@ -20,16 +28,6 @@ Artist::Artist(const json& data)
       count(data.at("count")),
       total_cost(data.at("total_cost"))
 {}
-
-void Artist::update(const Concert& concert)
-{
-    if (concert.get_date() > last_seen)
-    {
-        last_seen = concert.get_date();
-    }
-    count ++;
-    total_cost += concert.get_cost();
-}
 
 json Artist::to_json() const
 {

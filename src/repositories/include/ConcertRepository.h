@@ -31,10 +31,10 @@ private:
     ValidationManager validator = ValidationManager();
 
     Concert create_concert();
-    void update_artists(const Concert& new_concert);
+    void refresh_artist(std::string artist);
     void update_performances(const Concert& new_concert);
 
-    Concert _get_concert_from_id(int id);
+    Concert& _get_concert_from_id(int id);
 
     std::string _get_string_input(std::string prompt);
     int32_t _get_numerical_input(std::string prompt);

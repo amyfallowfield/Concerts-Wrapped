@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <nlohmann/json.hpp>
 #include <string>
+#include <vector>
 
 #include "Concert.h"
 
@@ -12,10 +13,8 @@ using json = nlohmann::json;
 class Artist
 {
 public:
-    Artist(const Concert& concert);
+    Artist(const std::vector<Concert>& concerts);
     Artist(const json& data);
-
-    void update(const Concert& concert);
 
     json to_json() const;
 

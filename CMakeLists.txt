@@ -15,7 +15,6 @@ add_executable(concert-wrapped
     src/services/src/Utilities.cpp
     src/services/src/ValidationManager.cpp
     src/services/src/ArtistStatsManager.cpp
-    src/services/src/ArtistStatsManager.cpp
     src/screens/src/ScreenManager.cpp
     src/services/src/Logger.cpp
 )

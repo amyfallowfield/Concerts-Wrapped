@@ -20,10 +20,10 @@ ConcertRepository::ConcertRepository()
 void ConcertRepository::add()
 {
     Concert new_concert = create_concert();
-    update_artists(new_concert);
     update_performances(new_concert);
 
     concerts.push_back(new_concert);
+    refresh_artist(new_concert.get_artist());
 
     Logger::Info("ConcertRepository", "add", "Concert created successfully");
 }
@@ -31,9 +31,9 @@ void ConcertRepository::add()
 void ConcertRepository::remove()
 {
     int32_t id = get_concert_id();
-    Concert deleted_concert = _get_concert_from_id(id);
+    Concert& deleted_concert = _get_concert_from_id(id);
 
-    auto it = std::find_if(
+    auto performance_it = std::find_if(
         performances.begin(), performances.end(),
         [&](const Performance& performance)
         {
@@ -41,7 +41,7 @@ void ConcertRepository::remove()
         }
     );
 
-    if (it == performances.end())
+    if (performance_it == performances.end())
     {
         artists.erase(
             std::remove_if(
@@ -55,16 +55,18 @@ void ConcertRepository::remove()
         );
     }
 
-    concerts.erase(
-        std::remove_if(
-            concerts.begin(), concerts.end(),
-            [&](const Concert& concert)
-            {
-                return concert.get_id() == deleted_concert.get_id();
-            }
-        ),
-        concerts.end()
+    auto concert_it = std::find_if(
+        concerts.begin(), concerts.end(),
+        [&](const Concert& concert)
+        {
+            return concert.get_id() == deleted_concert.get_id();
+        }
     );
+
+    if (concert_it != concerts.end())
+    {
+        concerts.erase(concert_it);
+    }
 
     performances.erase(
         std::remove_if(
@@ -76,12 +78,14 @@ void ConcertRepository::remove()
         ),
         performances.end()
     );
+
+    refresh_artist(deleted_concert.get_artist());
 }
 
 void ConcertRepository::edit()
 {
     int32_t id = get_concert_id();
-    Concert concert = _get_concert_from_id(id);
+    Concert& concert = _get_concert_from_id(id);
 
     int input;
 
@@ -123,8 +127,8 @@ void ConcertRepository::edit()
                 [&](std::string& input) { return validator.validate_venue(input); });
         concert.set_venue(venue);
         break;
-    }case 3:
-
+    }
+    case 3:
     {
         std::string city = 
             get_input<std::string>(
@@ -161,6 +165,8 @@ void ConcertRepository::edit()
     default:
         throw std::runtime_error("Cannot update attribute not owned by concert model");
     }
+
+    refresh_artist(concert.get_artist());
 }
 
 void ConcertRepository::print()
@@ -229,23 +235,31 @@ int32_t ConcertRepository::get_concert_id()
     return id;
 }
 
-void ConcertRepository::update_artists(const Concert& new_concert)
+void ConcertRepository::refresh_artist(std::string artist_name)
 {
-    auto artist_it = std::find_if(artists.begin(), artists.end(),
-        [&](const Artist& existing_artist) {
-            return existing_artist.get_name() == new_concert.get_artist();
-    });
+    artists.erase(
+        std::find_if(
+            artists.begin(), artists.end(),
+            [&](const Artist& artist)
+            {
+                return artist.get_name() == artist_name;
+            }
+        ),
+        artists.end()
+    );
 
-    if (artist_it == artists.end())
+    std::vector<Concert> artists_concerts{};
+    for (const Concert& concert : concerts)
     {
-        artists.push_back(Artist{new_concert});
-        Logger::Info("ConcertRepository", "update_artists", "Artist created successfully");
+        if (concert.get_artist() == artist_name)
+        {
+            artists_concerts.push_back(concert);
+        }
     }
-    else
+
+    if (artists_concerts.size() != 0)
     {
-        Artist& current_artist = *artist_it;
-        current_artist.update(new_concert);
-        Logger::Info("ConcertRepository", "update_artists", "Artist update successfully");
+        artists.push_back(Artist{artists_concerts});
     }
 }
 
@@ -255,7 +269,7 @@ void ConcertRepository::update_performances(const Concert& new_concert)
     performances.push_back(Performance(new_concert.get_id(), new_concert.get_artist(), "Headliner"));
 }
 
-Concert ConcertRepository::_get_concert_from_id(int32_t id)
+Concert& ConcertRepository::_get_concert_from_id(int32_t id)
 {
     auto it = std::find_if(
         concerts.begin(), concerts.end(),
