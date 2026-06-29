@@ -24,6 +24,12 @@ public:
     std::string get_date() const;
     int32_t get_cost() const;
 
+    void set_artist(std::string input);
+    void set_venue(std::string input);
+    void set_city(std::string input);
+    void set_date(std::string input);
+    void set_cost(int32_t input);
+
 private:
     static int32_t next_id;
 

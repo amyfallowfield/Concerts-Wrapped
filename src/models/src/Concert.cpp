@@ -62,3 +62,9 @@ std::string Concert::get_venue() const { return venue; }
 std::string Concert::get_city() const { return city; }
 std::string Concert::get_date() const { return date; }
 int32_t Concert::get_cost() const { return cost; }
+
+void Concert::set_artist(std::string input) { artist = input; }
+void Concert::set_venue(std::string input) { venue = input; }
+void Concert::set_city(std::string input) { city = input; }
+void Concert::set_date(std::string input) { date = input; }
+void Concert::set_cost(int32_t input) { cost = input; }

@@ -16,6 +16,7 @@ public:
 
     void add();
     void remove();
+    void edit();
     void print();
 
     std::vector<Concert> get_concerts();

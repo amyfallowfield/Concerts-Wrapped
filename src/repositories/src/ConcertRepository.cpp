@@ -78,6 +78,91 @@ void ConcertRepository::remove()
     );
 }
 
+void ConcertRepository::edit()
+{
+    int32_t id = get_concert_id();
+    Concert concert = _get_concert_from_id(id);
+
+    int input;
+
+    std::cout << "1. Artist\n";
+    std::cout << "2. Venue\n";
+    std::cout << "3. City\n";
+    std::cout << "4. Date\n";
+    std::cout << "5. Cost\n";
+    std::cout << "Selection: ";
+
+    if (!Utilities::parse_int(input) || input < 1 || input > 5)
+    {
+        std::cout << '\n';
+        return;
+    }
+
+    std::cout << '\n';
+
+    switch(input)
+    {
+    case 1:
+    {
+        std::string artist = 
+            get_input<std::string>(
+                "Artist Name: ",
+                [&](const std::string& prompt) { return _get_string_input(prompt); },
+                [&](std::string& input) { return input; },
+                [&](std::string& input) { return validator.validate_artist(input); });
+        concert.set_artist(artist);
+        break;
+    }
+    case 2:
+    {
+        std::string venue = 
+            get_input<std::string>(
+                "Venue Name: ",
+                [&](const std::string& prompt) { return _get_string_input(prompt); },
+                [&](std::string& input) { return input; },
+                [&](std::string& input) { return validator.validate_venue(input); });
+        concert.set_venue(venue);
+        break;
+    }case 3:
+
+    {
+        std::string city = 
+            get_input<std::string>(
+                "City: ",
+                [&](const std::string& prompt) { return _get_string_input(prompt); },
+                [&](std::string& input) { return input; },
+                [&](std::string& input) { return validator.validate_city(input); });
+        concert.set_city(city);
+        break;
+    }
+    case 4:
+    {
+        std::string date = 
+            get_input<std::string>(
+                "Date [Format: DD-MM-YYYY]: ",
+                [&](const std::string& prompt) { return _get_string_input(prompt); },
+                [&](std::string& input) { return input; },
+                [&](std::string& input) { return validator.validate_date(input); });
+        concert.set_date(date);
+        break;
+    }
+    case 5:
+    {
+        double cost = 
+            get_input<double>(
+                "Cost: £",
+                [&](const std::string& prompt) { return _get_decimal_input(prompt); },
+                [&](double& input) { return input * 100; },
+                [&](double& input) { return validator.validate_cost(input); });
+        int32_t cost_as_int = static_cast<int32_t>(cost);
+        concert.set_cost(cost_as_int);
+        break;
+    }
+    default:
+        throw std::runtime_error("Cannot update attribute not owned by concert model");
+    }
+}
+
 void ConcertRepository::print()
 {
     for (const Concert& concert : concerts)

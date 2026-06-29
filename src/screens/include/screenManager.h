@@ -12,6 +12,7 @@ enum class Screen
     AddConcert,
     ViewConcerts,
     DeleteConcert,
+    EditConcert,
     ConcertStats,
     ArtistStats,
     Exit

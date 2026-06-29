@@ -36,6 +36,10 @@ void ScreenManager::run()
             repo.remove();
             current_screen = Screen::Menu;
             break;
+        case Screen::EditConcert:
+            repo.edit();
+            current_screen = Screen::Menu;
+            break;
         case Screen::ConcertStats:
             concert_stats.print_stats(repo.get_concerts());
             current_screen = Screen::Menu;
@@ -63,12 +67,13 @@ void ScreenManager::show_menu()
     std::cout << "1. Add Concert\n";
     std::cout << "2. View All Concerts\n";
     std::cout << "3. Delete A Concert\n";
-    std::cout << "4. View Concert Stats\n";
-    std::cout << "5. View Artist Stats\n";
-    std::cout << "6. Exit\n";
+    std::cout << "4. Edit A Concert\n";
+    std::cout << "5. View Concert Stats\n";
+    std::cout << "6. View Artist Stats\n";
+    std::cout << "7. Exit\n";
     std::cout << "Selection: ";
 
-    if (!Utilities::parse_int(input) || input < 1 || input > 6)
+    if (!Utilities::parse_int(input) || input < 1 || input > 7)
     {
         std::cout << '\n';
         return;
@@ -88,12 +93,15 @@ void ScreenManager::show_menu()
         current_screen = Screen::DeleteConcert;
         break;
     case 4:
-        current_screen = Screen::ConcertStats;
+        current_screen = Screen::EditConcert;
         break;
     case 5:
-        current_screen = Screen::ArtistStats;
+        current_screen = Screen::ConcertStats;
         break;
     case 6:
+        current_screen = Screen::ArtistStats;
+        break;
+    case 7:
         current_screen = Screen::Exit;
         break;
     }
@@ -106,6 +114,8 @@ std::string ScreenManager::enum_to_string(Screen screen)
     case Screen::Menu: { return "menu"; }
     case Screen::AddConcert: { return "add concert"; }
     case Screen::ViewConcerts: { return "view concerts"; }
+    case Screen::DeleteConcert: { return "delete concert"; }
+    case Screen::EditConcert: { return "edit concert"; }
     case Screen::ConcertStats: { return "concert stats"; }
     case Screen::ArtistStats: { return "artist stats"; }
     case Screen::Exit: { return "exit"; }
