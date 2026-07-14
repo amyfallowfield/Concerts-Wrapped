@@ -11,11 +11,12 @@ add_executable(concert-wrapped
     src/models/src/Concert.cpp
     src/models/src/Performance.cpp
     src/repositories/src/ConcertRepository.cpp
+    src/screens/src/ScreenManager.cpp
     src/services/src/ConcertStatsManager.cpp
     src/services/src/Utilities.cpp
     src/services/src/ValidationManager.cpp
     src/services/src/ArtistStatsManager.cpp
-    src/screens/src/ScreenManager.cpp
+    src/services/src/InputManager.cpp
     src/services/src/Logger.cpp
 )
 
