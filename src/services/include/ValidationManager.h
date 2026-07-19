@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include "Concert.h"
+
 template <typename T>
 struct ValidationResult
 {

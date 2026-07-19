@@ -35,6 +35,7 @@ public:
     std::string get_string_input(std::string prompt);
     int32_t get_numerical_input(std::string prompt);
     double get_decimal_input(std::string prompt);
+    bool get_bool_input(std::string prompt);
 };
 
 #endif

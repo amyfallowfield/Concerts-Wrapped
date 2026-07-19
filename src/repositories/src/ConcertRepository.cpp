@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "Artist.h"
 #include "Concert.h"
@@ -206,7 +207,27 @@ Concert ConcertRepository::create_concert()
             [&](double& input) { return validator.validate_cost(input); });
     int32_t cost_as_int = static_cast<int32_t>(cost);
 
-    return {artist, venue, city, date, cost_as_int};
+    std::vector<std::string> supports {};
+    int count {1};
+
+    while (true)
+    {
+        if (input_manager.get_bool_input("Add support act? [Y/N] "))
+        {
+            std::string support =
+                input_manager.get_attribute_input<std::string>(
+                    "Support #" + std::to_string(count) + ": ",
+                    [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
+                    [&](std::string& input) { return input; },
+                    [&](std::string& input) { return validator.validate_artist(input); });
+
+            supports.push_back(support);
+            count++;
+        }
+        else { break; }
+    }
+
+    return {artist, venue, city, date, cost_as_int, supports};
 }
 
 int32_t ConcertRepository::get_concert_id()
@@ -251,8 +272,13 @@ void ConcertRepository::refresh_artist(std::string artist_name)
 
 void ConcertRepository::update_performances(const Concert& new_concert)
 {
-    // Hardcoded value will be updated once roles are implemented
     performances.push_back(Performance(new_concert.get_id(), new_concert.get_artist(), "Headliner"));
+
+    std::vector<std::string> supports = new_concert.get_supports();
+    for (std::string support : supports)
+    {
+        performances.push_back(Performance(new_concert.get_id(), support, "Support"));
+    }
 }
 
 Concert& ConcertRepository::_get_concert_from_id(int32_t id)

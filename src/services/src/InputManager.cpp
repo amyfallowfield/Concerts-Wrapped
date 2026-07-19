@@ -58,3 +58,12 @@ double InputManager::get_decimal_input(std::string prompt)
 
     return input;
 }
+
+bool InputManager::get_bool_input(std::string prompt)
+{
+    std::string input;
+    std::cout << prompt;
+    std::getline(std::cin, input);
+
+    return input.at(0) == 'y';
+}

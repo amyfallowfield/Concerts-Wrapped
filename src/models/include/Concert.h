@@ -4,13 +4,14 @@
 #include <cstdint>
 #include <nlohmann/json.hpp>
 #include <string>
+#include <vector>
 
 using json = nlohmann::json;
 
 class Concert
 {
 public:
-    Concert(std::string artist, std::string venue, std::string city, std::string date, int32_t cost);
+    Concert(std::string artist, std::string venue, std::string city, std::string date, int32_t cost, std::vector<std::string> supports);
     Concert(const json& data);
 
     void print() const;
@@ -23,12 +24,14 @@ public:
     std::string get_city() const;
     std::string get_date() const;
     int32_t get_cost() const;
+    const std::vector<std::string>& get_supports() const;
 
     void set_artist(std::string input);
     void set_venue(std::string input);
     void set_city(std::string input);
     void set_date(std::string input);
     void set_cost(int32_t input);
+    void set_supports(std::vector<std::string> input);
 
 private:
     static int32_t next_id;
@@ -39,6 +42,7 @@ private:
     std::string city;
     std::string date;
     int32_t cost;
+    std::vector<std::string> supports;
 };
 
 #endif
