@@ -34,7 +34,7 @@ private:
     InputManager input_manager = InputManager();
 
     Concert create_concert();
-    void refresh_artist(std::string artist);
+    void _refresh_artists(const Concert& concert);
     void update_performances(const Concert& new_concert);
 
     Concert& _get_concert_from_id(int id);

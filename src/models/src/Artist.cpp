@@ -6,8 +6,8 @@
 
 using json = nlohmann::json;
 
-Artist::Artist(const std::vector<Concert>& concerts)
-    : name(concerts[0].get_artist()),
+Artist::Artist(std::string artist, const std::vector<Concert>& concerts)
+    : name(artist),
       first_seen("00-00-9999"),
       last_seen("00-00-0000"),
       count(concerts.size()),

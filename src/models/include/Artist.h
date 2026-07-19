@@ -13,7 +13,7 @@ using json = nlohmann::json;
 class Artist
 {
 public:
-    Artist(const std::vector<Concert>& concerts);
+    Artist(std::string artist, const std::vector<Concert>& concerts);
     Artist(const json& data);
 
     json to_json() const;

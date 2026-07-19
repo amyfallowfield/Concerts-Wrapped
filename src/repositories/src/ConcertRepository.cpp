@@ -25,7 +25,7 @@ void ConcertRepository::add()
     update_performances(new_concert);
 
     concerts.push_back(new_concert);
-    refresh_artist(new_concert.get_artist());
+    _refresh_artists(new_concert);
 
     Logger::Info("ConcertRepository", "add", "Concert created successfully");
 }
@@ -33,7 +33,7 @@ void ConcertRepository::add()
 void ConcertRepository::remove()
 {
     int32_t id = get_concert_id();
-    Concert& deleted_concert = _get_concert_from_id(id);
+    Concert deleted_concert = _get_concert_from_id(id);
 
     auto performance_it = std::find_if(
         performances.begin(), performances.end(),
@@ -81,7 +81,7 @@ void ConcertRepository::remove()
         performances.end()
     );
 
-    refresh_artist(deleted_concert.get_artist());
+    _refresh_artists(deleted_concert);
 }
 
 void ConcertRepository::edit()
@@ -153,7 +153,7 @@ void ConcertRepository::edit()
         throw std::runtime_error("Cannot update attribute not owned by concert model");
     }
 
-    refresh_artist(concert.get_artist());
+    _refresh_artists(concert);
 }
 
 void ConcertRepository::print()
@@ -242,31 +242,47 @@ int32_t ConcertRepository::get_concert_id()
     return id;
 }
 
-void ConcertRepository::refresh_artist(std::string artist_name)
+void ConcertRepository::_refresh_artists(const Concert& concert)
 {
-    artists.erase(
-        std::find_if(
+    std::vector<std::string> concert_artists{};
+    concert_artists.push_back(concert.get_artist());
+    for (auto e : concert_artists)
+    {
+        std::cout << e;
+    }
+    concert_artists.insert(concert_artists.end(), concert.get_supports().begin(), concert.get_supports().end());
+
+    for (std::string artist_name : concert_artists)
+    {
+        auto it = std::find_if(
             artists.begin(), artists.end(),
             [&](const Artist& artist)
             {
                 return artist.get_name() == artist_name;
             }
-        ),
-        artists.end()
-    );
-
-    std::vector<Concert> artists_concerts{};
-    for (const Concert& concert : concerts)
-    {
-        if (concert.get_artist() == artist_name)
+        );
+        if (it != artists.end())
         {
-            artists_concerts.push_back(concert);
+            artists.erase(it);
         }
-    }
 
-    if (artists_concerts.size() != 0)
-    {
-        artists.push_back(Artist{artists_concerts});
+        std::vector<Concert> artists_concerts{};
+        for (const Concert& concert : concerts)
+        {
+            if (concert.get_artist() == artist_name ||
+                std::find(concert.get_supports().begin(),
+                concert.get_supports().end(),
+                artist_name)
+                != concert.get_supports().end());
+            {
+                artists_concerts.push_back(concert);
+            }
+        }
+
+        if (artists_concerts.size() != 0)
+        {
+            artists.push_back(Artist{artist_name, artists_concerts});
+        }
     }
 }
 
