@@ -1,9 +1,9 @@
-#include <ctime>
 #include <regex>
 #include <vector>
 
 #include "Concert.h"
 #include "Logger.h"
+#include "Utilities.h"
 #include "ValidationManager.h"
 
 ValidationResult<std::string> ValidationManager::validate_artist(std::string& input)
@@ -39,11 +39,7 @@ ValidationResult<std::string> ValidationManager::validate_date(std::string& inpu
     int month = std::stoi(input.substr(3, 2));
     int year = std::stoi(input.substr(6, 4));
 
-    std::tm tm_date = {};
-    tm_date.tm_mday = day;
-    tm_date.tm_mon  = month - 1;
-    tm_date.tm_year = year - 1900;
-
+    std::tm tm_date = Utilities::parse_date(day, month, year, input);
     time_t event_date = std::mktime(&tm_date);
     time_t now = std::time(nullptr);
 
