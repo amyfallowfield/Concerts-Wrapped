@@ -29,3 +29,33 @@ target_include_directories(concert-wrapped PRIVATE
     src/screens/include
     src/services/include
 )
+
+# TODO: Install gtest via vcpkg. While offline the externals directory is used instead
+add_executable(unit-tests
+    tests/models/ArtistTest.cpp
+    src/models/src/Artist.cpp
+    src/models/src/Concert.cpp
+    src/models/src/Performance.cpp
+    src/repositories/src/ConcertRepository.cpp
+    src/screens/src/ScreenManager.cpp
+    src/services/src/ConcertStatsManager.cpp
+    src/services/src/Utilities.cpp
+    src/services/src/ValidationManager.cpp
+    src/services/src/ArtistStatsManager.cpp
+    src/services/src/InputManager.cpp
+    src/services/src/Logger.cpp
+)
+
+target_include_directories(unit-tests PRIVATE
+    src/models/include
+    src/repositories/include
+    src/screens/include
+    src/services/include
+)
+
+add_subdirectory(temp/googletest-main/googletest-main)
+target_link_libraries(unit-tests PRIVATE GTest::gtest_main)
+target_link_libraries(unit-tests PRIVATE nlohmann_json::nlohmann_json)
+
+include(GoogleTest)
+gtest_discover_tests(unit-tests)
