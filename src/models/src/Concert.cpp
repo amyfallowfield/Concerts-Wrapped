@@ -6,10 +6,10 @@
 
 using json = nlohmann::json;
 
-int32_t Concert::next_id = 1;
+int32_t Concert::_next_id = 1;
 
 Concert::Concert(std::string artist, std::string venue, std::string city, std::string date, int32_t cost, std::vector<std::string> supports)
-    : id(next_id),
+    : id(_next_id),
       artist(artist),
       venue(venue),
       city(city),
@@ -17,7 +17,7 @@ Concert::Concert(std::string artist, std::string venue, std::string city, std::s
       cost(cost),
       supports(supports)
 {
-    next_id = id > next_id ? ++id : ++next_id;
+    _next_id = id > _next_id ? ++id : ++_next_id;
 }
 
 Concert::Concert(const json& data)
@@ -28,9 +28,7 @@ Concert::Concert(const json& data)
       date(data.at("date")),
       cost(data.at("cost")),
       supports(data.at("supports").get<std::vector<std::string>>())
-{
-    next_id = id > next_id ? ++id : ++next_id;
-}
+{}
 
 void Concert::print() const
 {
@@ -79,3 +77,9 @@ void Concert::set_city(std::string input) { city = input; }
 void Concert::set_date(std::string input) { date = input; }
 void Concert::set_cost(int32_t input) { cost = input; }
 void Concert::set_supports(std::vector<std::string> input) { supports = input; }
+
+void Concert::reset()
+{
+    std::cout << "Reset" << std::endl;
+    _next_id = 1;
+}

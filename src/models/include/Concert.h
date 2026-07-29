@@ -33,8 +33,10 @@ public:
     void set_cost(int32_t input);
     void set_supports(std::vector<std::string> input);
 
+    static void reset();
+
 private:
-    static int32_t next_id;
+    static int32_t _next_id;
 
     int32_t id;
     std::string artist;
