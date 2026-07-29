@@ -5,17 +5,15 @@
 #include "Concert.h"
 #include "Performance.h"
 
+#include "TestData.h"
+
 using json = nlohmann::json;
 
 TEST(PerformanceTest, instantiation_from_params)
 {
-    std::vector<std::string> supports {"Dolder"};
-    Concert concert = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports};
-    std::vector<Concert> concerts {};
-    concerts.push_back(concert);
-    Artist artist = Artist{"Benjamin Steer", concerts};
-
-    Performance performance = Performance{concert.get_id(), artist.get_name(), "Headliner"};
+    Concert concert = TestData::create_concert_params();
+    Artist artist = TestData::create_artist_params({concert});
+    Performance performance = TestData::create_performance(concert, artist);
 
     ASSERT_EQ(concert.get_id(), performance.get_show_id()) << "Show ID should match concert ID";
     ASSERT_EQ(artist.get_name(), performance.get_artist()) << "Artist should match artist name";
@@ -24,11 +22,8 @@ TEST(PerformanceTest, instantiation_from_params)
 
 TEST(PerformanceTest, instantiation_from_json)
 {
-    std::vector<std::string> supports {"Dolder"};
-    Concert concert = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports};
-    std::vector<Concert> concerts {};
-    concerts.push_back(concert);
-    Artist artist = Artist{"Benjamin Steer", concerts};
+    Concert concert = TestData::create_concert_params();
+    Artist artist = TestData::create_artist_params({concert});
 
     json performance_data = {
         {"show_id", concert.get_id()},
@@ -45,11 +40,8 @@ TEST(PerformanceTest, instantiation_from_json)
 
 TEST(PerformanceTest, to_json)
 {
-    std::vector<std::string> supports {"Dolder"};
-    Concert concert = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports};
-    std::vector<Concert> concerts {};
-    concerts.push_back(concert);
-    Artist artist = Artist{"Benjamin Steer", concerts};
+    Concert concert = TestData::create_concert_params();
+    Artist artist = TestData::create_artist_params({concert});
 
     json performance_data = {
         {"show_id", concert.get_id()},

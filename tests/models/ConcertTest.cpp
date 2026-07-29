@@ -4,6 +4,8 @@
 
 #include "Concert.h"
 
+#include "TestData.h"
+
 using json = nlohmann::json;
 
 class ConcertTest : public ::testing::Test
@@ -17,8 +19,7 @@ protected:
 
 TEST_F(ConcertTest, first_instantiation_from_params)
 {
-    std::vector<std::string> supports {"Dolder"};
-    Concert concert = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports};
+    Concert concert = TestData::create_concert_params();
 
     ASSERT_EQ(1, concert.get_id()) << "ID should be 1";
     ASSERT_EQ("Benjamin Steer", concert.get_artist()) << "Artist should be Benjamin Steer";
@@ -26,62 +27,41 @@ TEST_F(ConcertTest, first_instantiation_from_params)
     ASSERT_EQ("London", concert.get_city()) << "City should be London";
     ASSERT_EQ("23-05-2026", concert.get_date()) << "Date should be 23-05-2026";
     ASSERT_EQ(2000, concert.get_cost()) << "Cost should be 2000 (£20.00";
-    ASSERT_EQ(supports, concert.get_supports()) << "Supports should be Dolder";
+    ASSERT_EQ(std::vector<std::string>({"Dolder"}), concert.get_supports()) << "Supports should be Dolder";
 }
 
 TEST_F(ConcertTest, second_instantiation_from_params_increments_id)
 {
-    std::vector<std::string> supports {"Dolder"};
-    Concert concert1 = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports};
-    Concert concert2 = Concert{"Benjamin Steer", "Deaf Institute", "Manchester", "30-05-2026", 2500, supports};
-
+    Concert concert1 = TestData::create_concert_json();
+    Concert concert2 = TestData::create_concert_params();
+    
     ASSERT_EQ(2, concert2.get_id()) << "ID for second concert should be 2";
 }
 
 TEST_F(ConcertTest, first_instantiation_from_json)
 {
-    std::vector<std::string> supports {"Dolder"};
-    json concert_data = {
-        {"id", 1},
-        {"artist", "Benjamin Steer"},
-        {"venue", "Village Underground"},
-        {"city", "London"},
-        {"date", "23-05-2026"},
-        {"cost", 2000},
-        {"supports", supports}
-    };
-    Concert concert = Concert{concert_data};
+    Concert concert = TestData::create_concert_json();
 
     ASSERT_EQ(1, concert.get_id()) << "ID should be 1";
     ASSERT_EQ("Benjamin Steer", concert.get_artist()) << "Artist should be Benjamin Steer";
-    ASSERT_EQ("Village Underground", concert.get_venue()) << "Venue should be Village Underground";
-    ASSERT_EQ("London", concert.get_city()) << "City should be London";
-    ASSERT_EQ("23-05-2026", concert.get_date()) << "Date should be 23-05-2026";
-    ASSERT_EQ(2000, concert.get_cost()) << "Cost should be 2000 (£20.00)";
-    ASSERT_EQ(supports, concert.get_supports()) << "Supports should be Dolder";
+    ASSERT_EQ("Deaf Institute", concert.get_venue()) << "Venue should be Deaf Institute";
+    ASSERT_EQ("Manchester", concert.get_city()) << "City should be Manchester";
+    ASSERT_EQ("30-05-2026", concert.get_date()) << "Date should be 30-05-2026";
+    ASSERT_EQ(2500, concert.get_cost()) << "Cost should be 2500 (£25.00)";
+    ASSERT_EQ(std::vector<std::string>({"Dolder"}), concert.get_supports()) << "Supports should be Dolder";
 }
 
 TEST_F(ConcertTest, second_instantiation_from_json)
 {
-    std::vector<std::string> supports {"Dolder"};
-    json concert_data1 = {
-        {"id", 1},
+    Concert concert1 = TestData::create_concert_json();
+    json concert_data2 = {
+        {"id", 3},
         {"artist", "Benjamin Steer"},
         {"venue", "Village Underground"},
         {"city", "London"},
         {"date", "23-05-2026"},
         {"cost", 2000},
-        {"supports", supports}
-    };
-    Concert concert1 = Concert{concert_data1};
-    json concert_data2 = {
-        {"id", 3},
-        {"artist", "Benjamin Steer"},
-        {"venue", "Deaf Institute"},
-        {"city", "Manchester"},
-        {"date", "30-05-2026"},
-        {"cost", 2500},
-        {"supports", supports}
+        {"supports", {"Dolder"}}
     };
     Concert concert2 = Concert{concert_data2};
 
@@ -90,8 +70,7 @@ TEST_F(ConcertTest, second_instantiation_from_json)
 
 TEST_F(ConcertTest, to_json)
 {
-    std::vector<std::string> supports {"Dolder"};
-    Concert concert = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports};
+    Concert concert = TestData::create_concert_params();
 
     json concert_data = {
         {"id", 1},
@@ -100,7 +79,7 @@ TEST_F(ConcertTest, to_json)
         {"city", "London"},
         {"date", "23-05-2026"},
         {"cost", 2000},
-        {"supports", supports}
+        {"supports", {"Dolder"}}
     };
 
     ASSERT_EQ(concert_data, concert.to_json()) << "Concert data should be formatted as json";
@@ -108,7 +87,6 @@ TEST_F(ConcertTest, to_json)
 
 TEST_F(ConcertTest, operator_equals_when_equal)
 {
-    std::vector<std::string> supports {"Dolder"};
     json concert_data = {
         {"id", 1},
         {"artist", "Benjamin Steer"},
@@ -116,27 +94,25 @@ TEST_F(ConcertTest, operator_equals_when_equal)
         {"city", "London"},
         {"date", "23-05-2026"},
         {"cost", 2000},
-        {"supports", supports}
+        {"supports", {"Dolder"}}
     };
-    Concert concert1 = Concert{concert_data};
-    Concert concert2 = Concert{concert_data};
+    Concert concert1 = TestData::create_concert_json();
+    Concert concert2 = TestData::create_concert_json();
 
     ASSERT_EQ(concert1, concert2) << "Concert1 = Concert2 should return true";
 }
 
 TEST_F(ConcertTest, operator_equals_when_not_equal)
 {
-    std::vector<std::string> supports {"Dolder"};
-    Concert concert1 = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports};
-    Concert concert2 = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports};
+    Concert concert1 = TestData::create_concert_params();
+    Concert concert2 = TestData::create_concert_params();
 
     ASSERT_NE(concert1, concert2) << "Concert1 = Concert2 should return false";
 }
 
 TEST_F(ConcertTest, set_artist)
 {
-    std::vector<std::string> supports {"Dolder"};
-    Concert concert = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports};
+    Concert concert = TestData::create_concert_params();
 
     ASSERT_EQ("Benjamin Steer", concert.get_artist()) << "Artist after instantiation should be Benjamin Steer";
 
@@ -147,8 +123,7 @@ TEST_F(ConcertTest, set_artist)
 
 TEST_F(ConcertTest, set_venue)
 {
-    std::vector<std::string> supports {"Dolder"};
-    Concert concert = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports};
+    Concert concert = TestData::create_concert_params();
 
     ASSERT_EQ("Village Underground", concert.get_venue()) << "Venue after instantiation should be Village Underground";
 
@@ -159,8 +134,7 @@ TEST_F(ConcertTest, set_venue)
 
 TEST_F(ConcertTest, set_city)
 {
-    std::vector<std::string> supports {"Dolder"};
-    Concert concert = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports};
+    Concert concert = TestData::create_concert_params();
 
     ASSERT_EQ("London", concert.get_city()) << "City after instantiation should be London";
 
@@ -171,8 +145,7 @@ TEST_F(ConcertTest, set_city)
 
 TEST_F(ConcertTest, set_date)
 {
-    std::vector<std::string> supports {"Dolder"};
-    Concert concert = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports};
+    Concert concert = TestData::create_concert_params();
 
     ASSERT_EQ("23-05-2026", concert.get_date()) << "Date after instantiation should be 23-05-2026";
 
@@ -183,8 +156,7 @@ TEST_F(ConcertTest, set_date)
 
 TEST_F(ConcertTest, set_cost)
 {
-    std::vector<std::string> supports {"Dolder"};
-    Concert concert = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports};
+    Concert concert = TestData::create_concert_params();
 
     ASSERT_EQ(2000, concert.get_cost()) << "Cost after instantiation should be 2000 (£20)";
 
@@ -194,14 +166,12 @@ TEST_F(ConcertTest, set_cost)
 }
 TEST_F(ConcertTest, set_supports)
 {
-    std::vector<std::string> supports_before {"Dolder"};
-    Concert concert = Concert{"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, supports_before};
+    Concert concert = TestData::create_concert_params();
 
-    ASSERT_EQ(supports_before, concert.get_supports()) << "Supports after instantiation should be Dolder";
+    ASSERT_EQ(std::vector<std::string>({"Dolder"}), concert.get_supports()) << "Supports after instantiation should be Dolder";
 
-    std::vector<std::string> supports_after {"Only The Poets", "Tors"};
-    concert.set_supports(supports_after);
+    concert.set_supports({"Only The Poets", "Tors"});
 
-    ASSERT_EQ(supports_after, concert.get_supports()) << "Supports after instantiation should be Only The Poets & Tors";
+    ASSERT_EQ(std::vector<std::string>({"Only The Poets", "Tors"}), concert.get_supports()) << "Supports after instantiation should be Only The Poets & Tors";
 }
 

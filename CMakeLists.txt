@@ -32,6 +32,7 @@ target_include_directories(concert-wrapped PRIVATE
 
 # TODO: Install gtest via vcpkg. While offline the externals directory is used instead
 add_executable(unit-tests
+    tests/helpers/TestData.cpp
     tests/models/ArtistTest.cpp
     tests/models/ConcertTest.cpp
     tests/models/PerformanceTest.cpp
@@ -49,6 +50,7 @@ add_executable(unit-tests
 )
 
 target_include_directories(unit-tests PRIVATE
+    tests/helpers
     src/models/include
     src/repositories/include
     src/screens/include

@@ -28,7 +28,9 @@ Concert::Concert(const json& data)
       date(data.at("date")),
       cost(data.at("cost")),
       supports(data.at("supports").get<std::vector<std::string>>())
-{}
+{
+    _next_id = id > _next_id ? id + 1 : ++_next_id;
+}
 
 void Concert::print() const
 {
@@ -80,6 +82,5 @@ void Concert::set_supports(std::vector<std::string> input) { supports = input; }
 
 void Concert::reset()
 {
-    std::cout << "Reset" << std::endl;
     _next_id = 1;
 }
