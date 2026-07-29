@@ -1,8 +1,11 @@
 #include <gtest/gtest.h>
+#include <nlohmann/json.hpp>
 #include <vector>
 
 #include "Artist.h"
 #include "Concert.h"
+
+using json = nlohmann::json;
 
 TEST(ArtistTest, one_concert_from_params)
 {
