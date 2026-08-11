@@ -24,6 +24,7 @@ public:
     ScreenManager();
 
     void run();
+    void process_current_screen();
 
 private:
     ArtistStatsManager artist_stats;

@@ -17,47 +17,57 @@ void ScreenManager::run()
 
     while (current_screen != Screen::Exit)
     {
-        Screen previous_screen = current_screen;
-
-        switch(current_screen)
-        {
-        case Screen::Menu:
-            show_menu();
-            break;
-        case Screen::AddConcert:
-            repo.add();
-            current_screen = Screen::Menu;
-            break;
-        case Screen::ViewConcerts:
-            repo.print();
-            current_screen = Screen::Menu;
-            break;
-        case Screen::DeleteConcert:
-            repo.remove();
-            current_screen = Screen::Menu;
-            break;
-        case Screen::EditConcert:
-            repo.edit();
-            current_screen = Screen::Menu;
-            break;
-        case Screen::ConcertStats:
-            concert_stats.print_stats(repo.get_concerts());
-            current_screen = Screen::Menu;
-            break;
-        case Screen::ArtistStats:
-            artist_stats.print_stats(repo.get_artists());
-            current_screen = Screen::Menu;
-            break;
-        default:
-            throw std::runtime_error("Screen value is not recognised"); 
-        }
-
-        Logger::Info("ScreenManager", "run", "Screen changed from " + enum_to_string(previous_screen) + " to " + enum_to_string(current_screen));
+        process_current_screen();
     }
 
     storage.save(repo.get_artists());
     storage.save(repo.get_concerts());
     storage.save(repo.get_performances());
+}
+
+void ScreenManager::process_current_screen()
+{
+    Screen previous_screen = current_screen;
+
+    switch(current_screen)
+    {
+    case Screen::Menu:
+        show_menu();
+        break;
+    case Screen::AddConcert:
+        repo.add();
+        current_screen = Screen::Menu;
+        break;
+    case Screen::ViewConcerts:
+        repo.print();
+        current_screen = Screen::Menu;
+        break;
+    case Screen::DeleteConcert:
+        repo.remove();
+        current_screen = Screen::Menu;
+        break;
+    case Screen::EditConcert:
+        repo.edit();
+        current_screen = Screen::Menu;
+        break;
+    case Screen::ConcertStats:
+        concert_stats.print_stats(repo.get_concerts());
+        current_screen = Screen::Menu;
+        break;
+    case Screen::ArtistStats:
+        artist_stats.print_stats(repo.get_artists());
+        current_screen = Screen::Menu;
+        break;
+    default:
+        throw std::runtime_error("Screen value is not recognised"); 
+    }
+
+    if (previous_screen == current_screen)
+    {
+        Logger::Info("ScreenManager", "run", enum_to_string(current_screen) + " screen initialised");
+    } else {
+        Logger::Info("ScreenManager", "run", "Screen changed from " + enum_to_string(previous_screen) + " to " + enum_to_string(current_screen));
+    }
 }
 
 void ScreenManager::show_menu()
@@ -73,9 +83,14 @@ void ScreenManager::show_menu()
     std::cout << "7. Exit\n";
     std::cout << "Selection: ";
 
-    if (!Utilities::parse_int(input) || input < 1 || input > 7)
+    if (!Utilities::parse_int(input))
     {
         std::cout << '\n';
+        return;
+    }
+    if (input < 1 || input > 7)
+    {
+        std::cout << "Invalid input\n";
         return;
     }
 
