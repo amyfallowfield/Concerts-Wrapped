@@ -21,6 +21,7 @@ add_executable(concert-wrapped
 )
 
 find_package(nlohmann_json CONFIG REQUIRED)
+find_package(GTest CONFIG REQUIRED)
 
 target_link_libraries(concert-wrapped PRIVATE nlohmann_json::nlohmann_json)
 target_include_directories(concert-wrapped PRIVATE
@@ -30,7 +31,6 @@ target_include_directories(concert-wrapped PRIVATE
     src/services/include
 )
 
-# TODO: Install gtest via vcpkg. While offline the externals directory is used instead
 add_executable(unit-tests
     tests/helpers/TestData.cpp
     tests/models/ArtistTest.cpp
@@ -52,15 +52,20 @@ add_executable(unit-tests
 
 target_include_directories(unit-tests PRIVATE
     tests/helpers
+    tests/models
+    tests/repositories
+    tests/screens
+    tests/services
     src/models/include
     src/repositories/include
     src/screens/include
     src/services/include
 )
 
-add_subdirectory(temp/googletest-main/googletest-main)
-target_link_libraries(unit-tests PRIVATE GTest::gtest_main)
-target_link_libraries(unit-tests PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(unit-tests PRIVATE
+    GTest::gmock_main
+    nlohmann_json::nlohmann_json
+)
 
 include(GoogleTest)
 gtest_discover_tests(unit-tests)
