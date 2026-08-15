@@ -4,10 +4,17 @@
 
 #include "ScreenManager.h"
 
+#include "ArtistStatsManagerMock.h"
+#include "ConcertStatsManagerMock.h"
+#include "ConcertRepositoryMock.h"
+
 class ScreenManagerTest : public ::testing::Test
 {
 protected:
+    std::unique_ptr<ArtistStatsManagerMock> artist_stats;
+    std::unique_ptr<ConcertStatsManagerMock> concert_stats;
     std::unique_ptr<ScreenManager> manager;
+    std::unique_ptr<ConcertRepositoryMock> repo;
 
     std::ostringstream output;
     std::ostringstream logs;
@@ -24,7 +31,11 @@ protected:
 
         std::cout.rdbuf(output.rdbuf());
         std::cerr.rdbuf(logs.rdbuf());
-        manager = std::make_unique<ScreenManager>();
+
+        artist_stats = std::make_unique<ArtistStatsManagerMock>();
+        concert_stats = std::make_unique<ConcertStatsManagerMock>();
+        repo = std::make_unique<ConcertRepositoryMock>();
+        manager = std::make_unique<ScreenManager>(*repo, *artist_stats, *concert_stats);
     }
 
     void TearDown() override
@@ -50,9 +61,9 @@ TEST_F(ScreenManagerTest, menu_loads_add_concert_page)
     std::istringstream input("1\n");
     std::cin.rdbuf(input.rdbuf());
 
+    EXPECT_CALL(*repo, add()).Times(1);
     manager->process_current_screen();
-
-    ASSERT_NE(std::string::npos, logs.str().find("Screen changed from menu to add concert")) << "Add concert page should be loaded";
+    manager->process_current_screen();
 }
 
 TEST_F(ScreenManagerTest, menu_loads_view_concerts_page)
@@ -60,9 +71,9 @@ TEST_F(ScreenManagerTest, menu_loads_view_concerts_page)
     std::istringstream input("2\n");
     std::cin.rdbuf(input.rdbuf());
 
+    EXPECT_CALL(*repo, print()).Times(1);
     manager->process_current_screen();
-
-    ASSERT_NE(std::string::npos, logs.str().find("Screen changed from menu to view concerts")) << "View concerts page should be loaded";
+    manager->process_current_screen();
 }
 
 TEST_F(ScreenManagerTest, menu_loads_delete_concert_page)
@@ -70,9 +81,9 @@ TEST_F(ScreenManagerTest, menu_loads_delete_concert_page)
     std::istringstream input("3\n");
     std::cin.rdbuf(input.rdbuf());
 
+    EXPECT_CALL(*repo, remove()).Times(1);
     manager->process_current_screen();
-
-    ASSERT_NE(std::string::npos, logs.str().find("Screen changed from menu to delete concert")) << "Delete concert page should be loaded";
+    manager->process_current_screen();
 }
 
 TEST_F(ScreenManagerTest, menu_loads_edit_concert_page)
@@ -80,18 +91,19 @@ TEST_F(ScreenManagerTest, menu_loads_edit_concert_page)
     std::istringstream input("4\n");
     std::cin.rdbuf(input.rdbuf());
 
+    EXPECT_CALL(*repo, edit()).Times(1);
     manager->process_current_screen();
-
-    ASSERT_NE(std::string::npos, logs.str().find("Screen changed from menu to edit concert")) << "Edit concert page should be loaded";
+    manager->process_current_screen();
 }
+
 TEST_F(ScreenManagerTest, menu_loads_concert_stats_page)
 {
     std::istringstream input("5\n");
     std::cin.rdbuf(input.rdbuf());
 
+    EXPECT_CALL(*concert_stats, print_stats(testing::_)).Times(1);
     manager->process_current_screen();
-
-    ASSERT_NE(std::string::npos, logs.str().find("Screen changed from menu to concert stats")) << "Concert stats page should be loaded";
+    manager->process_current_screen();
 }
 
 TEST_F(ScreenManagerTest, menu_loads_artist_stats_page)
@@ -99,9 +111,9 @@ TEST_F(ScreenManagerTest, menu_loads_artist_stats_page)
     std::istringstream input("6\n");
     std::cin.rdbuf(input.rdbuf());
 
+    EXPECT_CALL(*artist_stats, print_stats(testing::_)).Times(1);
     manager->process_current_screen();
-
-    ASSERT_NE(std::string::npos, logs.str().find("Screen changed from menu to artist stats")) << "Artist stats page should be loaded";
+    manager->process_current_screen();
 }
 
 TEST_F(ScreenManagerTest, menu_loads_exit_page)

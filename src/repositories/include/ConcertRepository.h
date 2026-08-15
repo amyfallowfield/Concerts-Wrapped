@@ -15,10 +15,10 @@ class ConcertRepository
 public:
     ConcertRepository();
 
-    void add();
-    void remove();
-    void edit();
-    void print();
+    virtual void add();
+    virtual void remove();
+    virtual void edit();
+    virtual void print();
 
     std::vector<Concert> get_concerts();
     std::vector<Artist> get_artists();

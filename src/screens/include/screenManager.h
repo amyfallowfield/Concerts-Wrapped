@@ -21,16 +21,16 @@ enum class Screen
 class ScreenManager
 {
 public:
-    ScreenManager();
+    ScreenManager(ConcertRepository& repo, ArtistStatsManager& artist_stats, ConcertStatsManager& concert_stats);
 
     void run();
     void process_current_screen();
 
 private:
-    ArtistStatsManager artist_stats;
-    ConcertStatsManager concert_stats;
+    ArtistStatsManager& artist_stats;
+    ConcertStatsManager& concert_stats;
     StorageManager storage;
-    ConcertRepository repo;
+    ConcertRepository& repo;
     Screen current_screen;
 
     void show_menu();

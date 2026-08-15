@@ -7,8 +7,11 @@
 #include "StorageManager.h"
 #include "Utilities.h"
 
-ScreenManager::ScreenManager()
-    : current_screen(Screen::Menu)
+ScreenManager::ScreenManager(ConcertRepository& repo, ArtistStatsManager& artist_stats, ConcertStatsManager& concert_stats)
+    : current_screen(Screen::Menu),
+      repo(repo),
+      artist_stats(artist_stats),
+      concert_stats(concert_stats)
 {}
 
 void ScreenManager::run()

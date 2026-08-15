@@ -8,7 +8,7 @@
 class ArtistStatsManager
 {
 public:
-    void print_stats(const std::vector<Artist>& artists);
+    virtual void print_stats(const std::vector<Artist>& artists);
 
 private:
     int32_t average_cost(const Artist& artist);
