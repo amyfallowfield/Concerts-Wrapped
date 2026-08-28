@@ -11,9 +11,9 @@ using json = nlohmann::json;
 
 TEST(PerformanceTest, instantiation_from_params)
 {
-    Concert concert = TestData::create_concert_params();
-    Artist artist = TestData::create_artist_params({concert});
-    Performance performance = TestData::create_performance(concert, artist);
+    Concert concert = TestData::create_test_concert1();
+    Artist artist = TestData::create_test_artist("Benjamin Steer", {concert});
+    Performance performance = TestData::create_test_performance(concert, artist);
 
     ASSERT_EQ(concert.get_id(), performance.get_show_id()) << "Show ID should match concert ID";
     ASSERT_EQ(artist.get_name(), performance.get_artist()) << "Artist should match artist name";
@@ -22,8 +22,8 @@ TEST(PerformanceTest, instantiation_from_params)
 
 TEST(PerformanceTest, instantiation_from_json)
 {
-    Concert concert = TestData::create_concert_params();
-    Artist artist = TestData::create_artist_params({concert});
+    Concert concert = TestData::create_test_concert1();
+    Artist artist = TestData::create_test_artist("Benjamin Steer", {concert});
 
     json performance_data = {
         {"show_id", concert.get_id()},
@@ -40,8 +40,8 @@ TEST(PerformanceTest, instantiation_from_json)
 
 TEST(PerformanceTest, to_json)
 {
-    Concert concert = TestData::create_concert_params();
-    Artist artist = TestData::create_artist_params({concert});
+    Concert concert = TestData::create_test_concert1();
+    Artist artist = TestData::create_test_artist("Benjamin Steer", {concert});
 
     json performance_data = {
         {"show_id", concert.get_id()},

@@ -7,11 +7,10 @@
 
 namespace TestData
 {
-    Artist create_artist_params(std::vector<Concert> concerts);
-    Artist create_artist_json();
-    Concert create_concert_params();
-    Concert create_concert_json();
-    Performance create_performance(Concert concert, Artist artist);
+    Artist create_test_artist(std::string name, std::vector<Concert> concerts);
+    Concert create_test_concert1();
+    Concert create_test_concert2();
+    Performance create_test_performance(Concert concert, Artist artist);
 };
 
 #endif

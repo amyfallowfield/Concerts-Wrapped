@@ -6,43 +6,38 @@
 
 namespace TestData
 {
-    Artist create_artist_params(std::vector<Concert> concerts)
+    Artist create_test_artist(std::string name, std::vector<Concert> concerts)
     {
-        return {"Benjamin Steer", concerts};
+        return {name, concerts};
     }
 
-    Artist create_artist_json()
+    Concert create_test_concert1()
     {
-        json artist_data = {
-            {"name", "Benjamin Steer"},
-            {"first_seen", "23-05-2026"},
-            {"last_seen", "30-05-2026"},
-            {"count", 2},
-            {"total_cost", 4500}
-        };
-        return {artist_data};
-    }
-
-    Concert create_concert_params()
-    {
-        return {"Benjamin Steer", "Village Underground", "London", "23-05-2026", 2000, {"Dolder"}};
-    }
-
-    Concert create_concert_json()
-    {
-        json concert_data = {
+        return {{
             {"id", 1},
+            {"artist", "Benjamin Steer"},
+            {"venue", "Village Underground"},
+            {"city", "London"},
+            {"date", "23-05-2026"},
+            {"cost", 2000},
+            {"supports", {"Dolder"}}
+        }};
+    }
+
+    Concert create_test_concert2()
+    {
+        return {{
+            {"id", 2},
             {"artist", "Benjamin Steer"},
             {"venue", "Deaf Institute"},
             {"city", "Manchester"},
             {"date", "30-05-2026"},
             {"cost", 2500},
             {"supports", {"Dolder"}}
-        };
-        return {concert_data};
+        }};
     }
 
-    Performance create_performance(Concert concert, Artist artist)
+    Performance create_test_performance(Concert concert, Artist artist)
     {
         return {concert.get_id(), artist.get_name(), "Headliner"};
     }

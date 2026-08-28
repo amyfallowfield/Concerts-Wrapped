@@ -11,8 +11,8 @@ using json = nlohmann::json;
 
 TEST(ArtistTest, one_concert_from_params)
 {
-    Concert concert = TestData::create_concert_params();
-    Artist artist = TestData::create_artist_params({concert});
+    Concert concert = TestData::create_test_concert1();
+    Artist artist = TestData::create_test_artist("Benjamin Steer", {concert});
 
     ASSERT_EQ("Benjamin Steer", artist.get_name()) << "Artist name should be Benjamin Steer";
     ASSERT_EQ("23-05-2026", artist.get_first_seen()) << "First seen should be 23-05-2026";
@@ -23,14 +23,14 @@ TEST(ArtistTest, one_concert_from_params)
 
 TEST(ArtistTest, two_concerts_from_params)
 {
-    Concert concert1 = TestData::create_concert_params();
-    Concert concert2 = TestData::create_concert_json();
+    Concert concert1 = TestData::create_test_concert1();
+    Concert concert2 = TestData::create_test_concert2();
     
     std::vector<Concert> concerts {};
     concerts.push_back(concert1);
     concerts.push_back(concert2);
 
-    Artist artist = TestData::create_artist_params(concerts);
+    Artist artist = TestData::create_test_artist("Benjamin Steer", concerts);
 
     ASSERT_EQ("Benjamin Steer", artist.get_name()) << "Artist name should be Benjamin Steer";
     ASSERT_EQ("23-05-2026", artist.get_first_seen()) << "First seen should be 23-05-2026";
@@ -41,8 +41,8 @@ TEST(ArtistTest, two_concerts_from_params)
 
 TEST(ArtistTest, multiple_concerts_multiple_roles_from_params)
 {
-    Concert concert1 = TestData::create_concert_params();
-    Concert concert2 = TestData::create_concert_json();
+    Concert concert1 = TestData::create_test_concert1();
+    Concert concert2 = TestData::create_test_concert2();
     Concert concert3 = Concert{"Arthur Hill", "O2 Academy Brixton", "London", "27-11-2025", 3000, {"Benjamin Steer"}};
 
     std::vector<Concert> concerts {};
@@ -50,7 +50,7 @@ TEST(ArtistTest, multiple_concerts_multiple_roles_from_params)
     concerts.push_back(concert2);
     concerts.push_back(concert3);
 
-    Artist artist = TestData::create_artist_params(concerts);
+    Artist artist = TestData::create_test_artist("Benjamin Steer", concerts);
 
     ASSERT_EQ("Benjamin Steer", artist.get_name()) << "Artist name should be Benjamin Steer";
     ASSERT_EQ("27-11-2025", artist.get_first_seen()) << "First seen should be 27-11-2025";
@@ -61,7 +61,14 @@ TEST(ArtistTest, multiple_concerts_multiple_roles_from_params)
 
 TEST(ArtistTest, one_concert_from_json)
 {
-    Artist artist = TestData::create_artist_json();
+    json artist_data = {
+        {"name", "Benjamin Steer"},
+        {"first_seen", "23-05-2026"},
+        {"last_seen", "30-05-2026"},
+        {"count", 2},
+        {"total_cost", 4500}
+    };
+    Artist artist = Artist(artist_data);
 
     ASSERT_EQ("Benjamin Steer", artist.get_name()) << "Artist name should be Benjamin Steer";
     ASSERT_EQ("23-05-2026", artist.get_first_seen()) << "First seen should be 23-05-2026";
@@ -72,15 +79,15 @@ TEST(ArtistTest, one_concert_from_json)
 
 TEST(ArtistTest, to_json)
 {
-    Concert concert = TestData::create_concert_params();
-    Artist artist = TestData::create_artist_json();
+    Concert concert = TestData::create_test_concert1();
+    Artist artist = TestData::create_test_artist("Benjamin Steer", {concert});
 
     json artist_data = {
         {"name", "Benjamin Steer"},
         {"first_seen", "23-05-2026"},
-        {"last_seen", "30-05-2026"},
-        {"count", 2},
-        {"total_cost", 4500}
+        {"last_seen", "23-05-2026"},
+        {"count", 1},
+        {"total_cost", 2000}
     };
 
     ASSERT_EQ(artist_data, artist.to_json()) << "Artist data should be formatted as json";
