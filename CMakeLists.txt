@@ -38,6 +38,7 @@ add_executable(unit-tests
     tests/models/PerformanceTest.cpp
     tests/repositories/ConcertRepositoryTest.cpp
     tests/screens/ScreenManagerTest.cpp
+    tests/services/ArtistStatsManagerTest.cpp
     src/models/src/Artist.cpp
     src/models/src/Concert.cpp
     src/models/src/Performance.cpp
