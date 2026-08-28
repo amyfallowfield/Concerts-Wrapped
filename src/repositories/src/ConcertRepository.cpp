@@ -12,7 +12,7 @@
 #include "Utilities.h"
 #include "ValidationManager.h"
 
-ConcertRepository::ConcertRepository()
+ConcertRepository::ConcertRepository(StorageManager& storage)
 {
     artists = storage.load<Artist>();
     concerts = storage.load<Concert>();

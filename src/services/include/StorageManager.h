@@ -33,8 +33,14 @@ struct FilePaths<Performance>
     std::filesystem::path("data") / "performance_data.json";
 };
 
-struct StorageManager
+class StorageManager
 {
+public:
+    std::string directory;
+    StorageManager(std::string directory)
+    : directory(directory)
+    {};
+
     template<typename T>
     bool save(const std::vector<T>& items)
     {

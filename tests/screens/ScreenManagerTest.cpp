@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "ScreenManager.h"
+#include "StorageManager.h"
 
 #include "ArtistStatsManagerMock.h"
 #include "ConcertStatsManagerMock.h"
@@ -15,6 +16,7 @@ protected:
     std::unique_ptr<ConcertStatsManagerMock> concert_stats;
     std::unique_ptr<ScreenManager> manager;
     std::unique_ptr<ConcertRepositoryMock> repo;
+    std::unique_ptr<StorageManager> storage;
 
     std::ostringstream output;
     std::ostringstream logs;
@@ -34,8 +36,9 @@ protected:
 
         artist_stats = std::make_unique<ArtistStatsManagerMock>();
         concert_stats = std::make_unique<ConcertStatsManagerMock>();
-        repo = std::make_unique<ConcertRepositoryMock>();
-        manager = std::make_unique<ScreenManager>(*repo, *artist_stats, *concert_stats);
+        storage = std::make_unique<StorageManager>("test");
+        repo = std::make_unique<ConcertRepositoryMock>(*storage);
+        manager = std::make_unique<ScreenManager>(*repo, *storage, *artist_stats, *concert_stats);
     }
 
     void TearDown() override

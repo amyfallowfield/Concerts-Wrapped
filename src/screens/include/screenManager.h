@@ -21,7 +21,7 @@ enum class Screen
 class ScreenManager
 {
 public:
-    ScreenManager(ConcertRepository& repo, ArtistStatsManager& artist_stats, ConcertStatsManager& concert_stats);
+    ScreenManager(ConcertRepository& repo, StorageManager& storage, ArtistStatsManager& artist_stats, ConcertStatsManager& concert_stats);
 
     void run();
     void process_current_screen();

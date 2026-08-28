@@ -11,10 +11,11 @@ int main()
 {
     try
     {
-        ConcertRepository repo {};
+        StorageManager storage {"data"};
+        ConcertRepository repo {storage};
         ArtistStatsManager artist_stats {};
         ConcertStatsManager concert_stats {};
-        ScreenManager screen_manager = ScreenManager(repo, artist_stats, concert_stats);
+        ScreenManager screen_manager = ScreenManager(repo, storage, artist_stats, concert_stats);
         screen_manager.run();
     }
     catch (const std::exception& e)

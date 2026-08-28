@@ -13,7 +13,7 @@
 class ConcertRepository
 {
 public:
-    ConcertRepository();
+    ConcertRepository(StorageManager& storage);
 
     virtual void add();
     virtual void remove();
@@ -25,7 +25,7 @@ public:
     std::vector<Performance> get_performances();
 
 private:
-    StorageManager storage = StorageManager();
+    StorageManager storage = StorageManager("data");
     std::vector<Artist> artists;
     std::vector<Concert> concerts;
     std::vector<Performance> performances;
