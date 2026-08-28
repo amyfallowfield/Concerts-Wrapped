@@ -13,8 +13,16 @@ void ConcertStatsManager::print_stats(const std::vector<Concert>& concerts)
     else
     {
         std::cout << "Total Shows: " << total_shows(concerts) << '\n';
-        std::cout << "Total Cost: " << total_cost(concerts) / 100.0 << '\n';
-        std::cout << "Average Cost: £" << average_cost(concerts) / 100.0 << '\n';
+        std::cout << "Total Cost: £"
+                  << std::fixed
+                  << std::setprecision(2)
+                  << total_cost(concerts) / 100.0f
+                  << '\n';
+        std::cout << "Average Cost: £"
+                  << std::fixed
+                  << std::setprecision(2)
+                  << average_cost(concerts) / 100.0f
+                  << '\n';
     }
 }
 
@@ -37,5 +45,5 @@ int32_t ConcertStatsManager::total_cost(const std::vector<Concert>& concerts)
 
 int32_t ConcertStatsManager::average_cost(const std::vector<Concert>& concerts)
 {
-    return static_cast<int32_t>(total_cost(concerts) / total_shows(concerts));
+    return std::round(static_cast<double>(total_cost(concerts)) / total_shows(concerts));
 }
