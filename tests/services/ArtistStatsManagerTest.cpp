@@ -12,11 +12,15 @@ public:
 
     std::streambuf* original_cout;
 
+    ArtistStatsManager manager;
+
     void SetUp() override
     {
         original_cout = std::cout.rdbuf();
 
         std::cout.rdbuf(output.rdbuf());
+
+        ArtistStatsManager manager = ArtistStatsManager();
     }
 
     void TearDown() override
@@ -27,8 +31,6 @@ public:
 
 TEST_F(ArtistStatsManagerTest, print_empty_artists)
 {
-    ArtistStatsManager manager = ArtistStatsManager();
-
     manager.print_stats({});
 
     ASSERT_NE(std::string::npos, output.str().find("No statistics to show")) << "Print stats should inform user of no statistics when no artists";
@@ -36,8 +38,6 @@ TEST_F(ArtistStatsManagerTest, print_empty_artists)
 
 TEST_F(ArtistStatsManagerTest, print_one_artist_one_concert)
 {
-    ArtistStatsManager manager = ArtistStatsManager();
-
     Concert concert = TestData::create_test_concert1();
     Artist artist = TestData::create_test_artist("Benjamin Steer", {concert});
 
@@ -52,8 +52,6 @@ TEST_F(ArtistStatsManagerTest, print_one_artist_one_concert)
 
 TEST_F(ArtistStatsManagerTest, print_one_artist_two_concerts)
 {
-    ArtistStatsManager manager = ArtistStatsManager();
-
     Concert concert1 = TestData::create_test_concert1();
     Concert concert2 = TestData::create_test_concert2();
     Artist artist = TestData::create_test_artist("Benjamin Steer", {concert1, concert2});
@@ -69,8 +67,6 @@ TEST_F(ArtistStatsManagerTest, print_one_artist_two_concerts)
 
 TEST_F(ArtistStatsManagerTest, print_two_artist_two_concerts)
 {
-    ArtistStatsManager manager = ArtistStatsManager();
-
     Concert concert1 = TestData::create_test_concert1();
     Concert concert2 = TestData::create_test_concert2();
     Artist main_artist = TestData::create_test_artist("Benjamin Steer", {concert1, concert2});

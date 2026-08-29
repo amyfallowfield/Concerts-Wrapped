@@ -12,11 +12,15 @@ public:
 
     std::streambuf* original_cout;
 
+    ConcertStatsManager manager;
+
     void SetUp() override
     {
         original_cout = std::cout.rdbuf();
 
         std::cout.rdbuf(output.rdbuf());
+
+        manager = ConcertStatsManager();
     }
 
     void TearDown() override
@@ -27,8 +31,6 @@ public:
 
 TEST_F(ConcertStatsManagerTest, print_no_concerts)
 {
-    ConcertStatsManager manager = ConcertStatsManager();
-
     manager.print_stats({});
 
     ASSERT_NE(std::string::npos, output.str().find("No statistics to show")) << "Print stats should inform user of no statistics when no concerts";
@@ -36,7 +38,6 @@ TEST_F(ConcertStatsManagerTest, print_no_concerts)
 
 TEST_F(ConcertStatsManagerTest, print_one_concert)
 {
-    ConcertStatsManager manager = ConcertStatsManager();
     Concert concert = TestData::create_test_concert1();
 
     manager.print_stats({concert});
@@ -48,7 +49,6 @@ TEST_F(ConcertStatsManagerTest, print_one_concert)
 
 TEST_F(ConcertStatsManagerTest, print_two_concerts)
 {
-    ConcertStatsManager manager = ConcertStatsManager();
     Concert concert1 = TestData::create_test_concert1();
     Concert concert2 = TestData::create_test_concert2();
 
