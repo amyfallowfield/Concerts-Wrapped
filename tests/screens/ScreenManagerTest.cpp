@@ -36,9 +36,18 @@ protected:
 
         artist_stats = std::make_unique<ArtistStatsManagerMock>();
         concert_stats = std::make_unique<ConcertStatsManagerMock>();
+    
         storage = std::make_unique<StorageManager>("test");
+        storage->save<Artist>({});
+        storage->save<Concert>({});
+        storage->save<Performance>({});
+
         repo = std::make_unique<ConcertRepositoryMock>(*storage);
         manager = std::make_unique<ScreenManager>(*repo, *storage, *artist_stats, *concert_stats);
+
+        storage->save<Artist>({});
+        storage->save<Concert>({});
+        storage->save<Performance>({});
     }
 
     void TearDown() override
@@ -46,6 +55,8 @@ protected:
         std::cin.rdbuf(original_cin);
         std::cout.rdbuf(original_cout);
         std::cerr.rdbuf(original_cerr);
+
+        std::filesystem::remove_all("test");
     }
 };
 

@@ -42,6 +42,7 @@ add_executable(unit-tests
     tests/services/ConcertStatsManagerTest.cpp
     tests/services/InputManagerTest.cpp
     tests/services/LoggerTest.cpp
+    tests/services/StorageManagerTest.cpp
     src/models/src/Artist.cpp
     src/models/src/Concert.cpp
     src/models/src/Performance.cpp
