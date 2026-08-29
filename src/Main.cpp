@@ -7,6 +7,10 @@
 #include "ConcertRepository.h"
 #include "ScreenManager.h"
 
+#define LOG_INFO(message) Logger::Info(__FILE__, __func__, message)
+#define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
+#define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
+
 int main()
 {
     try
@@ -20,6 +24,6 @@ int main()
     }
     catch (const std::exception& e)
     {
-        std::cout << "Fatal error: " << e.what() << "\n";
+        LOG_ERROR("Fatal error: {}", e.what());
     }
 }

@@ -12,6 +12,10 @@
 #include "Utilities.h"
 #include "ValidationManager.h"
 
+#define LOG_INFO(message) Logger::Info(__FILE__, __func__, message)
+#define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
+#define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
+
 ConcertRepository::ConcertRepository(StorageManager& storage)
 {
     artists = storage.load<Artist>();
@@ -27,7 +31,7 @@ void ConcertRepository::add()
     concerts.push_back(new_concert);
     _refresh_artists(new_concert);
 
-    Logger::Info("ConcertRepository", "add", "Concert created successfully");
+    LOG_INFO("Concert created successfully");
 }
 
 void ConcertRepository::remove()
@@ -82,6 +86,8 @@ void ConcertRepository::remove()
     );
 
     _refresh_artists(deleted_concert);
+
+    LOG_INFO("Concert deleted successfully");
 }
 
 void ConcertRepository::edit()
@@ -150,10 +156,13 @@ void ConcertRepository::edit()
         break;
     }
     default:
-        throw std::runtime_error("Cannot update attribute not owned by concert model");
+        LOG_ERROR("Invalid concert attribute selection");
+        throw std::runtime_error("Invalid concert attribute selection");
     }
 
     _refresh_artists(concert);
+
+    LOG_INFO("Concert editted successfully");
 }
 
 void ConcertRepository::print()
@@ -283,17 +292,21 @@ void ConcertRepository::_refresh_artists(const Concert& concert)
         {
             artists.push_back(Artist{artist_name, artists_concerts});
         }
+
+        LOG_INFO(artist_name + " artist updated successfully");
     }
 }
 
 void ConcertRepository::update_performances(const Concert& new_concert)
 {
     performances.push_back(Performance(new_concert.get_id(), new_concert.get_artist(), "Headliner"));
+    LOG_INFO("Performance for " + new_concert.get_artist() + " added successfully");
 
     std::vector<std::string> supports = new_concert.get_supports();
     for (std::string support : supports)
     {
         performances.push_back(Performance(new_concert.get_id(), support, "Support"));
+        LOG_INFO("Performance for " + support + " added successfully");
     }
 }
 

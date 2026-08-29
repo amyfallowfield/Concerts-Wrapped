@@ -4,6 +4,10 @@
 #include "InputManager.h"
 #include "Utilities.h"
 
+#define LOG_INFO(message) Logger::Info(__FILE__, __func__, message)
+#define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
+#define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
+
 int InputManager::select_attribute()
 {
     int input;
@@ -18,6 +22,7 @@ int InputManager::select_attribute()
     if (!Utilities::parse_int(input) || input < 1 || input > 5)
     {
         std::cout << '\n';
+        LOG_WARN("Invalid attribute selection");
         return -1;
     }
 
@@ -42,6 +47,7 @@ int32_t InputManager::get_numerical_input(std::string prompt)
     std::cout << prompt;
     
     if (!Utilities::parse_int(input))
+        LOG_WARN("Invalid attribute selection");
         return -1;
 
     return input;
@@ -54,6 +60,7 @@ double InputManager::get_decimal_input(std::string prompt)
     std::cout << prompt;
 
     if (!Utilities::parse_float(input))
+        LOG_WARN("Invalid attribute selection");
         return -1.0;
 
     return input;

@@ -6,6 +6,11 @@
 #include "Utilities.h"
 #include "ValidationManager.h"
 
+#define LOG_INFO(message) Logger::Info(__FILE__, __func__, message)
+#define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
+#define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
+
+
 ValidationResult<std::string> ValidationManager::validate_artist(std::string& input)
 {
     clean_string(input);
@@ -83,6 +88,7 @@ ValidationResult<std::string> ValidationManager::validate_string(std::string& in
 {
     if (input.find_first_not_of(WHITESPACE) == std::string::npos)
     {
+        LOG_WARN("String must contain non-whitespace characters");
         return {false, input, attribute + " must contain non-whitespace characters"};
     }
 
@@ -102,6 +108,6 @@ void ValidationManager::clean_string(std::string& input)
 
     if (original != input)
     {
-        Logger::Warn("ValidationManager", "clean_string", "Input has been cleaned from " + original + " to " + input);
+        LOG_WARN("Input has been cleaned from " + original + " to " + input);
     }
 }

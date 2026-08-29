@@ -7,6 +7,10 @@
 #include "StorageManager.h"
 #include "Utilities.h"
 
+#define LOG_INFO(message) Logger::Info(__FILE__, __func__, message)
+#define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
+#define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
+
 ScreenManager::ScreenManager(ConcertRepository& repo, StorageManager& storage, ArtistStatsManager& artist_stats, ConcertStatsManager& concert_stats)
     : current_screen(Screen::Menu),
       repo(repo),
@@ -68,9 +72,9 @@ void ScreenManager::process_current_screen()
 
     if (previous_screen == current_screen)
     {
-        Logger::Info("ScreenManager", "run", enum_to_string(current_screen) + " screen initialised");
+        LOG_INFO(enum_to_string(current_screen) + " screen initialised");
     } else {
-        Logger::Info("ScreenManager", "run", "Screen changed from " + enum_to_string(previous_screen) + " to " + enum_to_string(current_screen));
+        LOG_INFO("Screen changed from " + enum_to_string(previous_screen) + " to " + enum_to_string(current_screen));
     }
 }
 
