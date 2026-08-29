@@ -1,13 +1,20 @@
 #include <ctime>
 #include <iostream>
 #include <limits>
+#include <sstream>
 #include <string>
 
 #include "Utilities.h"
 
 bool Utilities::parse_int(int& input)
-{
-    if (!(std::cin >> input))
+{   
+    std::string string_input;
+    std::getline(std::cin, string_input);
+    std::stringstream stream(string_input);
+
+    char extra;
+
+    if (!(stream >> input) || (stream >> extra))
     {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
