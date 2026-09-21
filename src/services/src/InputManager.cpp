@@ -47,8 +47,10 @@ int32_t InputManager::get_numerical_input(std::string prompt)
     std::cout << prompt;
     
     if (!Utilities::parse_int(input))
+    {
         LOG_WARN("Invalid attribute selection");
         return -1;
+    }
 
     return input;
 }
@@ -60,8 +62,10 @@ double InputManager::get_decimal_input(std::string prompt)
     std::cout << prompt;
 
     if (!Utilities::parse_float(input))
+    {
         LOG_WARN("Invalid attribute selection");
         return -1.0;
+    }
 
     return input;
 }

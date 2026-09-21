@@ -282,7 +282,7 @@ void ConcertRepository::_refresh_artists(const Concert& concert)
                 std::find(concert.get_supports().begin(),
                 concert.get_supports().end(),
                 artist_name)
-                != concert.get_supports().end());
+                != concert.get_supports().end())
             {
                 artists_concerts.push_back(concert);
             }
