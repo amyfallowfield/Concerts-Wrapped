@@ -10,29 +10,23 @@
 #define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
 #define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
 
-
 ValidationResult<std::string> ValidationManager::validate_artist(std::string& input)
 {
-    clean_string(input);
     return validate_string(input, "Artist");
 }
 
 ValidationResult<std::string> ValidationManager::validate_venue(std::string& input)
 {
-    clean_string(input);
     return validate_string(input, "Venue");
 }
 
 ValidationResult<std::string> ValidationManager::validate_city(std::string& input)
 {
-    clean_string(input);
     return validate_string(input, "City");
 }
 
 ValidationResult<std::string> ValidationManager::validate_date(std::string& input)
 {
-    clean_string(input);
-
     ValidationResult<std::string> validated_string = validate_string(input, "Date");
     if (!validated_string.is_valid) { return validated_string; }
 
@@ -69,7 +63,7 @@ ValidationResult<double> ValidationManager::validate_cost(double& input)
 
 ValidationResult<int> ValidationManager::validate_id(int& input, const std::vector<Concert>& concerts)
 {
-    if (input < 0) { return {false, input, "Cost cannot be negative"}; }
+    if (input < 0) { return {false, input, "ID cannot be negative"}; }
 
     auto it = std::find_if(
         concerts.begin(), concerts.end(),
@@ -86,6 +80,7 @@ ValidationResult<int> ValidationManager::validate_id(int& input, const std::vect
 
 ValidationResult<std::string> ValidationManager::validate_string(std::string& input, const std::string& attribute)
 {
+    clean_string(input);
     if (input.find_first_not_of(WHITESPACE) == std::string::npos)
     {
         LOG_WARN("String must contain non-whitespace characters");
