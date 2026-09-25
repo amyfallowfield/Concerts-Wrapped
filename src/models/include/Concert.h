@@ -33,6 +33,10 @@ public:
     void set_cost(int32_t input);
     void set_supports(std::vector<std::string> input);
 
+    void add_support(const std::string& support);
+    void edit_support(int index, const std::string& support);
+    void delete_support(int index);
+
     static void reset();
 
 private:

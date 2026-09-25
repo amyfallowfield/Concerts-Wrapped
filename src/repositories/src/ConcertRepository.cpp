@@ -155,9 +155,53 @@ void ConcertRepository::edit()
         concert.set_cost(cost_as_int);
         break;
     }
+    case 6:
+    {
+        SupportUpdateRequest support_data = input_manager.get_support_update_data(concert.get_supports());
+
+        if (!support_data.success)
+        {
+            LOG_ERROR("Invalid input when selecting support modification request");
+            return;
+        }
+
+        switch (support_data.action)
+        {
+        case Actions::Add:
+        {
+            std::string name = 
+                input_manager.get_attribute_input<std::string>(
+                    "New support name: ",
+                    [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
+                    [&](std::string& input) { return input; },
+                    [&](std::string& input) { return validator.validate_artist(input); });
+            concert.add_support(name);
+            break;
+        }
+        case Actions::Edit:
+        {
+            std::string name = 
+                input_manager.get_attribute_input<std::string>(
+                    "New support name: ",
+                    [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
+                    [&](std::string& input) { return input; },
+                    [&](std::string& input) { return validator.validate_artist(input); });
+            concert.edit_support(support_data.index, name);
+            break;
+        }
+        case Actions::Delete:
+            concert.delete_support(support_data.index);
+            break;
+        default:
+            LOG_ERROR("Invalid support list modification action selection");
+            return;
+        }
+        // TODO: update artist data
+        break;
+    }
     default:
         LOG_ERROR("Invalid concert attribute selection");
-        throw std::runtime_error("Invalid concert attribute selection");
+        return;
     }
 
     _refresh_artists(concert);

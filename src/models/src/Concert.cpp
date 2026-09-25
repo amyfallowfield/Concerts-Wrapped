@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <vector>
@@ -79,6 +80,21 @@ void Concert::set_city(std::string input) { city = input; }
 void Concert::set_date(std::string input) { date = input; }
 void Concert::set_cost(int32_t input) { cost = input; }
 void Concert::set_supports(std::vector<std::string> input) { supports = input; }
+
+void Concert::add_support(const std::string& support)
+{
+    supports.push_back(support);
+}
+
+void Concert::edit_support(int index, const std::string& support)
+{
+    supports.at(index) = support;
+}
+
+void Concert::delete_support(int index)
+{
+    supports.erase(supports.begin() + static_cast<std::ptrdiff_t>(index));
+}
 
 void Concert::reset()
 {

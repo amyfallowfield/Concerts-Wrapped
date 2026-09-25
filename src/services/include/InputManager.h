@@ -7,6 +7,21 @@
 #include "Logger.h"
 #include "ValidationManager.h"
 
+enum class Actions
+{
+    Add = 1,
+    Edit,
+    Delete,
+    None
+};
+
+struct SupportUpdateRequest
+{
+    bool success;
+    Actions action = Actions::None;
+    int index = -1;
+};
+
 struct InputManager
 {
 public:
@@ -32,10 +47,15 @@ public:
         }
     }
 
+    SupportUpdateRequest get_support_update_data(const std::vector<std::string>& supports);
+
     std::string get_string_input(std::string prompt);
     int32_t get_numerical_input(std::string prompt);
     double get_decimal_input(std::string prompt);
     bool get_bool_input(std::string prompt);
+
+private:
+    int _get_bounded_numerical_int(int lower, int upper);
 };
 
 #endif
