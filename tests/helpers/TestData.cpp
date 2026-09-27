@@ -1,44 +1,42 @@
 #include "Artist.h"
 #include "Concert.h"
-#include "Performance.h"
 
 #include "TestData.h"
 
 namespace TestData
 {
-    Artist create_test_artist(std::string name, std::vector<Concert> concerts)
+    Artist create_test_artist(std::string name)
     {
-        return {name, concerts};
+        return {name};
     }
 
     Concert create_test_concert1()
     {
+        std::unordered_map<int32_t, ArtistRoles> artist_id_role_map {};
+        artist_id_role_map.emplace(1, ArtistRoles::Headline);
+        artist_id_role_map.emplace(2, ArtistRoles::Support);
         return {{
-            {"id", 1},
-            {"artist", "Benjamin Steer"},
+            {"concert_id", 1},
+            {"artists", artist_id_role_map},
             {"venue", "Village Underground"},
             {"city", "London"},
             {"date", "23-05-2026"},
-            {"cost", 2000},
-            {"supports", {"Dolder"}}
+            {"cost", 2000}
         }};
     }
 
     Concert create_test_concert2()
     {
+        std::unordered_map<int32_t, ArtistRoles> artist_id_role_map {};
+        artist_id_role_map.emplace(1, ArtistRoles::Headline);
+        artist_id_role_map.emplace(2, ArtistRoles::Support);
         return {{
-            {"id", 2},
-            {"artist", "Benjamin Steer"},
+            {"concert_id", 2},
+            {"artists", artist_id_role_map},
             {"venue", "Deaf Institute"},
             {"city", "Manchester"},
             {"date", "30-05-2026"},
-            {"cost", 2500},
-            {"supports", {"Dolder"}}
+            {"cost", 2500}
         }};
-    }
-
-    Performance create_test_performance(Concert concert, Artist artist)
-    {
-        return {concert.get_id(), artist.get_name(), "Headliner"};
     }
 }

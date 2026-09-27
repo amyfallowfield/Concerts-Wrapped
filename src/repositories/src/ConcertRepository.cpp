@@ -8,7 +8,6 @@
 #include "ConcertRepository.h"
 #include "InputManager.h"
 #include "Logger.h"
-#include "Performance.h"
 #include "Utilities.h"
 #include "ValidationManager.h"
 
@@ -20,13 +19,11 @@ ConcertRepository::ConcertRepository(StorageManager& storage)
 {
     artists = storage.load<Artist>();
     concerts = storage.load<Concert>();
-    performances = storage.load<Performance>();
 }
 
 void ConcertRepository::add()
 {
     Concert new_concert = create_concert();
-    update_performances(new_concert);
 
     concerts.push_back(new_concert);
     _refresh_artists(new_concert);
@@ -37,54 +34,16 @@ void ConcertRepository::add()
 void ConcertRepository::remove()
 {
     int32_t id = get_concert_id();
-    Concert deleted_concert = _get_concert_from_id(id);
+    auto deleted_concert_it = _find_concert_by_id(id);
 
-    auto performance_it = std::find_if(
-        performances.begin(), performances.end(),
-        [&](const Performance& performance)
-        {
-           return performance.get_artist() == deleted_concert.get_artist();
-        }
-    );
-
-    if (performance_it == performances.end())
+    if (deleted_concert_it == concerts.end())
     {
-        artists.erase(
-            std::remove_if(
-                artists.begin(), artists.end(),
-                [&](const Artist& artist)
-                {
-                    return artist.get_name() == deleted_concert.get_artist();
-                }
-            ),
-            artists.end()
-        );
+        LOG_ERROR("Invalid concert ID selected");
+        return;
     }
 
-    auto concert_it = std::find_if(
-        concerts.begin(), concerts.end(),
-        [&](const Concert& concert)
-        {
-            return concert.get_id() == deleted_concert.get_id();
-        }
-    );
-
-    if (concert_it != concerts.end())
-    {
-        concerts.erase(concert_it);
-    }
-
-    performances.erase(
-        std::remove_if(
-            performances.begin(), performances.end(),
-            [&](const Performance& performance)
-            {
-                return performance.get_show_id() == deleted_concert.get_id();
-            }
-        ),
-        performances.end()
-    );
-
+    Concert deleted_concert = *deleted_concert_it;
+    concerts.erase(deleted_concert_it);
     _refresh_artists(deleted_concert);
 
     LOG_INFO("Concert deleted successfully");
@@ -93,7 +52,7 @@ void ConcertRepository::remove()
 void ConcertRepository::edit()
 {
     int32_t id = get_concert_id();
-    Concert& concert = _get_concert_from_id(id);
+    auto concert_it = _find_concert_by_id(id);
 
     int input = input_manager.select_attribute();
 
@@ -101,13 +60,119 @@ void ConcertRepository::edit()
     {
     case 1:
     {
-        std::string artist = 
-            input_manager.get_attribute_input<std::string>(
-                "Artist Name: ",
-                [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
-                [&](std::string& input) { return input; },
-                [&](std::string& input) { return validator.validate_artist(input); });
-        concert.set_artist(artist);
+        std::vector<std::pair<int32_t, std::string>> artist_id_name_pair {};
+        for (const auto& [artist_id, role] : concert_it->get_artists())
+        {
+            auto artist_it = _find_artist_by_id(artist_id);
+
+            if (artist_it == artists.end())
+            {
+                LOG_ERROR("Artist ID not found");
+                return;
+            }
+
+            artist_id_name_pair.push_back(std::pair(artist_id, artist_it->get_name()));
+        }
+
+        ArtistUpdateRequest artist_data = input_manager.get_artist_update_data(artist_id_name_pair);
+
+        if (!artist_data.success)
+        {
+            LOG_ERROR("Invalid input when selecting artist modification request");
+            return;
+        }
+
+        switch (artist_data.action)
+        {
+        case Actions::Add:
+        {
+            std::string name = 
+                input_manager.get_attribute_input<std::string>(
+                    "New artist name: ",
+                    [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
+                    [&](std::string& input) { return input; },
+                    [&](std::string& input) { return validator.validate_artist(input); });
+            ArtistRoles role = 
+                input_manager.get_attribute_input<ArtistRoles>(
+                    "New artist role [Headline, Support, Guest]: ",
+                    [&](const std::string& prompt) { return input_manager.get_role_input(prompt); },
+                    [&](ArtistRoles& input) { return input; },
+                    [&](ArtistRoles& input) { return validator.validate_role(input); });
+
+            auto artist_it = _find_artist_by_name(name);
+
+            int32_t id;
+            if (artist_it == artists.end())
+            {
+                Artist artist = Artist(name);
+                artists.push_back(artist);
+                id = artist.get_id();
+            }
+            else
+            {
+                id = artist_it->get_id();
+            }
+
+            concert_it->add_artist(id, role);
+            LOG_INFO("Artist added successfully");
+            break;
+        }
+        case Actions::Edit:
+        {
+            std::string name = 
+                input_manager.get_attribute_input<std::string>(
+                    "New artist name: ",
+                    [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
+                    [&](std::string& input) { return input; },
+                    [&](std::string& input) { return validator.validate_artist(input); });
+            ArtistRoles role = 
+                input_manager.get_attribute_input<ArtistRoles>(
+                    "New artist role [Headline, Support, Guest]: ",
+                    [&](const std::string& prompt) { return input_manager.get_role_input(prompt); },
+                    [&](ArtistRoles& input) { return input; },
+                    [&](ArtistRoles& input) { return validator.validate_role(input); });
+            
+            auto artist_it = _find_artist_by_name(name);
+
+            int32_t new_id;
+            int32_t old_id = artist_data.artist_id;
+
+            if (artist_it == artists.end())
+            {
+                Artist artist = Artist(name);
+                artists.push_back(artist);
+                new_id = artist.get_id();
+            }
+            else
+            {
+                new_id = artist_it->get_id();
+            }
+
+            concert_it->edit_artist(old_id, new_id, role);
+            LOG_INFO("Artist editted successfully");
+            break;
+        }
+        case Actions::Delete:
+        {
+            auto artist_it = _find_artist_by_id(artist_data.artist_id);
+            
+            if (artist_it == artists.end())
+            {
+                LOG_WARN("Artist already deleted");
+            }
+            else
+            {
+                artists.erase(artist_it);
+            }
+            concert_it->delete_artist(artist_data.artist_id);
+            LOG_INFO("Artist deleted successfully");
+            break;
+        }
+        default:
+            LOG_ERROR("Invalid artist list modification action selection");
+            return;
+        }
+        _refresh_artists(*concert_it);
         break;
     }
     case 2:
@@ -118,7 +183,7 @@ void ConcertRepository::edit()
                 [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
                 [&](std::string& input) { return input; },
                 [&](std::string& input) { return validator.validate_venue(input); });
-        concert.set_venue(venue);
+        concert_it->set_venue(venue);
         break;
     }
     case 3:
@@ -129,7 +194,7 @@ void ConcertRepository::edit()
                 [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
                 [&](std::string& input) { return input; },
                 [&](std::string& input) { return validator.validate_city(input); });
-        concert.set_city(city);
+        concert_it->set_city(city);
         break;
     }
     case 4:
@@ -140,7 +205,7 @@ void ConcertRepository::edit()
                 [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
                 [&](std::string& input) { return input; },
                 [&](std::string& input) { return validator.validate_date(input); });
-        concert.set_date(date);
+        concert_it->set_date(date);
         break;
     }
     case 5:
@@ -152,51 +217,7 @@ void ConcertRepository::edit()
                 [&](double& input) { return input * 100; },
                 [&](double& input) { return validator.validate_cost(input); });
         int32_t cost_as_int = static_cast<int32_t>(cost);
-        concert.set_cost(cost_as_int);
-        break;
-    }
-    case 6:
-    {
-        SupportUpdateRequest support_data = input_manager.get_support_update_data(concert.get_supports());
-
-        if (!support_data.success)
-        {
-            LOG_ERROR("Invalid input when selecting support modification request");
-            return;
-        }
-
-        switch (support_data.action)
-        {
-        case Actions::Add:
-        {
-            std::string name = 
-                input_manager.get_attribute_input<std::string>(
-                    "New support name: ",
-                    [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
-                    [&](std::string& input) { return input; },
-                    [&](std::string& input) { return validator.validate_artist(input); });
-            concert.add_support(name);
-            break;
-        }
-        case Actions::Edit:
-        {
-            std::string name = 
-                input_manager.get_attribute_input<std::string>(
-                    "New support name: ",
-                    [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
-                    [&](std::string& input) { return input; },
-                    [&](std::string& input) { return validator.validate_artist(input); });
-            concert.edit_support(support_data.index, name);
-            break;
-        }
-        case Actions::Delete:
-            concert.delete_support(support_data.index);
-            break;
-        default:
-            LOG_ERROR("Invalid support list modification action selection");
-            return;
-        }
-        // TODO: update artist data
+        concert_it->set_cost(cost_as_int);
         break;
     }
     default:
@@ -204,7 +225,7 @@ void ConcertRepository::edit()
         return;
     }
 
-    _refresh_artists(concert);
+    _refresh_artists(*concert_it);
 
     LOG_INFO("Concert editted successfully");
 }
@@ -213,23 +234,64 @@ void ConcertRepository::print()
 {
     for (const Concert& concert : concerts)
     {
-        concert.print();
+        std::vector<std::pair<std::string, ArtistRoles>> artist_name_role_pair;
+        for (const auto& [artist_id, role] : concert.get_artists())
+        {
+            auto it = _find_artist_by_id(artist_id);
+
+            if (it != artists.end())
+            {
+                artist_name_role_pair.emplace_back(it->get_name(), role);
+            }
+        }
+
+        concert.print(artist_name_role_pair);
         std::cout << '\n';
     }
 }
 
 std::vector<Artist> ConcertRepository::get_artists() { return artists; }
 std::vector<Concert> ConcertRepository::get_concerts() { return concerts; }
-std::vector<Performance> ConcertRepository::get_performances() { return performances; }
 
 Concert ConcertRepository::create_concert()
 {
-    std::string artist = 
-        input_manager.get_attribute_input<std::string>(
-            "Artist Name: ",
-            [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
-            [&](std::string& input) { return input; },
-            [&](std::string& input) { return validator.validate_artist(input); });
+    std::unordered_map<int32_t, ArtistRoles> artist_id_role_map {};
+    int count {1};
+    while (true)
+    {
+        std::string name = 
+            input_manager.get_attribute_input<std::string>(
+                "Artist Name: ",
+                [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
+                [&](std::string& input) { return input; },
+                [&](std::string& input) { return validator.validate_artist(input); });
+
+        ArtistRoles role = 
+            input_manager.get_attribute_input<ArtistRoles>(
+                "New artist role [Headline, Support, Guest]: ",
+                [&](const std::string& prompt) { return input_manager.get_role_input(prompt); },
+                [&](ArtistRoles& input) { return input; },
+                [&](ArtistRoles& input) { return validator.validate_role(input); });
+
+        auto artist_it = _find_artist_by_name(name);
+
+        int32_t id;
+        if (artist_it == artists.end())
+        {
+            Artist artist = Artist(name);
+            artists.push_back(artist);
+            id = artist.get_id();
+        }
+        else
+        {
+            id = artist_it->get_id();
+        }
+
+        artist_id_role_map.emplace(id, role);
+        count++;
+
+        if (!input_manager.get_bool_input("Add another artist? [Y/N] ")) { break; }
+    }
 
     std::string venue = 
         input_manager.get_attribute_input<std::string>(
@@ -260,27 +322,7 @@ Concert ConcertRepository::create_concert()
             [&](double& input) { return validator.validate_cost(input); });
     int32_t cost_as_int = static_cast<int32_t>(cost);
 
-    std::vector<std::string> supports {};
-    int count {1};
-
-    while (true)
-    {
-        if (input_manager.get_bool_input("Add support act? [Y/N] "))
-        {
-            std::string support =
-                input_manager.get_attribute_input<std::string>(
-                    "Support #" + std::to_string(count) + ": ",
-                    [&](const std::string& prompt) { return input_manager.get_string_input(prompt); },
-                    [&](std::string& input) { return input; },
-                    [&](std::string& input) { return validator.validate_artist(input); });
-
-            supports.push_back(support);
-            count++;
-        }
-        else { break; }
-    }
-
-    return {artist, venue, city, date, cost_as_int, supports};
+    return {artist_id_role_map, venue, city, date, cost_as_int};
 }
 
 int32_t ConcertRepository::get_concert_id()
@@ -297,72 +339,94 @@ int32_t ConcertRepository::get_concert_id()
 
 void ConcertRepository::_refresh_artists(const Concert& concert)
 {
-    std::vector<std::string> concert_artists{};
-    concert_artists.push_back(concert.get_artist());
-    for (auto e : concert_artists)
-    {
-        std::cout << e;
-    }
-    concert_artists.insert(concert_artists.end(), concert.get_supports().begin(), concert.get_supports().end());
+    std::vector<int32_t> artist_ids{};
 
-    for (std::string artist_name : concert_artists)
+    for (const auto [artist_id, role] : concert.get_artists())
     {
-        auto it = std::find_if(
-            artists.begin(), artists.end(),
-            [&](const Artist& artist)
-            {
-                return artist.get_name() == artist_name;
-            }
-        );
-        if (it != artists.end())
+        artist_ids.push_back(artist_id);
+    }
+
+    for (int32_t artist_id : artist_ids)
+    {
+        auto artist_it = _find_artist_by_id(artist_id);
+
+        if (artist_it == artists.end())
         {
-            artists.erase(it);
+            LOG_ERROR("Invalid artist ID");
+            continue;
         }
 
         std::vector<Concert> artists_concerts{};
         for (const Concert& concert : concerts)
         {
-            if (concert.get_artist() == artist_name ||
-                std::find(concert.get_supports().begin(),
-                concert.get_supports().end(),
-                artist_name)
-                != concert.get_supports().end())
+            std::vector<int32_t> concerts_artist_ids = {};
+            for (auto [artist_id, role] : concert.get_artists())
+            {
+                concerts_artist_ids.push_back(artist_id);
+            }
+
+            auto concert_it = 
+                std::find_if(concerts_artist_ids.begin(), concerts_artist_ids.end(),
+                [&](int32_t concerts_artist_id)
+                {
+                    return concerts_artist_id == artist_id;
+                });
+
+            if (concert_it == concerts_artist_ids.end())
+            {
+                continue;
+            }
+            else
             {
                 artists_concerts.push_back(concert);
             }
         }
 
-        if (artists_concerts.size() != 0)
+        if (artists_concerts.empty())
         {
-            artists.push_back(Artist{artist_name, artists_concerts});
+            artists.erase(artist_it);
+            continue;
         }
 
-        LOG_INFO(artist_name + " artist updated successfully");
+        LOG_INFO("Artists successfully updated");
     }
 }
 
-void ConcertRepository::update_performances(const Concert& new_concert)
-{
-    performances.push_back(Performance(new_concert.get_id(), new_concert.get_artist(), "Headliner"));
-    LOG_INFO("Performance for " + new_concert.get_artist() + " added successfully");
-
-    std::vector<std::string> supports = new_concert.get_supports();
-    for (std::string support : supports)
-    {
-        performances.push_back(Performance(new_concert.get_id(), support, "Support"));
-        LOG_INFO("Performance for " + support + " added successfully");
-    }
-}
-
-Concert& ConcertRepository::_get_concert_from_id(int32_t id)
+std::vector<Concert>::iterator ConcertRepository::_find_concert_by_id(int32_t id)
 {
     auto it = std::find_if(
         concerts.begin(), concerts.end(),
         [&](const Concert& concert)
         {
-            return concert.get_id() == id;
+            return concert.get_concert_id() == id;
         }
     );
 
-    return *it;
+    return it;
+}
+
+std::vector<Artist>::iterator ConcertRepository::_find_artist_by_id(int32_t id)
+{
+    auto it = std::find_if(
+        artists.begin(), artists.end(),
+        [&](const Artist& artist)
+        {
+            return artist.get_id() == id;
+        }
+    );
+
+    return it;
+}
+
+std::vector<Artist>::iterator ConcertRepository::_find_artist_by_name(std::string name)
+{
+    auto it = std::find_if(
+        artists.begin(), artists.end(),
+        [&](const Artist& artist)
+        {
+            return artist.get_name() == name;
+        }
+    );
+
+    return it;
 }

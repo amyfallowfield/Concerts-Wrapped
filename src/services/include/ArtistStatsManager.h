@@ -4,14 +4,12 @@
 #include <vector>
 
 #include "Artist.h"
+#include "Concert.h"
 
 class ArtistStatsManager
 {
 public:
-    virtual void print_stats(const std::vector<Artist>& artists);
-
-private:
-    int32_t average_cost(const Artist& artist);
+    virtual void print_stats(const std::vector<Artist>& artists, const std::vector<Concert>& concerts);
 };
 
 #endif

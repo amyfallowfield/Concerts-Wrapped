@@ -1,8 +1,12 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
 
+#include <cstdint>
 #include <iostream>
 #include <functional>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "Logger.h"
 #include "ValidationManager.h"
@@ -15,11 +19,11 @@ enum class Actions
     None
 };
 
-struct SupportUpdateRequest
+struct ArtistUpdateRequest
 {
     bool success;
     Actions action = Actions::None;
-    int index = -1;
+    int artist_id = -1;
 };
 
 struct InputManager
@@ -47,12 +51,13 @@ public:
         }
     }
 
-    SupportUpdateRequest get_support_update_data(const std::vector<std::string>& supports);
+    ArtistUpdateRequest get_artist_update_data(const std::vector<std::pair<int32_t, std::string>>& artist_id_name_pair);
 
-    std::string get_string_input(std::string prompt);
-    int32_t get_numerical_input(std::string prompt);
-    double get_decimal_input(std::string prompt);
-    bool get_bool_input(std::string prompt);
+    std::string get_string_input(const std::string& prompt);
+    int32_t get_numerical_input(const std::string& prompt);
+    double get_decimal_input(const std::string& prompt);
+    bool get_bool_input(const std::string& prompt);
+    ArtistRoles get_role_input(const std::string& prompt);
 
 private:
     int _get_bounded_numerical_int(int lower, int upper);

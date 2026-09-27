@@ -9,7 +9,6 @@ add_executable(concert-wrapped
     src/Main.cpp
     src/models/src/Artist.cpp
     src/models/src/Concert.cpp
-    src/models/src/Performance.cpp
     src/repositories/src/ConcertRepository.cpp
     src/screens/src/ScreenManager.cpp
     src/services/src/ConcertStatsManager.cpp
@@ -35,7 +34,6 @@ add_executable(unit-tests
     tests/helpers/TestData.cpp
     tests/models/ArtistTest.cpp
     tests/models/ConcertTest.cpp
-    tests/models/PerformanceTest.cpp
     tests/repositories/ConcertRepositoryTest.cpp
     tests/screens/ScreenManagerTest.cpp
     tests/services/ArtistStatsManagerTest.cpp
@@ -46,7 +44,6 @@ add_executable(unit-tests
     tests/services/ValidationManagerTest.cpp
     src/models/src/Artist.cpp
     src/models/src/Concert.cpp
-    src/models/src/Performance.cpp
     src/repositories/src/ConcertRepository.cpp
     src/screens/src/ScreenManager.cpp
     src/services/src/ConcertStatsManager.cpp

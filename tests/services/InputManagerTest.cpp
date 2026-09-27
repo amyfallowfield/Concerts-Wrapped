@@ -7,9 +7,11 @@ class InputManagerTest : public testing::Test
 public:
 
     std::ostringstream output;
+    std::ostringstream logs;
 
     std::streambuf* original_cin;
     std::streambuf* original_cout;
+    std::streambuf* original_cerr;
 
     InputManager manager;
 
@@ -17,8 +19,10 @@ public:
     {
         original_cin = std::cin.rdbuf();
         original_cout = std::cout.rdbuf();
+        original_cerr = std::cerr.rdbuf();
 
         std::cout.rdbuf(output.rdbuf());
+        std::cerr.rdbuf(logs.rdbuf());
 
         manager = InputManager();
     }
@@ -27,6 +31,7 @@ public:
     {
         std::cin.rdbuf(original_cin);
         std::cout.rdbuf(original_cout);
+        std::cerr.rdbuf(original_cerr);
     }
 };
 
@@ -48,10 +53,10 @@ TEST_F(InputManagerTest, select_too_small_invalid_attribute)
 
 TEST_F(InputManagerTest, select_too_big_invalid_attribute)
 {
-    std::istringstream input("6\n");
+    std::istringstream input("7\n");
     std::cin.rdbuf(input.rdbuf());
 
-    ASSERT_EQ(-1, manager.select_attribute()) << "Invalid input of 6 should return -1";
+    ASSERT_EQ(-1, manager.select_attribute()) << "Invalid input of 7 should return -1";
 }
 
 TEST_F(InputManagerTest, select_non_number_invalid_attribute)

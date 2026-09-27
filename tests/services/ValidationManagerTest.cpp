@@ -9,9 +9,21 @@ class ValidationManagerTest : public testing::Test
 public:
     ValidationManager manager;
 
+    std::ostringstream output;
+
+    std::streambuf* original_cerr;
+
     void SetUp() override
     {
+        original_cerr = std::cerr.rdbuf();
+        std::cerr.rdbuf(output.rdbuf());
+
         manager = ValidationManager();
+    }
+
+    void TearDown() override
+    {
+        std::cout.rdbuf(original_cerr);
     }
 };
 

@@ -8,7 +8,6 @@
 #include "Artist.h"
 #include "Concert.h"
 #include "Logger.h"
-#include "Performance.h"
 
 template<typename T>
 struct FilePaths;
@@ -23,12 +22,6 @@ template<>
 struct FilePaths<Concert>
 {
     static inline const std::filesystem::path path = "concert_data.json";
-};
-
-template<>
-struct FilePaths<Performance>
-{
-    static inline const std::filesystem::path path = "performance_data.json";
 };
 
 class StorageManager
@@ -73,6 +66,8 @@ public:
         json json_array = json::array();
 
         std::filesystem::path path = _get_file_path<T>();
+        if (!std::filesystem::exists(path)) { return items; }
+
         std::ifstream file(path);
 
         if (!file.is_open())

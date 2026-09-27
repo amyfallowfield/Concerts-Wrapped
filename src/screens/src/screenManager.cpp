@@ -30,7 +30,6 @@ void ScreenManager::run()
 
     storage.save(repo.get_artists());
     storage.save(repo.get_concerts());
-    storage.save(repo.get_performances());
 }
 
 void ScreenManager::process_current_screen()
@@ -63,7 +62,7 @@ void ScreenManager::process_current_screen()
         current_screen = Screen::Menu;
         break;
     case Screen::ArtistStats:
-        artist_stats.print_stats(repo.get_artists());
+        artist_stats.print_stats(repo.get_artists(), repo.get_concerts());
         current_screen = Screen::Menu;
         break;
     default:

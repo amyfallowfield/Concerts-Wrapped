@@ -6,7 +6,6 @@
 #include "Artist.h"
 #include "Concert.h"
 #include "InputManager.h"
-#include "Performance.h"
 #include "StorageManager.h"
 #include "ValidationManager.h"
 
@@ -22,22 +21,21 @@ public:
 
     std::vector<Concert> get_concerts();
     std::vector<Artist> get_artists();
-    std::vector<Performance> get_performances();
 
 private:
     StorageManager storage = StorageManager("data");
     std::vector<Artist> artists;
     std::vector<Concert> concerts;
-    std::vector<Performance> performances;
 
     ValidationManager validator = ValidationManager();
     InputManager input_manager = InputManager();
 
     Concert create_concert();
     void _refresh_artists(const Concert& concert);
-    void update_performances(const Concert& new_concert);
 
-    Concert& _get_concert_from_id(int id);
+    std::vector<Concert>::iterator _find_concert_by_id(int32_t id);
+    std::vector<Artist>::iterator _find_artist_by_id(int32_t id);
+    std::vector<Artist>::iterator _find_artist_by_name(std::string name);
 
     int get_concert_id();
 };

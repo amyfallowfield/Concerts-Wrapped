@@ -8,7 +8,7 @@
 class ArtistStatsManagerMock : public ArtistStatsManager
 {
 public:
-    MOCK_METHOD(void, print_stats, (const std::vector<Artist>& artists), (override));
+    MOCK_METHOD(void, print_stats, (const std::vector<Artist>& artists, const std::vector<Concert>& concerts), (override));
 };
 
 #endif

@@ -69,12 +69,19 @@ ValidationResult<int> ValidationManager::validate_id(int& input, const std::vect
         concerts.begin(), concerts.end(),
         [&](const Concert& concert)
         {
-            return concert.get_id() == input;
+            return concert.get_concert_id() == input;
         }
     );
 
     if (it == concerts.end()) { return {false, input, "ID does not match existing concert"}; }
     
+    return {true, input, {}};
+}
+
+ValidationResult<ArtistRoles> ValidationManager::validate_role(ArtistRoles input)
+{
+    if (input == ArtistRoles::None) { return {false, input, "Artist role invalid"}; }
+
     return {true, input, {}};
 }
 

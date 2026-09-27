@@ -4,32 +4,29 @@
 #include <cstdint>
 #include <nlohmann/json.hpp>
 #include <string>
-#include <vector>
-
-#include "Concert.h"
 
 using json = nlohmann::json;
 
 class Artist
 {
 public:
-    Artist(std::string artist, const std::vector<Concert>& concerts);
+    Artist(const std::string& name);
     Artist(const json& data);
 
     json to_json() const;
 
+    int get_id() const;
     std::string get_name() const;
-    std::string get_first_seen() const;
-    std::string get_last_seen() const;
-    int get_count() const;
-    int get_total_cost() const;
+
+    void set_name(std::string new_name);
+
+    static void reset();
 
 private:
+    int32_t id;
     std::string name;
-    std::string first_seen;
-    std::string last_seen;
-    int count;
-    int total_cost;
+
+    static int32_t _next_id;
 };
 
 #endif

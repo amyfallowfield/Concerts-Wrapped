@@ -1,6 +1,8 @@
 #include <cstddef>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include <stdexcept>
+#include <unordered_map>
 #include <vector>
 
 #include "Concert.h"
@@ -9,91 +11,109 @@ using json = nlohmann::json;
 
 int32_t Concert::_next_id = 1;
 
-Concert::Concert(std::string artist, std::string venue, std::string city, std::string date, int32_t cost, std::vector<std::string> supports)
-    : id(_next_id),
-      artist(artist),
+std::string artist_role_to_string(ArtistRoles role)
+{
+    switch(role)
+    {
+    case ArtistRoles::Headline:
+        return "Headliner";
+    case ArtistRoles::Support:
+        return "Support";
+    case ArtistRoles::Guest:
+        return "Guest";
+    default:
+        throw std::runtime_error("Artist role not recognised");
+    }
+}
+
+Concert::Concert(const std::unordered_map<int32_t, ArtistRoles>& artists, std::string venue, std::string city, std::string date, int32_t cost)
+    : concert_id(_next_id),
+      artists(artists),
       venue(venue),
       city(city),
       date(date),
-      cost(cost),
-      supports(supports)
+      cost(cost)
 {
-    _next_id = id > _next_id ? ++id : ++_next_id;
+    _next_id = concert_id > _next_id ? ++concert_id : ++_next_id;
 }
 
 Concert::Concert(const json& data)
-    : id(data.at("id")),
-      artist(data.at("artist")),
+    : concert_id(data.at("concert_id")),
+      artists(data.at("artists").get<std::unordered_map<int32_t, ArtistRoles>>()),
       venue(data.at("venue")),
       city(data.at("city")),
       date(data.at("date")),
-      cost(data.at("cost")),
-      supports(data.at("supports").get<std::vector<std::string>>())
+      cost(data.at("cost"))
 {
-    _next_id = id > _next_id ? id + 1 : ++_next_id;
+    _next_id = concert_id > _next_id ? concert_id + 1 : ++_next_id;
 }
 
-void Concert::print() const
+void Concert::print(const std::vector<std::pair<std::string, ArtistRoles>>& artist_name_role_pair) const
 {
-    std::cout << "ID: " << id << '\n';
-    std::cout << "Artist: " << artist << '\n';
+    std::cout << "ID: " << concert_id << '\n';
+    std::cout << "Artists:\n";
+    for (const auto& [artist_name, role] : artist_name_role_pair)
+    {
+        std::cout << "- " << artist_name << " [" << artist_role_to_string(role) << "]\n";
+    }
     std::cout << "Venue: " << venue << '\n';
     std::cout << "City: " << city << '\n';
     std::cout << "Date: " << date << '\n';
     std::cout << "Cost: £" << cost / 100.0 << '\n';
-    std::cout << "Supports: \n";
-    for (std::string support : supports)
-    {
-        std::cout << support << '\n';
-    }
 }
 
 json Concert::to_json() const
 {
     return json{
-        {"id", id},
-        {"artist", artist},
+        {"concert_id", concert_id},
+        {"artists", artists},
         {"venue", venue},
         {"city", city},
         {"date", date},
-        {"cost", cost},
-        {"supports", supports}
+        {"cost", cost}
     };
 }
 
 bool Concert::operator==(const Concert& other) const
 {
-    return id == other.get_id();
+    return concert_id == other.get_concert_id();
 }
 
-int32_t Concert::get_id() const { return id; }
-std::string Concert::get_artist() const { return artist; }
+int32_t Concert::get_concert_id() const { return concert_id; }
+const std::unordered_map<int32_t, ArtistRoles>& Concert::get_artists() const { return artists; }
 std::string Concert::get_venue() const { return venue; }
 std::string Concert::get_city() const { return city; }
 std::string Concert::get_date() const { return date; }
 int32_t Concert::get_cost() const { return cost; }
-const std::vector<std::string>& Concert::get_supports() const { return supports; }
 
-void Concert::set_artist(std::string input) { artist = input; }
 void Concert::set_venue(std::string input) { venue = input; }
 void Concert::set_city(std::string input) { city = input; }
 void Concert::set_date(std::string input) { date = input; }
 void Concert::set_cost(int32_t input) { cost = input; }
-void Concert::set_supports(std::vector<std::string> input) { supports = input; }
 
-void Concert::add_support(const std::string& support)
+void Concert::add_artist(int32_t artist_id, ArtistRoles role)
 {
-    supports.push_back(support);
+    artists.insert_or_assign(artist_id, role);
 }
 
-void Concert::edit_support(int index, const std::string& support)
+void Concert::edit_artist(int32_t old_id, int32_t new_id, ArtistRoles role)
 {
-    supports.at(index) = support;
+    auto it = artists.find(old_id);
+    if (it == artists.end())
+    {
+        throw std::out_of_range("Artist ID not recognised");
+    }
+
+    artists.erase(it);
+    artists.insert_or_assign(new_id, role);
 }
 
-void Concert::delete_support(int index)
+void Concert::delete_artist(int32_t artist_id)
 {
-    supports.erase(supports.begin() + static_cast<std::ptrdiff_t>(index));
+    if(artists.erase(artist_id) ==0)
+    {
+        throw std::out_of_range("Artist ID not recognised");
+    }
 }
 
 void Concert::reset()

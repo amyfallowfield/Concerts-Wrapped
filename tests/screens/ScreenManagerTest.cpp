@@ -40,14 +40,12 @@ protected:
         storage = std::make_unique<StorageManager>("test");
         storage->save<Artist>({});
         storage->save<Concert>({});
-        storage->save<Performance>({});
 
         repo = std::make_unique<ConcertRepositoryMock>(*storage);
         manager = std::make_unique<ScreenManager>(*repo, *storage, *artist_stats, *concert_stats);
 
         storage->save<Artist>({});
         storage->save<Concert>({});
-        storage->save<Performance>({});
     }
 
     void TearDown() override
@@ -125,7 +123,7 @@ TEST_F(ScreenManagerTest, menu_loads_artist_stats_page)
     std::istringstream input("6\n");
     std::cin.rdbuf(input.rdbuf());
 
-    EXPECT_CALL(*artist_stats, print_stats(testing::_)).Times(1);
+    EXPECT_CALL(*artist_stats, print_stats(testing::_, testing::_)).Times(1);
     manager->process_current_screen();
     manager->process_current_screen();
 }

@@ -100,6 +100,12 @@ TEST_F(StorageManagerTest, load_empty_items)
     ASSERT_EQ(std::vector<Concert>{}, manager->load<Concert>()) << "Load should return empty when no existing concerts";
 }
 
+TEST_F(StorageManagerTest, load_missing_file_returns_empty)
+{
+    ASSERT_EQ(std::vector<Concert>{}, manager->load<Concert>()) << "Load should return empty when the data file does not exist";
+    ASSERT_EQ(false, std::filesystem::exists("test/concert_data.json")) << "Load should not create a missing data file";
+}
+
 TEST_F(StorageManagerTest, load_one_item)
 {
     Concert concert = TestData::create_test_concert1();

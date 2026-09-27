@@ -2,6 +2,7 @@
 #define VALIDATION_MANAGER_H
 
 #include <iostream>
+#include <vector>
 
 #include "Concert.h"
 
@@ -22,6 +23,7 @@ public:
     ValidationResult<std::string> validate_date(std::string& input);
     ValidationResult<double> validate_cost(double& input);
     ValidationResult<int> validate_id(int& input, const std::vector<Concert>& concerts);
+    ValidationResult<ArtistRoles> validate_role(ArtistRoles role);
 
 private:
     static constexpr auto WHITESPACE = " \t\n\r";
