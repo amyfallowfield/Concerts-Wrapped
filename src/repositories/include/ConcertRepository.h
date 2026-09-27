@@ -19,8 +19,8 @@ public:
     virtual void edit();
     virtual void print();
 
-    std::vector<Concert> get_concerts();
-    std::vector<Artist> get_artists();
+    const std::vector<Concert>& get_concerts() const;
+    const std::vector<Artist>& get_artists() const;
 
 private:
     StorageManager storage = StorageManager("data");
@@ -35,7 +35,8 @@ private:
 
     std::vector<Concert>::iterator _find_concert_by_id(int32_t id);
     std::vector<Artist>::iterator _find_artist_by_id(int32_t id);
-    std::vector<Artist>::iterator _find_artist_by_name(std::string name);
+    std::vector<Artist>::iterator _find_artist_by_name(const std::string& name);
+    std::pair<int32_t, ArtistRoles> _get_new_artist_id_role();
 
     int get_concert_id();
 };
