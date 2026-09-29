@@ -6,16 +6,16 @@
 #include "StorageManager.h"
 
 #include "ArtistStatsManagerMock.h"
-#include "ConcertStatsManagerMock.h"
 #include "ConcertRepositoryMock.h"
 #include "ConcertsViewMock.h"
+#include "StatsViewMock.h"
 
 class ScreenManagerTest : public ::testing::Test
 {
 protected:
     std::unique_ptr<ArtistStatsManagerMock> artist_stats;
-    std::unique_ptr<ConcertStatsManagerMock> concert_stats;
     std::unique_ptr<ConcertsViewMock> concerts_view;
+    std::unique_ptr<StatsViewMock> stats_view;
     std::unique_ptr<ScreenManager> manager;
     std::unique_ptr<ConcertRepositoryMock> repo;
     std::unique_ptr<StorageManager> storage;
@@ -37,15 +37,15 @@ protected:
         std::cerr.rdbuf(logs.rdbuf());
 
         artist_stats = std::make_unique<ArtistStatsManagerMock>();
-        concert_stats = std::make_unique<ConcertStatsManagerMock>();
         concerts_view = std::make_unique<ConcertsViewMock>();
+        stats_view = std::make_unique<StatsViewMock>();
     
         storage = std::make_unique<StorageManager>("test");
         storage->save<Artist>({});
         storage->save<Concert>({});
 
         repo = std::make_unique<ConcertRepositoryMock>(*storage);
-        manager = std::make_unique<ScreenManager>(*repo, *storage, *artist_stats, *concert_stats, *concerts_view);
+        manager = std::make_unique<ScreenManager>(*repo, *storage, *artist_stats, *concerts_view, *stats_view);
 
         storage->save<Artist>({});
         storage->save<Concert>({});
@@ -115,7 +115,7 @@ TEST_F(ScreenManagerTest, menu_loads_concert_stats_page)
     std::istringstream input("5\n");
     std::cin.rdbuf(input.rdbuf());
 
-    EXPECT_CALL(*concert_stats, print_stats(testing::_)).Times(1);
+    EXPECT_CALL(*stats_view, show_concert_stats(testing::_)).Times(1);
     manager->process_current_screen();
     manager->process_current_screen();
 }

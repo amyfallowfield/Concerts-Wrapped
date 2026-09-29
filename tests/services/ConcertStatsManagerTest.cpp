@@ -4,57 +4,34 @@
 #include "ConcertStatsManager.h"
 #include "TestData.h"
 
-class ConcertStatsManagerTest : public testing::Test
+TEST(ConcertStatsManagerTest, print_no_concerts)
 {
-public:
+    ConcertStats stats = ConcertStatsManager::get_stats({});
 
-    std::ostringstream output;
-
-    std::streambuf* original_cout;
-
-    ConcertStatsManager manager;
-
-    void SetUp() override
-    {
-        original_cout = std::cout.rdbuf();
-
-        std::cout.rdbuf(output.rdbuf());
-
-        manager = ConcertStatsManager();
-    }
-
-    void TearDown() override
-    {
-        std::cout.rdbuf(original_cout);
-    }
-};
-
-TEST_F(ConcertStatsManagerTest, print_no_concerts)
-{
-    manager.print_stats({});
-
-    ASSERT_NE(std::string::npos, output.str().find("No statistics to show")) << "Print stats should inform user of no statistics when no concerts";
+    ASSERT_EQ(0, stats.total_shows) << "Total shows should equal 0";
+    ASSERT_EQ(0, stats.total_cost) << "Total cost should equal £0.00";
+    ASSERT_EQ(0, stats.average_cost) << "Total shows should equal £0.00";
 }
 
-TEST_F(ConcertStatsManagerTest, print_one_concert)
+TEST(ConcertStatsManagerTest, print_one_concert)
 {
     Concert concert = TestData::create_test_concert1();
 
-    manager.print_stats({concert});
+    ConcertStats stats = ConcertStatsManager::get_stats({concert});
 
-    ASSERT_NE(std::string::npos, output.str().find("Total Shows: 1")) << "Print stats should print one concert";
-    ASSERT_NE(std::string::npos, output.str().find("Total Cost: £20.00")) << "Print stats should print total cost of one concert";
-    ASSERT_NE(std::string::npos, output.str().find("Average Cost: £20.00")) << "Print stats should print average of one concert";
+    ASSERT_EQ(1, stats.total_shows) << "Total shows should equal 1";
+    ASSERT_EQ(2000, stats.total_cost) << "Total cost should equal £20.00";
+    ASSERT_EQ(2000, stats.average_cost) << "Total shows should equal £20.00";
 }
 
-TEST_F(ConcertStatsManagerTest, print_two_concerts)
+TEST(ConcertStatsManagerTest, print_two_concerts)
 {
     Concert concert1 = TestData::create_test_concert1();
     Concert concert2 = TestData::create_test_concert2();
 
-    manager.print_stats({concert1, concert2});
+    ConcertStats stats = ConcertStatsManager::get_stats({concert1, concert2});
 
-    ASSERT_NE(std::string::npos, output.str().find("Total Shows: 2")) << "Print stats should print two concerts";
-    ASSERT_NE(std::string::npos, output.str().find("Total Cost: £45.00")) << "Print stats should print total cost of two concert";
-    ASSERT_NE(std::string::npos, output.str().find("Average Cost: £22.50")) << "Print stats should print average of two concerts";
+    ASSERT_EQ(2, stats.total_shows) << "Total shows should equal 2";
+    ASSERT_EQ(4500, stats.total_cost) << "Total cost should equal £45.00";
+    ASSERT_EQ(2250, stats.average_cost) << "Total shows should equal £22.50";
 }

@@ -5,12 +5,16 @@
 
 #include "Concert.h"
 
-struct ConcertStatsManager
+struct ConcertStats
 {
-    virtual void print_stats(const std::vector<Concert>& concerts);
-    int32_t total_shows(const std::vector<Concert>& concerts);
-    int32_t total_cost(const std::vector<Concert>& concerts);
-    int32_t average_cost(const std::vector<Concert>& concerts);
+    int32_t total_shows;
+    int32_t total_cost;
+    int32_t average_cost;
+};
+
+namespace ConcertStatsManager
+{
+    ConcertStats get_stats(const std::vector<Concert>& concerts);
 };
 
 #endif
