@@ -11,12 +11,13 @@
 #define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
 #define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
 
-ScreenManager::ScreenManager(ConcertRepository& repo, StorageManager& storage, ArtistStatsManager& artist_stats, ConcertStatsManager& concert_stats)
+ScreenManager::ScreenManager(ConcertRepository& repo, StorageManager& storage, ArtistStatsManager& artist_stats, ConcertStatsManager& concert_stats, ConcertsView& concerts_view)
     : current_screen(Screen::Menu),
       repo(repo),
       storage(storage),
       artist_stats(artist_stats),
-      concert_stats(concert_stats)
+      concert_stats(concert_stats),
+      concerts_view(concerts_view)
 {}
 
 void ScreenManager::run()
@@ -46,7 +47,7 @@ void ScreenManager::process_current_screen()
         current_screen = Screen::Menu;
         break;
     case Screen::ViewConcerts:
-        repo.print();
+        concerts_view.show(repo.get_concerts(), repo.get_artists());
         current_screen = Screen::Menu;
         break;
     case Screen::DeleteConcert:

@@ -17,7 +17,6 @@ public:
     virtual void add();
     virtual void remove();
     virtual void edit();
-    virtual void print();
 
     const std::vector<Concert>& get_concerts() const;
     const std::vector<Artist>& get_artists() const;

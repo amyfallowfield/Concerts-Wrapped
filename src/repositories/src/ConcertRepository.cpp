@@ -175,26 +175,6 @@ void ConcertRepository::edit()
     LOG_INFO("Concert editted successfully");
 }
 
-void ConcertRepository::print()
-{
-    for (const Concert& concert : concerts)
-    {
-        std::vector<std::pair<std::string, ArtistRoles>> artist_name_role_pair;
-        for (const auto& [artist_id, role] : concert.get_artists())
-        {
-            auto it = _find_artist_by_id(artist_id);
-
-            if (it != artists.end())
-            {
-                artist_name_role_pair.emplace_back(it->get_name(), role);
-            }
-        }
-
-        concert.print(artist_name_role_pair);
-        std::cout << '\n';
-    }
-}
-
 const std::vector<Artist>&  ConcertRepository::get_artists() const { return artists; }
 const std::vector<Concert>&  ConcertRepository::get_concerts() const { return concerts; }
 

@@ -11,21 +11,6 @@ using json = nlohmann::json;
 
 int32_t Concert::_next_id = 1;
 
-std::string artist_role_to_string(ArtistRoles role)
-{
-    switch(role)
-    {
-    case ArtistRoles::Headline:
-        return "Headliner";
-    case ArtistRoles::Support:
-        return "Support";
-    case ArtistRoles::Guest:
-        return "Guest";
-    default:
-        throw std::runtime_error("Artist role not recognised");
-    }
-}
-
 Concert::Concert(const std::unordered_map<int32_t, ArtistRoles>& artists, std::string venue, std::string city, std::string date, int32_t cost)
     : concert_id(_next_id),
       artists(artists),
@@ -46,20 +31,6 @@ Concert::Concert(const json& data)
       cost(data.at("cost"))
 {
     _next_id = concert_id > _next_id ? concert_id + 1 : ++_next_id;
-}
-
-void Concert::print(const std::vector<std::pair<std::string, ArtistRoles>>& artist_name_role_pair) const
-{
-    std::cout << "ID: " << concert_id << '\n';
-    std::cout << "Artists:\n";
-    for (const auto& [artist_name, role] : artist_name_role_pair)
-    {
-        std::cout << "- " << artist_name << " [" << artist_role_to_string(role) << "]\n";
-    }
-    std::cout << "Venue: " << venue << '\n';
-    std::cout << "City: " << city << '\n';
-    std::cout << "Date: " << date << '\n';
-    std::cout << "Cost: £" << cost / 100.0 << '\n';
 }
 
 json Concert::to_json() const

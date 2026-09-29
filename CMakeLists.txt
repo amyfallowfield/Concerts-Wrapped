@@ -9,6 +9,7 @@ add_executable(concert-wrapped
     src/Main.cpp
     src/models/src/Artist.cpp
     src/models/src/Concert.cpp
+    src/presentation/src/ConsoleConcertsView.cpp
     src/repositories/src/ConcertRepository.cpp
     src/screens/src/ScreenManager.cpp
     src/services/src/ConcertStatsManager.cpp
@@ -25,6 +26,7 @@ find_package(GTest CONFIG REQUIRED)
 target_link_libraries(concert-wrapped PRIVATE nlohmann_json::nlohmann_json)
 target_include_directories(concert-wrapped PRIVATE
     src/models/include
+    src/presentation/include
     src/repositories/include
     src/screens/include
     src/services/include
@@ -44,6 +46,7 @@ add_executable(unit-tests
     tests/services/ValidationManagerTest.cpp
     src/models/src/Artist.cpp
     src/models/src/Concert.cpp
+    src/presentation/src/ConsoleConcertsView.cpp
     src/repositories/src/ConcertRepository.cpp
     src/screens/src/ScreenManager.cpp
     src/services/src/ConcertStatsManager.cpp
@@ -61,6 +64,7 @@ target_include_directories(unit-tests PRIVATE
     tests/screens
     tests/services
     src/models/include
+    src/presentation/include
     src/repositories/include
     src/screens/include
     src/services/include

@@ -26,7 +26,6 @@ public:
     Concert(const std::unordered_map<int32_t, ArtistRoles>& artists_map, std::string venue, std::string city, std::string date, int32_t cost);
     Concert(const json& data);
 
-    void print(const std::vector<std::pair<std::string, ArtistRoles>>& artist_name_role_pair) const;
     json to_json() const;
     bool operator==(const Concert& other) const;
 

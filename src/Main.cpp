@@ -5,6 +5,7 @@
 #include "ArtistStatsManager.h"
 #include "ConcertStatsManager.h"
 #include "ConcertRepository.h"
+#include "ConsoleConcertsView.h"
 #include "ScreenManager.h"
 
 #define LOG_INFO(message) Logger::Info(__FILE__, __func__, message)
@@ -19,7 +20,8 @@ int main()
         ConcertRepository repo {storage};
         ArtistStatsManager artist_stats {};
         ConcertStatsManager concert_stats {};
-        ScreenManager screen_manager = ScreenManager(repo, storage, artist_stats, concert_stats);
+        ConsoleConcertsView concerts_view {};
+        ScreenManager screen_manager = ScreenManager(repo, storage, artist_stats, concert_stats, concerts_view);
         screen_manager.run();
     }
     catch (const std::exception& e)

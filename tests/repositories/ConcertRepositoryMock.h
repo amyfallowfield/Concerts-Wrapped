@@ -16,7 +16,6 @@ public:
     MOCK_METHOD(void, add, (), (override));
     MOCK_METHOD(void, remove, (), (override));
     MOCK_METHOD(void, edit, (), (override));
-    MOCK_METHOD(void, print, (), (override));
 };
 
 #endif

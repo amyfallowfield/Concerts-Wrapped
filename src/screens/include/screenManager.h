@@ -4,6 +4,7 @@
 #include "ArtistStatsManager.h"
 #include "ConcertRepository.h"
 #include "ConcertStatsManager.h"
+#include "ConcertsView.h"
 #include "StorageManager.h"
 
 enum class Screen
@@ -21,7 +22,7 @@ enum class Screen
 class ScreenManager
 {
 public:
-    ScreenManager(ConcertRepository& repo, StorageManager& storage, ArtistStatsManager& artist_stats, ConcertStatsManager& concert_stats);
+    ScreenManager(ConcertRepository& repo, StorageManager& storage, ArtistStatsManager& artist_stats, ConcertStatsManager& concert_stats, ConcertsView& concerts_view);
 
     void run();
     void process_current_screen();
@@ -31,6 +32,7 @@ private:
     ConcertStatsManager& concert_stats;
     StorageManager storage;
     ConcertRepository& repo;
+    ConcertsView& concerts_view;
     Screen current_screen;
 
     void show_menu();
