@@ -1,7 +1,6 @@
-#include "ArtistStatsManager.h"
 #include "Concert.h"
 #include "ConcertRepository.h"
-#include "ConcertStatsManager.h"
+#include "StatsManager.h"
 #include "Logger.h"
 #include "ScreenManager.h"
 #include "StorageManager.h"
@@ -11,11 +10,10 @@
 #define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
 #define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
 
-ScreenManager::ScreenManager(ConcertRepository& repo, StorageManager& storage, ArtistStatsManager& artist_stats, ConcertsView& concerts_view, StatsView& stats_view)
+ScreenManager::ScreenManager(ConcertRepository& repo, StorageManager& storage, ConcertsView& concerts_view, StatsView& stats_view)
     : current_screen(Screen::Menu),
       repo(repo),
       storage(storage),
-      artist_stats(artist_stats),
       concerts_view(concerts_view),
       stats_view(stats_view)
 {}
@@ -59,11 +57,14 @@ void ScreenManager::process_current_screen()
         current_screen = Screen::Menu;
         break;
     case Screen::ConcertStats:
-        stats_view.show_concert_stats(ConcertStatsManager::get_stats(repo.get_concerts()));
+        stats_view.show_concert_stats(StatsManager::get_concert_stats(repo.get_concerts()));
         current_screen = Screen::Menu;
         break;
     case Screen::ArtistStats:
-        artist_stats.print_stats(repo.get_artists(), repo.get_concerts());
+        for (const Artist& artist : repo.get_artists())
+        {
+            stats_view.show_artist_stats(StatsManager::get_artist_stats(artist, repo.get_concerts()));
+        }
         current_screen = Screen::Menu;
         break;
     default:

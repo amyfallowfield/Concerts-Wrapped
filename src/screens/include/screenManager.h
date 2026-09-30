@@ -1,10 +1,9 @@
 #ifndef SCREEN_MANAGER_H
 #define SCREEN_MANAGER_H
 
-#include "ArtistStatsManager.h"
 #include "ConcertRepository.h"
-#include "ConcertStatsManager.h"
 #include "ConcertsView.h"
+#include "StatsManager.h"
 #include "StatsView.h"
 #include "StorageManager.h"
 
@@ -23,13 +22,12 @@ enum class Screen
 class ScreenManager
 {
 public:
-    ScreenManager(ConcertRepository& repo, StorageManager& storage, ArtistStatsManager& artist_stats, ConcertsView& concerts_view, StatsView& stats_view);
+    ScreenManager(ConcertRepository& repo, StorageManager& storage, ConcertsView& concerts_view, StatsView& stats_view);
 
     void run();
     void process_current_screen();
 
 private:
-    ArtistStatsManager& artist_stats;
     StorageManager storage;
     ConcertRepository& repo;
     ConcertsView& concerts_view;

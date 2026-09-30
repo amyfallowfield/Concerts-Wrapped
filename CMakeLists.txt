@@ -10,15 +10,14 @@ add_executable(concert-wrapped
     src/models/src/Artist.cpp
     src/models/src/Concert.cpp
     src/presentation/src/ConsoleConcertsView.cpp
-    src/presentation/src/ConsoleStatsView.cpp
     src/repositories/src/ConcertRepository.cpp
+    src/presentation/src/ConsoleStatsView.cpp
     src/screens/src/ScreenManager.cpp
-    src/services/src/ConcertStatsManager.cpp
-    src/services/src/Utilities.cpp
-    src/services/src/ValidationManager.cpp
-    src/services/src/ArtistStatsManager.cpp
     src/services/src/InputManager.cpp
     src/services/src/Logger.cpp
+    src/services/src/StatsManager.cpp
+    src/services/src/Utilities.cpp
+    src/services/src/ValidationManager.cpp
 )
 
 find_package(nlohmann_json CONFIG REQUIRED)
@@ -39,24 +38,22 @@ add_executable(unit-tests
     tests/models/ConcertTest.cpp
     tests/repositories/ConcertRepositoryTest.cpp
     tests/screens/ScreenManagerTest.cpp
-    tests/services/ArtistStatsManagerTest.cpp
-    tests/services/ConcertStatsManagerTest.cpp
     tests/services/InputManagerTest.cpp
     tests/services/LoggerTest.cpp
+    tests/services/StatsManagerTest.cpp
     tests/services/StorageManagerTest.cpp
     tests/services/ValidationManagerTest.cpp
     src/models/src/Artist.cpp
     src/models/src/Concert.cpp
     src/presentation/src/ConsoleConcertsView.cpp
-    srd/presentation/src/ConsoleStatsView.cpp
+    src/presentation/src/ConsoleStatsView.cpp
     src/repositories/src/ConcertRepository.cpp
     src/screens/src/ScreenManager.cpp
-    src/services/src/ConcertStatsManager.cpp
-    src/services/src/Utilities.cpp
-    src/services/src/ValidationManager.cpp
-    src/services/src/ArtistStatsManager.cpp
     src/services/src/InputManager.cpp
     src/services/src/Logger.cpp
+    src/services/src/StatsManager.cpp
+    src/services/src/Utilities.cpp
+    src/services/src/ValidationManager.cpp
 )
 
 target_include_directories(unit-tests PRIVATE
