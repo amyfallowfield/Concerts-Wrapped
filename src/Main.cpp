@@ -5,6 +5,7 @@
 #include "ConcertRepository.h"
 #include "ConsoleConcertsView.h"
 #include "ConsoleStatsView.h"
+#include "ConsoleMenuView.h"
 #include "ScreenManager.h"
 #include "StatsManager.h"
 
@@ -20,7 +21,8 @@ int main()
         ConcertRepository repo {storage};
         ConsoleConcertsView concerts_view {};
         ConsoleStatsView stats_view {};
-        ScreenManager screen_manager = ScreenManager(repo, storage, concerts_view, stats_view);
+        ConsoleMenuView menu_view {};
+        ScreenManager screen_manager = ScreenManager(repo, storage, concerts_view, stats_view, menu_view);
         screen_manager.run();
     }
     catch (const std::exception& e)

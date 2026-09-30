@@ -2,6 +2,7 @@
 #include "ConcertRepository.h"
 #include "StatsManager.h"
 #include "Logger.h"
+#include "MenuView.h"
 #include "ScreenManager.h"
 #include "StorageManager.h"
 #include "Utilities.h"
@@ -10,12 +11,13 @@
 #define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
 #define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
 
-ScreenManager::ScreenManager(ConcertRepository& repo, StorageManager& storage, ConcertsView& concerts_view, StatsView& stats_view)
+ScreenManager::ScreenManager(ConcertRepository& repo, StorageManager& storage, ConcertsView& concerts_view, StatsView& stats_view, MenuView& menu_view)
     : current_screen(Screen::Menu),
       repo(repo),
       storage(storage),
       concerts_view(concerts_view),
-      stats_view(stats_view)
+      stats_view(stats_view),
+      menu_view(menu_view)
 {}
 
 void ScreenManager::run()
@@ -83,14 +85,7 @@ void ScreenManager::show_menu()
 {
     int input;
 
-    std::cout << "1. Add Concert\n";
-    std::cout << "2. View All Concerts\n";
-    std::cout << "3. Delete A Concert\n";
-    std::cout << "4. Edit A Concert\n";
-    std::cout << "5. View Concert Stats\n";
-    std::cout << "6. View Artist Stats\n";
-    std::cout << "7. Exit\n";
-    std::cout << "Selection: ";
+    menu_view.show_main_menu();
 
     if (!Utilities::parse_int(input))
     {
