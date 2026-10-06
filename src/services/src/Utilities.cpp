@@ -16,10 +16,6 @@ bool Utilities::parse_int(int& input)
 
     if (!(stream >> input) || (stream >> extra))
     {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-        std::cout << "Invalid input\n";
         return false;
     }
 

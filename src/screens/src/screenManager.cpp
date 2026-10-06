@@ -11,13 +11,14 @@
 #define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
 #define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
 
-ScreenManager::ScreenManager(ConcertRepository& repo, StorageManager& storage, ConcertsView& concerts_view, StatsView& stats_view, MenuView& menu_view)
+ScreenManager::ScreenManager(ConcertRepository& repo, StorageManager& storage, ConcertsView& concerts_view, StatsView& stats_view, MenuView& menu_view, PopUpView& pop_up_view)
     : current_screen(Screen::Menu),
       repo(repo),
       storage(storage),
       concerts_view(concerts_view),
       stats_view(stats_view),
-      menu_view(menu_view)
+      menu_view(menu_view),
+      pop_up_view(pop_up_view)
 {}
 
 void ScreenManager::run()
@@ -89,12 +90,12 @@ void ScreenManager::show_menu()
 
     if (!Utilities::parse_int(input))
     {
-        std::cout << '\n';
+        pop_up_view.show_error_message("Invalid input");
         return;
     }
     if (input < 1 || input > 7)
     {
-        std::cout << "Invalid input\n";
+        pop_up_view.show_error_message("Invalid input");
         return;
     }
 

@@ -12,6 +12,7 @@ add_executable(concert-wrapped
     src/presentation/src/ConsoleConcertsView.cpp
     src/repositories/src/ConcertRepository.cpp
     src/presentation/src/ConsoleStatsView.cpp
+    src/presentation/src/ConsolePopUpView.cpp
     src/screens/src/ScreenManager.cpp
     src/services/src/InputManager.cpp
     src/services/src/Logger.cpp
@@ -47,6 +48,7 @@ add_executable(unit-tests
     src/models/src/Concert.cpp
     src/presentation/src/ConsoleConcertsView.cpp
     src/presentation/src/ConsoleStatsView.cpp
+    src/presentation/src/ConsolePopUpView.cpp
     src/repositories/src/ConcertRepository.cpp
     src/screens/src/ScreenManager.cpp
     src/services/src/InputManager.cpp
