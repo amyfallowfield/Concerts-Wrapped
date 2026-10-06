@@ -10,6 +10,7 @@ add_executable(concert-wrapped
     src/models/src/Artist.cpp
     src/models/src/Concert.cpp
     src/presentation/src/ConsoleConcertsView.cpp
+    src/presentation/src/ConsoleMenuView.cpp
     src/repositories/src/ConcertRepository.cpp
     src/presentation/src/ConsoleStatsView.cpp
     src/presentation/src/ConsolePopUpView.cpp
@@ -47,6 +48,7 @@ add_executable(unit-tests
     src/models/src/Artist.cpp
     src/models/src/Concert.cpp
     src/presentation/src/ConsoleConcertsView.cpp
+    src/presentation/src/ConsoleMenuView.cpp
     src/presentation/src/ConsoleStatsView.cpp
     src/presentation/src/ConsolePopUpView.cpp
     src/repositories/src/ConcertRepository.cpp

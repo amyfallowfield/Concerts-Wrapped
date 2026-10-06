@@ -20,11 +20,20 @@ int main()
     {
         StorageManager storage {"data"};
         ConcertRepository repo {storage};
-        ConsoleConcertsView concerts_view {};
-        ConsoleStatsView stats_view {};
-        ConsoleMenuView menu_view {};
-        ConsolePopUpView pop_up_view {};
-        ScreenManager screen_manager = ScreenManager(repo, storage, concerts_view, stats_view, menu_view, pop_up_view);
+
+        ConsoleConcertsView concerts_view;
+        ConsoleStatsView stats_view;
+        ConsoleMenuView menu_view;
+        ConsolePopUpView pop_up_view;
+
+        UIComponent ui {
+            concerts_view,
+            stats_view,
+            menu_view,
+            pop_up_view
+        };
+
+        ScreenManager screen_manager = ScreenManager(repo, storage, ui);
         screen_manager.run();
     }
     catch (const std::exception& e)

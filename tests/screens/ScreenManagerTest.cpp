@@ -4,6 +4,8 @@
 
 #include "ScreenManager.h"
 #include "StorageManager.h"
+#include "ConsoleMenuView.h"
+#include "ConsolePopUpView.h"
 
 #include "ConcertRepositoryMock.h"
 #include "ConcertsViewMock.h"
@@ -15,6 +17,9 @@ class ScreenManagerTest : public ::testing::Test
 protected:
     std::unique_ptr<ConcertsViewMock> concerts_view;
     std::unique_ptr<StatsViewMock> stats_view;
+    std::unique_ptr<ConsoleMenuView> menu_view;
+    std::unique_ptr<ConsolePopUpView> pop_up_view;
+    std::unique_ptr<UIComponent> ui;
     std::unique_ptr<ScreenManager> manager;
     std::unique_ptr<ConcertRepositoryMock> repo;
     std::unique_ptr<StorageManager> storage;
@@ -37,13 +42,21 @@ protected:
 
         concerts_view = std::make_unique<ConcertsViewMock>();
         stats_view = std::make_unique<StatsViewMock>();
+        menu_view = std::make_unique<ConsoleMenuView>();
+        pop_up_view = std::make_unique<ConsolePopUpView>();
+        ui = std::make_unique<UIComponent>(UIComponent{
+            *concerts_view,
+            *stats_view,
+            *menu_view,
+            *pop_up_view
+        });
     
         storage = std::make_unique<StorageManager>("test");
         storage->save<Artist>({});
         storage->save<Concert>({});
 
         repo = std::make_unique<ConcertRepositoryMock>(*storage);
-        manager = std::make_unique<ScreenManager>(*repo, *storage, *concerts_view, *stats_view);
+        manager = std::make_unique<ScreenManager>(*repo, *storage, *ui);
 
         storage->save<Artist>({});
         storage->save<Concert>({});
@@ -124,7 +137,7 @@ TEST_F(ScreenManagerTest, menu_loads_artist_stats_page)
     Artist artist = TestData::create_test_artist("Benjamin Steer");
     storage->save<Artist>({artist});
     repo = std::make_unique<ConcertRepositoryMock>(*storage);
-    manager = std::make_unique<ScreenManager>(*repo, *storage, *concerts_view, *stats_view);
+    manager = std::make_unique<ScreenManager>(*repo, *storage, *ui);
 
     std::istringstream input("6\n");
     std::cin.rdbuf(input.rdbuf());

@@ -1,3 +1,4 @@
+#include "ComponentManager.h"
 #include "Concert.h"
 #include "ConcertRepository.h"
 #include "StatsManager.h"
@@ -11,14 +12,11 @@
 #define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
 #define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
 
-ScreenManager::ScreenManager(ConcertRepository& repo, StorageManager& storage, ConcertsView& concerts_view, StatsView& stats_view, MenuView& menu_view, PopUpView& pop_up_view)
+ScreenManager::ScreenManager(ConcertRepository& repo, StorageManager& storage, UIComponent& ui)
     : current_screen(Screen::Menu),
       repo(repo),
       storage(storage),
-      concerts_view(concerts_view),
-      stats_view(stats_view),
-      menu_view(menu_view),
-      pop_up_view(pop_up_view)
+      ui(ui)
 {}
 
 void ScreenManager::run()
@@ -48,7 +46,7 @@ void ScreenManager::process_current_screen()
         current_screen = Screen::Menu;
         break;
     case Screen::ViewConcerts:
-        concerts_view.show(repo.get_concerts(), repo.get_artists());
+        ui.concerts_view.show(repo.get_concerts(), repo.get_artists());
         current_screen = Screen::Menu;
         break;
     case Screen::DeleteConcert:
@@ -60,13 +58,13 @@ void ScreenManager::process_current_screen()
         current_screen = Screen::Menu;
         break;
     case Screen::ConcertStats:
-        stats_view.show_concert_stats(StatsManager::get_concert_stats(repo.get_concerts()));
+        ui.stats_view.show_concert_stats(StatsManager::get_concert_stats(repo.get_concerts()));
         current_screen = Screen::Menu;
         break;
     case Screen::ArtistStats:
         for (const Artist& artist : repo.get_artists())
         {
-            stats_view.show_artist_stats(StatsManager::get_artist_stats(artist, repo.get_concerts()));
+            ui.stats_view.show_artist_stats(StatsManager::get_artist_stats(artist, repo.get_concerts()));
         }
         current_screen = Screen::Menu;
         break;
@@ -86,16 +84,16 @@ void ScreenManager::show_menu()
 {
     int input;
 
-    menu_view.show_main_menu();
+    ui.menu_view.show_main_menu();
 
     if (!Utilities::parse_int(input))
     {
-        pop_up_view.show_error_message("Invalid input");
+        ui.pop_up_view.show_error_message("Invalid input");
         return;
     }
     if (input < 1 || input > 7)
     {
-        pop_up_view.show_error_message("Invalid input");
+        ui.pop_up_view.show_error_message("Invalid input");
         return;
     }
 
