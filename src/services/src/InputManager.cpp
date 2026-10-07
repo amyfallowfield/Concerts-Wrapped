@@ -73,16 +73,18 @@ ArtistUpdateRequest InputManager::get_artist_update_data(const std::vector<std::
 
 int InputManager::_get_bounded_numerical_int(int lower, int upper)
 {
-    int input;
+    int final_input;
+    std::string raw_input;
+    std::getline(std::cin, raw_input);
 
-    if (!Utilities::parse_int(input) || input < lower || input > upper)
+    if (!Utilities::parse_number(raw_input, final_input) || final_input < lower || final_input > upper)
     {
         std::cout << '\n';
         LOG_WARN("Selection out of allowed range");
         return -1;
     }
 
-    return input;
+    return final_input;
 }
 
 std::string InputManager::get_string_input(const std::string& prompt)
@@ -96,32 +98,36 @@ std::string InputManager::get_string_input(const std::string& prompt)
 
 int32_t InputManager::get_numerical_input(const std::string& prompt)
 {
-    int32_t input;
-
     std::cout << prompt;
+
+    int final_input;
+    std::string raw_input;
+    std::getline(std::cin, raw_input);
     
-    if (!Utilities::parse_int(input))
+    if (!Utilities::parse_number(raw_input, final_input))
     {
         LOG_WARN("Invalid attribute selection");
         return -1;
     }
 
-    return input;
+    return final_input;
 }
 
 double InputManager::get_decimal_input(const std::string& prompt)
 {
-    double input;
-
     std::cout << prompt;
 
-    if (!Utilities::parse_float(input))
+    double final_input;
+    std::string raw_input;
+    std::getline(std::cin, raw_input);
+
+    if (!Utilities::parse_number(raw_input, final_input))
     {
         LOG_WARN("Invalid attribute selection");
         return -1.0;
     }
 
-    return input;
+    return final_input;
 }
 
 bool InputManager::get_bool_input(const std::string& prompt)

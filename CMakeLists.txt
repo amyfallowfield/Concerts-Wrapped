@@ -18,7 +18,6 @@ add_executable(concert-wrapped
     src/services/src/InputManager.cpp
     src/services/src/Logger.cpp
     src/services/src/StatsManager.cpp
-    src/services/src/Utilities.cpp
     src/services/src/ValidationManager.cpp
 )
 
@@ -56,7 +55,6 @@ add_executable(unit-tests
     src/services/src/InputManager.cpp
     src/services/src/Logger.cpp
     src/services/src/StatsManager.cpp
-    src/services/src/Utilities.cpp
     src/services/src/ValidationManager.cpp
 )
 

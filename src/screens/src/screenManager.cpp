@@ -82,16 +82,18 @@ void ScreenManager::process_current_screen()
 
 void ScreenManager::show_menu()
 {
-    int input;
-
     ui.menu_view.show_main_menu();
 
-    if (!Utilities::parse_int(input))
+    int final_input;
+    std::string raw_input;
+    std::getline(std::cin, raw_input);
+
+    if (!Utilities::parse_number(raw_input, final_input))
     {
         ui.pop_up_view.show_error_message("Invalid input");
         return;
     }
-    if (input < 1 || input > 7)
+    if (final_input < 1 || final_input > 7)
     {
         ui.pop_up_view.show_error_message("Invalid input");
         return;
@@ -99,7 +101,7 @@ void ScreenManager::show_menu()
 
     std::cout << '\n';
 
-    switch(input)
+    switch(final_input)
     {
     case 1:
         current_screen = Screen::AddConcert;
