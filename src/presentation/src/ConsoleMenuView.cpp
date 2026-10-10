@@ -2,6 +2,11 @@
 
 #include "ConsoleMenuView.h"
 
+void ConsoleMenuView::show_welcome()
+{
+    std::cout << "\n===== Concerts Wrapped =====\n\n";
+}
+
 void ConsoleMenuView::show_main_menu()
 {
     std::cout << "1. Add Concert\n";

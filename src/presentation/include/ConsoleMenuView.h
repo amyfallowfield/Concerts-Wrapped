@@ -5,6 +5,7 @@
 
 class ConsoleMenuView : public MenuView
 {
+    void show_welcome() override;
     void show_main_menu() override;
 };
 

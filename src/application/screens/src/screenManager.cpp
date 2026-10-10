@@ -21,7 +21,7 @@ ScreenManager::ScreenManager(ConcertRepository& repo, StorageManager& storage, U
 
 void ScreenManager::run()
 {
-    std::cout << "\n===== Concerts Wrapped =====\n\n";
+    ui.menu_view.show_welcome();
 
     while (current_screen != Screen::Exit)
     {
@@ -69,7 +69,9 @@ void ScreenManager::process_current_screen()
         current_screen = Screen::Menu;
         break;
     default:
-        throw std::runtime_error("Screen value is not recognised"); 
+        std::string message = "Screen value is not recognised";
+        LOG_ERROR(message);
+        throw std::runtime_error(message); 
     }
 
     if (previous_screen == current_screen)
@@ -88,18 +90,11 @@ void ScreenManager::show_menu()
     std::string raw_input;
     std::getline(std::cin, raw_input);
 
-    if (!Utilities::parse_number(raw_input, final_input))
+    if (!Utilities::parse_number(raw_input, final_input) || final_input < 1 || final_input > 7)
     {
         ui.pop_up_view.show_error_message("Invalid input");
         return;
     }
-    if (final_input < 1 || final_input > 7)
-    {
-        ui.pop_up_view.show_error_message("Invalid input");
-        return;
-    }
-
-    std::cout << '\n';
 
     switch(final_input)
     {

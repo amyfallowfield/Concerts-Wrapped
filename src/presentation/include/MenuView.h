@@ -4,6 +4,7 @@
 class MenuView
 {
 public:
+    virtual void show_welcome() = 0;
     virtual void show_main_menu() = 0;
 };
 
