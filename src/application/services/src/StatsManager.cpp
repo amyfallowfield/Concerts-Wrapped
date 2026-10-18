@@ -68,7 +68,7 @@ namespace StatsManager
 
         if (found_a_concert)
         {
-            output.average_cost = static_cast<double>(output.total_cost) / output.count / 100;
+            output.average_cost = std::round(static_cast<double>(output.total_cost) / output.count);
         }
 
         return output;

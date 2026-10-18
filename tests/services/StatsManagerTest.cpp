@@ -39,6 +39,7 @@ TEST_F(StatsManagerTest, print_one_artist_one_concert)
     ASSERT_EQ("23-05-2026", stats.last_seen) << "Last seen should equal 23-05-2026";
     ASSERT_EQ(1, stats.count) << "Count should equal 1";
     ASSERT_EQ(2000, stats.total_cost) << "Total cost should equal £20.00";
+    ASSERT_EQ(2000, stats.average_cost) << "Average cost should equal £20.00";
 }
 
 TEST_F(StatsManagerTest, print_one_artist_two_concerts)
@@ -54,6 +55,7 @@ TEST_F(StatsManagerTest, print_one_artist_two_concerts)
     ASSERT_EQ("30-05-2026", stats.last_seen) << "Last seen should equal 30-05-2026";
     ASSERT_EQ(2, stats.count) << "Count should equal 2";
     ASSERT_EQ(4500, stats.total_cost) << "Total cost should equal £45.00";
+    ASSERT_EQ(2250, stats.average_cost) << "Average cost should equal £22.50";
 }
 
 TEST_F(StatsManagerTest, print_no_concerts)
