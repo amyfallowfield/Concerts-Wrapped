@@ -7,6 +7,8 @@ class ConsoleMenuView : public MenuView
 {
     void show_welcome() override;
     void show_main_menu() override;
+    void show_edit_menu() override;
+    void show_edit_artist_options() override;
 };
 
 #endif

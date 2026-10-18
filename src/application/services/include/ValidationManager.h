@@ -2,6 +2,7 @@
 #define VALIDATION_MANAGER_H
 
 #include <iostream>
+#include <type_traits>
 #include <vector>
 
 #include "Concert.h"
@@ -23,7 +24,13 @@ public:
     ValidationResult<std::string> validate_date(std::string& input);
     ValidationResult<double> validate_cost(double& input);
     ValidationResult<int> validate_id(int& input, const std::vector<Concert>& concerts);
-    ValidationResult<ArtistRoles> validate_role(ArtistRoles role);
+    ValidationResult<ArtistRoles> validate_role(std::string& input);
+
+    template <typename T>
+    bool is_within_bounds(T value, T lower, T upper)
+    {
+        return value >= lower && value <= upper;
+    }
 
 private:
     static constexpr auto WHITESPACE = " \t\n\r";

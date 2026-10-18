@@ -7,6 +7,7 @@
 #include "ConsoleStatsView.h"
 #include "ConsoleMenuView.h"
 #include "ConsolePopUpView.h"
+#include "ConsoleInput.h"
 #include "ScreenManager.h"
 #include "StatsManager.h"
 
@@ -25,12 +26,14 @@ int main()
         ConsoleStatsView stats_view;
         ConsoleMenuView menu_view;
         ConsolePopUpView pop_up_view;
+        ConsoleInput input;
 
         UIComponent ui {
             concerts_view,
-            stats_view,
+            input,
             menu_view,
-            pop_up_view
+            pop_up_view,
+            stats_view
         };
 
         ScreenManager screen_manager = ScreenManager(repo, storage, ui);

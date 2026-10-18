@@ -38,7 +38,7 @@ ValidationResult<std::string> ValidationManager::validate_date(std::string& inpu
     int month = std::stoi(input.substr(3, 2));
     int year = std::stoi(input.substr(6, 4));
 
-    std::tm tm_date = Utilities::parse_date(day, month, year, input);
+    std::tm tm_date = Utilities::parse_date(input);
     time_t event_date = std::mktime(&tm_date);
     time_t now = std::time(nullptr);
 
@@ -78,11 +78,36 @@ ValidationResult<int> ValidationManager::validate_id(int& input, const std::vect
     return {true, input, {}};
 }
 
-ValidationResult<ArtistRoles> ValidationManager::validate_role(ArtistRoles input)
+ValidationResult<ArtistRoles> ValidationManager::validate_role(std::string& input)
 {
-    if (input == ArtistRoles::None) { return {false, input, "Artist role invalid"}; }
+    ValidationResult valid_string = validate_string(input, "role");
+    if (!valid_string.is_valid)
+    {
+        LOG_WARN(valid_string.error_message);
+        return {false, ArtistRoles::None, "role must contain non-whitespace characters"};
+    }
 
-    return {true, input, {}};
+    ArtistRoles role;
+    if (input == "h" || input == "headline")
+    {
+        role = ArtistRoles::Headline;
+    }
+    else if (input == "s" || input == "support")
+    {
+        role = ArtistRoles::Support;
+    }
+    else if (input == "g" || input == "guest")
+    {
+        role = ArtistRoles::Guest;
+    }
+    else
+    {
+        role = ArtistRoles::None;
+    }
+
+    if (role == ArtistRoles::None) { return {false, ArtistRoles::None, "Artist role invalid"}; }
+
+    return {true, role, {}};
 }
 
 ValidationResult<std::string> ValidationManager::validate_string(std::string& input, const std::string& attribute)
@@ -106,7 +131,9 @@ void ValidationManager::clean_string(std::string& input)
     input.erase(0, input.find_first_not_of(WHITESPACE));
     input.erase(input.find_last_not_of(WHITESPACE) + 1);
 
-    std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c) { return std::tolower(c); });
+    std::transform(input.begin(), input.end(), input.begin(),
+        [](unsigned char c)
+        {return std::tolower(c); });
 
     if (original != input)
     {

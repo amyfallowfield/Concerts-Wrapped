@@ -18,3 +18,21 @@ void ConsoleMenuView::show_main_menu()
     std::cout << "7. Exit\n";
     std::cout << "Selection: ";
 }
+
+void ConsoleMenuView::show_edit_menu()
+{
+    std::cout << "1. Artists\n";
+    std::cout << "2. Venue\n";
+    std::cout << "3. City\n";
+    std::cout << "4. Date\n";
+    std::cout << "5. Cost\n";
+    std::cout << "Selection: ";
+}
+
+void ConsoleMenuView::show_edit_artist_options()
+{
+    std::cout << "1. Add Artist\n";
+    std::cout << "2. Edit Artist\n";
+    std::cout << "3. Delete Artist\n";
+    std::cout << "Selection: ";
+}

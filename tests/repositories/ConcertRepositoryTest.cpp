@@ -83,11 +83,12 @@ TEST_F(ConcertRepositoryTest, add_first_concert)
     storage.save<Concert>({});
 
     ConcertRepository repo = ConcertRepository(storage);
+    std::map<std::string, ArtistRoles> artists {
+        {"Benjamin Steer", ArtistRoles::Headline},
+        {"Dolder", ArtistRoles::Support}
+    };
 
-    std::istringstream input("Benjamin Steer\nheadline\ny\nDolder\nsupport\nn\nVillage Underground\nLondon\n23-05-2026\n20.00\n");
-    std::cin.rdbuf(input.rdbuf());
-
-    repo.add();
+    repo.add_concert(artists, "Village Underground", "London", "23-05-2020", 20.00);
 
     ASSERT_EQ(2, repo.get_artists().size()) << "Artist list should contain 2 artists when adding concert with 2 performers from empty file";
     ASSERT_EQ(1, repo.get_concerts().size()) << "Concert list should contain 1 concert adding concert from empty file";
@@ -100,19 +101,37 @@ TEST_F(ConcertRepositoryTest, add_additional_concert)
     storage.save<Concert>({});
 
     ConcertRepository repo = ConcertRepository(storage);
+    std::map<std::string, ArtistRoles> first_concert_artists {
+        {"Benjamin Steer", ArtistRoles::Headline},
+        {"Dolder", ArtistRoles::Support}
+    };
+    std::map<std::string, ArtistRoles> second_concert_artists {
+        {"Arthur Hill", ArtistRoles::Headline},
+        {"Benjamin Steer", ArtistRoles::Support}
+    };
 
-    std::istringstream input1("Benjamin Steer\nheadline\ny\nDolder\nsupport\nn\nVillage Underground\nLondon\n23-05-2026\n20.00\n");
-    std::cin.rdbuf(input1.rdbuf());
-
-    repo.add();
-
-    std::istringstream input2("Arthur Hill\nheadline\ny\nBenjamin Steer\nsupport\nn\nO2 Academy Brixton\nLondon\n27-11-2025\n30.00\n");
-    std::cin.rdbuf(input2.rdbuf());
-
-    repo.add();
+    repo.add_concert(first_concert_artists, "Village Underground", "London", "23-05-2020", 20.00);
+    repo.add_concert(second_concert_artists, "O2 Academy Brixton", "London", "27-11-2020", 30.00);
 
     ASSERT_EQ(3, repo.get_artists().size()) << "Artist list should contain 3 artists when adding 2 concerts with 1 common artist";
     ASSERT_EQ(2, repo.get_concerts().size()) << "Concert list should contain 2 concerts when adding 2 concerts";
+}
+
+TEST_F(ConcertRepositoryTest, add_new_artist_to_existing_concert)
+{
+    StorageManager storage = StorageManager("test");
+    Artist main_artist = TestData::create_test_artist("Benjamin Steer");
+    Artist support_artist = TestData::create_test_artist("Dolder");
+    Concert concert = TestData::create_test_concert1();
+    storage.save<Artist>({main_artist, support_artist});
+    storage.save<Concert>({concert});
+
+    ConcertRepository repo = ConcertRepository(storage);
+    repo.add_artist(1, "new artist", ArtistRoles::Guest);
+
+    ASSERT_EQ(3, repo.get_artists().size());
+    ASSERT_EQ("new artist", repo.get_artists().back().get_name());
+    ASSERT_EQ(3, repo.get_concerts().front().get_artists().size());
 }
 
 TEST_F(ConcertRepositoryTest, remove_one_of_two_concerts)
@@ -128,18 +147,12 @@ TEST_F(ConcertRepositoryTest, remove_one_of_two_concerts)
 
     ConcertRepository repo = ConcertRepository(storage);
 
-    std::istringstream input1("1\n");
-    std::cin.rdbuf(input1.rdbuf());
-
-    repo.remove();
+    repo.remove_concert(1);
 
     ASSERT_EQ(2, repo.get_artists().size()) << "Artist list should contain 2 artist when one of two concerts with same artist is removed";
     ASSERT_EQ(1, repo.get_concerts().size()) << "Concert list should contain 1 concert when one of two concerts is removed";
 
-    std::istringstream input2("2\n");
-    std::cin.rdbuf(input2.rdbuf());
-
-    repo.remove();
+    repo.remove_concert(2);
 
     ASSERT_EQ(0, repo.get_artists().size()) << "Artist list should contain 0 artists when all concerts are removed";
     ASSERT_EQ(0, repo.get_concerts().size()) << "Concert list should contain 0 concerts when all concerts are removed";
@@ -158,10 +171,7 @@ TEST_F(ConcertRepositoryTest, remove_only_concert)
 
     ConcertRepository repo = ConcertRepository(storage);
 
-    std::istringstream input("1\n");
-    std::cin.rdbuf(input.rdbuf());
-
-    repo.remove();
+    repo.remove_concert(1);
 
     ASSERT_EQ(0, repo.get_artists().size()) << "Artist list should contain 0 artists when only concert is removed";
     ASSERT_EQ(0, repo.get_concerts().size()) << "Concert list should contain 0 concerts when only concert is removed";
