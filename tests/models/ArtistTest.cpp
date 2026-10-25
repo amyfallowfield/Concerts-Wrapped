@@ -11,7 +11,7 @@ using json = nlohmann::json;
 
 class ArtistTest : public testing::Test
 {
-protected:
+  protected:
     void SetUp() override
     {
         Artist::reset();
@@ -31,8 +31,8 @@ TEST_F(ArtistTest, two_concerts_from_params)
 {
     Concert concert1 = TestData::create_test_concert1();
     Concert concert2 = TestData::create_test_concert2();
-    
-    std::vector<Concert> concerts {};
+
+    std::vector<Concert> concerts{};
     concerts.push_back(concert1);
     concerts.push_back(concert2);
 
@@ -44,7 +44,7 @@ TEST_F(ArtistTest, two_concerts_from_params)
 
 TEST_F(ArtistTest, id_not_reused_after_artist_removed)
 {
-    std::vector<Artist> artists {};
+    std::vector<Artist> artists{};
     Artist artist1 = TestData::create_test_artist("Benjamin Steer");
     Artist artist2 = TestData::create_test_artist("Arthur Hill");
     artists.push_back(artist1);
@@ -62,12 +62,13 @@ TEST_F(ArtistTest, id_not_reused_after_artist_removed)
 TEST_F(ArtistTest, multiple_concerts_multiple_roles_from_params)
 {
     Concert concert1 = TestData::create_test_concert1();
-    std::unordered_map<int32_t, ArtistRoles> artist_id_role_map {};
+    std::unordered_map<int32_t, ArtistRoles> artist_id_role_map{};
     artist_id_role_map.emplace(2, ArtistRoles::Headline);
     artist_id_role_map.emplace(1, ArtistRoles::Support);
-    Concert concert2 = Concert{artist_id_role_map, "O2 Academy Brixton", "London", "27-11-2025", 3000};
+    Concert concert2 =
+        Concert{artist_id_role_map, "O2 Academy Brixton", "London", "27-11-2025", 3000};
 
-    std::vector<Concert> concerts {};
+    std::vector<Concert> concerts{};
     concerts.push_back(concert1);
     concerts.push_back(concert2);
 
@@ -83,10 +84,7 @@ TEST_F(ArtistTest, multiple_concerts_multiple_roles_from_params)
 
 TEST_F(ArtistTest, one_concert_from_json)
 {
-    json artist_data = {
-        {"id", 1},
-        {"name", "Benjamin Steer"}
-    };
+    json artist_data = {{"id", 1}, {"name", "Benjamin Steer"}};
     Artist artist = Artist(artist_data);
 
     ASSERT_EQ(1, artist.get_id()) << "Artist ID should be 1";

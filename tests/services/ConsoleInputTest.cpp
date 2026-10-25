@@ -4,14 +4,13 @@
 
 class ConsoleInputTest : public testing::Test
 {
-public:
-
+  public:
     std::ostringstream output;
     std::ostringstream logs;
 
-    std::streambuf* original_cin;
-    std::streambuf* original_cout;
-    std::streambuf* original_cerr;
+    std::streambuf *original_cin;
+    std::streambuf *original_cout;
+    std::streambuf *original_cerr;
 
     ConsoleInput input;
 

@@ -8,9 +8,9 @@
 
 struct ArtistStats
 {
-    std::string name {};
-    std::string first_seen {};
-    std::string last_seen {};
+    std::string name{};
+    std::string first_seen{};
+    std::string last_seen{};
     int count = 0;
     int total_cost = 0;
     int average_cost = 0;
@@ -25,8 +25,8 @@ struct ConcertStats
 
 namespace StatsManager
 {
-    ConcertStats get_concert_stats(const std::vector<Concert>& concerts);
-    ArtistStats get_artist_stats(const Artist& artist, const std::vector<Concert>& concerts);
-};
+ConcertStats get_concert_stats(const std::vector<Concert> &concerts);
+ArtistStats get_artist_stats(const Artist &artist, const std::vector<Concert> &concerts);
+}; // namespace StatsManager
 
 #endif

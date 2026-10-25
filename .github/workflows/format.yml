@@ -1,21 +1,24 @@
 name: Formatting
 
 on:
-push:
-pull_request:
+  push:
+  pull_request:
 
 jobs:
-clang-format:
-runs-on: ubuntu-latest
+  clang-format:
+    name: clang-format
+    runs-on: ubuntu-22.04
 
-steps:
-- name: Checkout repository
-  uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-- name: Install clang-format
-  run: sudo apt-get update && sudo apt-get install -y clang-format
-  
-- name: Check formatting
-  run: |
-    find . \( -name "*.cpp" -o -name "*.h" \) \
-    -exec clang-format --dry-run --Werror {} +
+      - name: Install clang-format
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes clang-format-15
+
+      - name: Check formatting
+        run: |
+          find src tests -type f \( -name "*.cpp" -o -name "*.h" \) -print0 \
+            | xargs -0 clang-format-15 --dry-run --Werror

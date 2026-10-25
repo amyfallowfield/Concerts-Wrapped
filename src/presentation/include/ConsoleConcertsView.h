@@ -5,8 +5,8 @@
 
 class ConsoleConcertsView : public ConcertsView
 {
-public:
-    void show(const std::vector<Concert>& concerts, const std::vector<Artist>& artists) override;
+  public:
+    void show(const std::vector<Concert> &concerts, const std::vector<Artist> &artists) override;
 };
 
 #endif

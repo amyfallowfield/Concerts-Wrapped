@@ -12,7 +12,7 @@
 #define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
 #define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
 
-ConcertRepository::ConcertRepository(StorageManager& storage)
+ConcertRepository::ConcertRepository(StorageManager &storage)
 {
     artists = storage.load<Artist>();
     concerts = storage.load<Concert>();
@@ -67,7 +67,8 @@ void ConcertRepository::add_artist(int32_t concert_id, std::string artist_name, 
     LOG_INFO("Artist added successfully");
 }
 
-void ConcertRepository::edit_artist(int32_t concert_id, int32_t artist_id, int32_t replacement_artist_id, ArtistRoles role)
+void ConcertRepository::edit_artist(int32_t concert_id, int32_t artist_id,
+                                    int32_t replacement_artist_id, ArtistRoles role)
 {
     auto concert_it = _find_concert_by_id(concert_id);
     if (concert_it == concerts.end())
@@ -75,7 +76,7 @@ void ConcertRepository::edit_artist(int32_t concert_id, int32_t artist_id, int32
         LOG_ERROR("Invalid concert ID selected");
     }
 
-    const auto& concert_artists = concert_it->get_artists();
+    const auto &concert_artists = concert_it->get_artists();
     if (concert_artists.find(artist_id) == concert_artists.end())
     {
         LOG_ERROR("Artist is not associated with this concert");
@@ -163,18 +164,21 @@ void ConcertRepository::update_cost(int32_t concert_id, double cost)
     LOG_INFO("Concert cost editted successfully");
 }
 
-const std::vector<Artist>&  ConcertRepository::get_artists() const { return artists; }
-const std::vector<Concert>&  ConcertRepository::get_concerts() const { return concerts; }
+const std::vector<Artist> &ConcertRepository::get_artists() const
+{
+    return artists;
+}
+const std::vector<Concert> &ConcertRepository::get_concerts() const
+{
+    return concerts;
+}
 
-void ConcertRepository::add_concert(
-    std::map<std::string, ArtistRoles> unprocessed_artists,
-    std::string venue,
-    std::string city,
-    std::string date,
-    double cost)
+void ConcertRepository::add_concert(std::map<std::string, ArtistRoles> unprocessed_artists,
+                                    std::string venue, std::string city, std::string date,
+                                    double cost)
 {
     std::unordered_map<int32_t, ArtistRoles> artist_id_role_map;
-    for (const auto& [name, role] : unprocessed_artists)
+    for (const auto &[name, role] : unprocessed_artists)
     {
         auto artist_it = _find_artist_by_name(name);
 
@@ -202,9 +206,9 @@ void ConcertRepository::add_concert(
     LOG_INFO("Concert created successfully");
 }
 
-void ConcertRepository::_refresh_artists(const Concert& concert)
+void ConcertRepository::_refresh_artists(const Concert &concert)
 {
-    for (const auto& artist : concert.get_artists())
+    for (const auto &artist : concert.get_artists())
     {
         int32_t artist_id = artist.first;
         auto artist_it = _find_artist_by_id(artist_id);
@@ -215,14 +219,13 @@ void ConcertRepository::_refresh_artists(const Concert& concert)
             continue;
         }
 
-        bool artist_still_used = std::any_of(
-            concerts.begin(), concerts.end(),
-            [&](const Concert& concert)
-            {
-                const auto& concert_artists = concert.get_artists();
-                return concert_artists.find(artist_id) != concert_artists.end();
-            }
-        );
+        bool artist_still_used =
+            std::any_of(concerts.begin(), concerts.end(),
+                        [&](const Concert &concert)
+                        {
+                            const auto &concert_artists = concert.get_artists();
+                            return concert_artists.find(artist_id) != concert_artists.end();
+                        });
 
         if (!artist_still_used)
         {
@@ -235,39 +238,24 @@ void ConcertRepository::_refresh_artists(const Concert& concert)
 
 std::vector<Concert>::iterator ConcertRepository::_find_concert_by_id(int32_t id)
 {
-    auto it = std::find_if(
-        concerts.begin(), concerts.end(),
-        [&](const Concert& concert)
-        {
-            return concert.get_concert_id() == id;
-        }
-    );
+    auto it = std::find_if(concerts.begin(), concerts.end(),
+                           [&](const Concert &concert) { return concert.get_concert_id() == id; });
 
     return it;
 }
 
 std::vector<Artist>::iterator ConcertRepository::_find_artist_by_id(int32_t id)
 {
-    auto it = std::find_if(
-        artists.begin(), artists.end(),
-        [&](const Artist& artist)
-        {
-            return artist.get_id() == id;
-        }
-    );
+    auto it = std::find_if(artists.begin(), artists.end(),
+                           [&](const Artist &artist) { return artist.get_id() == id; });
 
     return it;
 }
 
-std::vector<Artist>::iterator ConcertRepository::_find_artist_by_name(const std::string& name)
+std::vector<Artist>::iterator ConcertRepository::_find_artist_by_name(const std::string &name)
 {
-    auto it = std::find_if(
-        artists.begin(), artists.end(),
-        [&](const Artist& artist)
-        {
-            return artist.get_name() == name;
-        }
-    );
+    auto it = std::find_if(artists.begin(), artists.end(),
+                           [&](const Artist &artist) { return artist.get_name() == name; });
 
     return it;
 }

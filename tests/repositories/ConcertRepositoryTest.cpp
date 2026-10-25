@@ -11,16 +11,16 @@
 
 class ConcertRepositoryTest : public testing::Test
 {
-protected:
+  protected:
     std::filesystem::path test_directory = std::filesystem::path("test");
 
     std::istringstream input;
     std::ostringstream output;
     std::ostringstream logs;
 
-    std::streambuf* original_cin;
-    std::streambuf* original_cout;
-    std::streambuf* original_cerr;
+    std::streambuf *original_cin;
+    std::streambuf *original_cout;
+    std::streambuf *original_cerr;
 
     void SetUp() override
     {
@@ -56,7 +56,8 @@ TEST_F(ConcertRepositoryTest, new_repo_with_no_data_files_empty)
     ConcertRepository repo = ConcertRepository(storage);
 
     ASSERT_EQ(0, repo.get_artists().size()) << "Artist list should be empty when using empty file";
-    ASSERT_EQ(0, repo.get_concerts().size()) << "Concert list should be empty when using empty file";
+    ASSERT_EQ(0, repo.get_concerts().size())
+        << "Concert list should be empty when using empty file";
 }
 
 TEST_F(ConcertRepositoryTest, new_repo_with_data_files_restores_data)
@@ -72,8 +73,10 @@ TEST_F(ConcertRepositoryTest, new_repo_with_data_files_restores_data)
 
     ConcertRepository repo = ConcertRepository(storage);
 
-    ASSERT_EQ(2, repo.get_artists().size()) << "Artist list should contain 1 artist when using empty file";
-    ASSERT_EQ(1, repo.get_concerts().size()) << "Concert list should contain 1 concert when using empty file";
+    ASSERT_EQ(2, repo.get_artists().size())
+        << "Artist list should contain 1 artist when using empty file";
+    ASSERT_EQ(1, repo.get_concerts().size())
+        << "Concert list should contain 1 concert when using empty file";
 }
 
 TEST_F(ConcertRepositoryTest, add_first_concert)
@@ -83,15 +86,15 @@ TEST_F(ConcertRepositoryTest, add_first_concert)
     storage.save<Concert>({});
 
     ConcertRepository repo = ConcertRepository(storage);
-    std::map<std::string, ArtistRoles> artists {
-        {"Benjamin Steer", ArtistRoles::Headline},
-        {"Dolder", ArtistRoles::Support}
-    };
+    std::map<std::string, ArtistRoles> artists{{"Benjamin Steer", ArtistRoles::Headline},
+                                               {"Dolder", ArtistRoles::Support}};
 
     repo.add_concert(artists, "Village Underground", "London", "23-05-2020", 20.00);
 
-    ASSERT_EQ(2, repo.get_artists().size()) << "Artist list should contain 2 artists when adding concert with 2 performers from empty file";
-    ASSERT_EQ(1, repo.get_concerts().size()) << "Concert list should contain 1 concert adding concert from empty file";
+    ASSERT_EQ(2, repo.get_artists().size()) << "Artist list should contain 2 artists when adding "
+                                               "concert with 2 performers from empty file";
+    ASSERT_EQ(1, repo.get_concerts().size())
+        << "Concert list should contain 1 concert adding concert from empty file";
 }
 
 TEST_F(ConcertRepositoryTest, add_additional_concert)
@@ -101,20 +104,18 @@ TEST_F(ConcertRepositoryTest, add_additional_concert)
     storage.save<Concert>({});
 
     ConcertRepository repo = ConcertRepository(storage);
-    std::map<std::string, ArtistRoles> first_concert_artists {
-        {"Benjamin Steer", ArtistRoles::Headline},
-        {"Dolder", ArtistRoles::Support}
-    };
-    std::map<std::string, ArtistRoles> second_concert_artists {
-        {"Arthur Hill", ArtistRoles::Headline},
-        {"Benjamin Steer", ArtistRoles::Support}
-    };
+    std::map<std::string, ArtistRoles> first_concert_artists{
+        {"Benjamin Steer", ArtistRoles::Headline}, {"Dolder", ArtistRoles::Support}};
+    std::map<std::string, ArtistRoles> second_concert_artists{
+        {"Arthur Hill", ArtistRoles::Headline}, {"Benjamin Steer", ArtistRoles::Support}};
 
     repo.add_concert(first_concert_artists, "Village Underground", "London", "23-05-2020", 20.00);
     repo.add_concert(second_concert_artists, "O2 Academy Brixton", "London", "27-11-2020", 30.00);
 
-    ASSERT_EQ(3, repo.get_artists().size()) << "Artist list should contain 3 artists when adding 2 concerts with 1 common artist";
-    ASSERT_EQ(2, repo.get_concerts().size()) << "Concert list should contain 2 concerts when adding 2 concerts";
+    ASSERT_EQ(3, repo.get_artists().size())
+        << "Artist list should contain 3 artists when adding 2 concerts with 1 common artist";
+    ASSERT_EQ(2, repo.get_concerts().size())
+        << "Concert list should contain 2 concerts when adding 2 concerts";
 }
 
 TEST_F(ConcertRepositoryTest, add_new_artist_to_existing_concert)
@@ -149,13 +150,17 @@ TEST_F(ConcertRepositoryTest, remove_one_of_two_concerts)
 
     repo.remove_concert(1);
 
-    ASSERT_EQ(2, repo.get_artists().size()) << "Artist list should contain 2 artist when one of two concerts with same artist is removed";
-    ASSERT_EQ(1, repo.get_concerts().size()) << "Concert list should contain 1 concert when one of two concerts is removed";
+    ASSERT_EQ(2, repo.get_artists().size()) << "Artist list should contain 2 artist when one of "
+                                               "two concerts with same artist is removed";
+    ASSERT_EQ(1, repo.get_concerts().size())
+        << "Concert list should contain 1 concert when one of two concerts is removed";
 
     repo.remove_concert(2);
 
-    ASSERT_EQ(0, repo.get_artists().size()) << "Artist list should contain 0 artists when all concerts are removed";
-    ASSERT_EQ(0, repo.get_concerts().size()) << "Concert list should contain 0 concerts when all concerts are removed";
+    ASSERT_EQ(0, repo.get_artists().size())
+        << "Artist list should contain 0 artists when all concerts are removed";
+    ASSERT_EQ(0, repo.get_concerts().size())
+        << "Concert list should contain 0 concerts when all concerts are removed";
 }
 
 TEST_F(ConcertRepositoryTest, remove_only_concert)
@@ -173,6 +178,8 @@ TEST_F(ConcertRepositoryTest, remove_only_concert)
 
     repo.remove_concert(1);
 
-    ASSERT_EQ(0, repo.get_artists().size()) << "Artist list should contain 0 artists when only concert is removed";
-    ASSERT_EQ(0, repo.get_concerts().size()) << "Concert list should contain 0 concerts when only concert is removed";
+    ASSERT_EQ(0, repo.get_artists().size())
+        << "Artist list should contain 0 artists when only concert is removed";
+    ASSERT_EQ(0, repo.get_concerts().size())
+        << "Concert list should contain 0 concerts when only concert is removed";
 }

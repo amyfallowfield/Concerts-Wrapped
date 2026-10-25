@@ -1,14 +1,13 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include <algorithm>
 #include <sstream>
 #include <string>
-#include <algorithm>
 
 #include "Utilities.h"
 
-template <typename T>
-struct InputResult
+template <typename T> struct InputResult
 {
     T value;
     bool was_successful;
@@ -16,11 +15,10 @@ struct InputResult
 
 class Input
 {
-public:
+  public:
     virtual InputResult<std::string> get_string_input() = 0;
 
-    template <typename T>
-    InputResult<T> get_numerical_input()
+    template <typename T> InputResult<T> get_numerical_input()
     {
         InputResult<T> final_input;
         InputResult<std::string> raw_input = get_string_input();
@@ -45,13 +43,11 @@ public:
 
         std::string string_value = raw_input.value;
         std::transform(string_value.begin(), string_value.end(), string_value.begin(),
-            [](unsigned char c)
-            {return std::tolower(c); });
+                       [](unsigned char c) { return std::tolower(c); });
         bool bool_value = string_value == "y" || string_value == "yes" ? true : false;
 
         return {bool_value, true};
     }
-
 };
 
 #endif

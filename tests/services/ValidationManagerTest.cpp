@@ -6,12 +6,12 @@
 
 class ValidationManagerTest : public testing::Test
 {
-public:
+  public:
     ValidationManager manager;
 
     std::ostringstream output;
 
-    std::streambuf* original_cerr;
+    std::streambuf *original_cerr;
 
     void SetUp() override
     {
@@ -54,7 +54,8 @@ TEST_F(ValidationManagerTest, validate_future_date)
 
     ASSERT_EQ("01-01-3000", result.value) << "Returned date should be 01-01-3000";
     ASSERT_EQ(false, result.is_valid) << "Invalid date should return false";
-    ASSERT_EQ("Date cannot be in the future", result.error_message) << "Future date should detail error in error message";
+    ASSERT_EQ("Date cannot be in the future", result.error_message)
+        << "Future date should detail error in error message";
 }
 
 TEST_F(ValidationManagerTest, validate_non_existent_date)
@@ -64,7 +65,8 @@ TEST_F(ValidationManagerTest, validate_non_existent_date)
 
     ASSERT_EQ("31-02-2000", result.value) << "Returned date should be 31-02-2000";
     ASSERT_EQ(false, result.is_valid) << "Invalid date should return false";
-    ASSERT_EQ("Date does not exist", result.error_message) << "Non-existent date should detail error in error message";
+    ASSERT_EQ("Date does not exist", result.error_message)
+        << "Non-existent date should detail error in error message";
 }
 
 TEST_F(ValidationManagerTest, validate_wrong_format_date)
@@ -74,7 +76,8 @@ TEST_F(ValidationManagerTest, validate_wrong_format_date)
 
     ASSERT_EQ("01/01/2000", result.value) << "Returned date should be 01/01/2000";
     ASSERT_EQ(false, result.is_valid) << "Invalid date should return false";
-    ASSERT_EQ("Date must use format DD-MM-YYYY", result.error_message) << "Incorrectly formatted date should detail error in error message";
+    ASSERT_EQ("Date must use format DD-MM-YYYY", result.error_message)
+        << "Incorrectly formatted date should detail error in error message";
 }
 
 TEST_F(ValidationManagerTest, validate_invalid_string_date)
@@ -84,7 +87,8 @@ TEST_F(ValidationManagerTest, validate_invalid_string_date)
 
     ASSERT_EQ("hello", result.value) << "Returned date should be hello";
     ASSERT_EQ(false, result.is_valid) << "Invalid date should return false";
-    ASSERT_EQ("Date must use format DD-MM-YYYY", result.error_message) << "Invalid string should detail error in error message";
+    ASSERT_EQ("Date must use format DD-MM-YYYY", result.error_message)
+        << "Invalid string should detail error in error message";
 }
 
 TEST_F(ValidationManagerTest, validate_valid_non_zero_cost)
@@ -114,7 +118,8 @@ TEST_F(ValidationManagerTest, validate_negative_cost)
 
     ASSERT_EQ(-1.00, result.value) << "Returned cost should be -£1.00";
     ASSERT_EQ(false, result.is_valid) << "Invalid cost should return false";
-    ASSERT_EQ("Cost cannot be negative", result.error_message) << "Negative cost should detail error in error message";
+    ASSERT_EQ("Cost cannot be negative", result.error_message)
+        << "Negative cost should detail error in error message";
 }
 
 TEST_F(ValidationManagerTest, validate_negative_id)
@@ -124,7 +129,8 @@ TEST_F(ValidationManagerTest, validate_negative_id)
 
     ASSERT_EQ(-1, result.value) << "Returned ID should be -1";
     ASSERT_EQ(false, result.is_valid) << "Negative ID should return false";
-    ASSERT_EQ("ID cannot be negative", result.error_message) << "Negative ID should detail error in error message";
+    ASSERT_EQ("ID cannot be negative", result.error_message)
+        << "Negative ID should detail error in error message";
 }
 
 TEST_F(ValidationManagerTest, validate_id_empty_concerts)
@@ -134,7 +140,8 @@ TEST_F(ValidationManagerTest, validate_id_empty_concerts)
 
     ASSERT_EQ(0, result.value) << "Returned ID should be 0";
     ASSERT_EQ(false, result.is_valid) << "Unused ID should return false";
-    ASSERT_EQ("ID does not match existing concert", result.error_message) << "Unused ID should detail error in error message";
+    ASSERT_EQ("ID does not match existing concert", result.error_message)
+        << "Unused ID should detail error in error message";
 }
 
 TEST_F(ValidationManagerTest, validate_id_valid_concert)
@@ -186,7 +193,8 @@ TEST_F(ValidationManagerTest, validate_empty_string)
 
     ASSERT_EQ("", result.value) << "Returned string should be empty";
     ASSERT_EQ(false, result.is_valid) << "Empty string should return false";
-    ASSERT_EQ("Artist must contain non-whitespace characters", result.error_message) << "Invalid string should detail error in error message";
+    ASSERT_EQ("Artist must contain non-whitespace characters", result.error_message)
+        << "Invalid string should detail error in error message";
 }
 
 TEST_F(ValidationManagerTest, validate_only_whitespace_string)
@@ -196,5 +204,6 @@ TEST_F(ValidationManagerTest, validate_only_whitespace_string)
 
     ASSERT_EQ("  ", result.value) << "Returned string should be empty";
     ASSERT_EQ(false, result.is_valid) << "Empty string should return false";
-    ASSERT_EQ("Artist must contain non-whitespace characters", result.error_message) << "Invalid string should detail error in error message";
+    ASSERT_EQ("Artist must contain non-whitespace characters", result.error_message)
+        << "Invalid string should detail error in error message";
 }

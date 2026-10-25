@@ -5,10 +5,10 @@
 
 class ConsolePopUpView : public PopUpView
 {
-public:
-    void show_error_message(const std::string& message) override;
-    void show_input_request(const std::string& message) override;
-    void show_menu_option(const std::string& message) override;
+  public:
+    void show_error_message(const std::string &message) override;
+    void show_input_request(const std::string &message) override;
+    void show_menu_option(const std::string &message) override;
 };
 
 #endif

@@ -17,12 +17,10 @@
 #define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
 #define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
 
-ScreenManager::ScreenManager(ConcertRepository& repo, StorageManager& storage, UIComponent& ui)
-    : current_screen(Screen::Menu),
-      repo(repo),
-      storage(storage),
-      ui(ui)
-{}
+ScreenManager::ScreenManager(ConcertRepository &repo, StorageManager &storage, UIComponent &ui)
+    : current_screen(Screen::Menu), repo(repo), storage(storage), ui(ui)
+{
+}
 
 void ScreenManager::run()
 {
@@ -41,7 +39,7 @@ void ScreenManager::process_current_screen()
 {
     Screen previous_screen = current_screen;
 
-    switch(current_screen)
+    switch (current_screen)
     {
     case Screen::Menu:
         show_menu();
@@ -55,7 +53,7 @@ void ScreenManager::process_current_screen()
             InputResult<std::string> artist_name = _get_validated_input<std::string, std::string>(
                 "artist name", "Invalid artist name input",
                 [&]() { return ui.input.get_string_input(); },
-                [&](std::string& input) { return validator.validate_artist(input); });
+                [&](std::string &input) { return validator.validate_artist(input); });
             if (!artist_name.was_successful)
             {
                 input_failed = true;
@@ -65,7 +63,7 @@ void ScreenManager::process_current_screen()
             InputResult<ArtistRoles> artist_role = _get_validated_input<std::string, ArtistRoles>(
                 "artist role [Headline, Support, Guest]", "Invalid artist role input",
                 [&]() { return ui.input.get_string_input(); },
-                [&](std::string& input) { return validator.validate_role(input); });
+                [&](std::string &input) { return validator.validate_role(input); });
             if (!artist_role.was_successful)
             {
                 input_failed = true;
@@ -80,7 +78,8 @@ void ScreenManager::process_current_screen()
                 input_failed = true;
                 break;
             }
-            if (!again.value) break;
+            if (!again.value)
+                break;
         }
         if (input_failed)
         {
@@ -89,9 +88,8 @@ void ScreenManager::process_current_screen()
         }
 
         InputResult<std::string> venue = _get_validated_input<std::string, std::string>(
-            "venue name", "Invalid venue input",
-            [&]() { return ui.input.get_string_input(); },
-            [&](std::string& input) { return validator.validate_venue(input); });
+            "venue name", "Invalid venue input", [&]() { return ui.input.get_string_input(); },
+            [&](std::string &input) { return validator.validate_venue(input); });
         if (!venue.was_successful)
         {
             current_screen = Screen::Menu;
@@ -99,9 +97,8 @@ void ScreenManager::process_current_screen()
         }
 
         InputResult<std::string> city = _get_validated_input<std::string, std::string>(
-            "city name", "Invalid city input",
-            [&]() { return ui.input.get_string_input(); },
-            [&](std::string& input) { return validator.validate_city(input); });
+            "city name", "Invalid city input", [&]() { return ui.input.get_string_input(); },
+            [&](std::string &input) { return validator.validate_city(input); });
         if (!city.was_successful)
         {
             current_screen = Screen::Menu;
@@ -111,7 +108,7 @@ void ScreenManager::process_current_screen()
         InputResult<std::string> date = _get_validated_input<std::string, std::string>(
             "date [DD-MM-YYYY]", "Invalid date input",
             [&]() { return ui.input.get_string_input(); },
-            [&](std::string& input) { return validator.validate_date(input); });
+            [&](std::string &input) { return validator.validate_date(input); });
         if (!date.was_successful)
         {
             current_screen = Screen::Menu;
@@ -121,7 +118,7 @@ void ScreenManager::process_current_screen()
         InputResult<double> cost = _get_validated_input<double, double>(
             "cost (£)", "Invalid cost input",
             [&]() { return ui.input.get_numerical_input<double>(); },
-            [&](double& input) { return validator.validate_cost(input); });
+            [&](double &input) { return validator.validate_cost(input); });
         if (!cost.was_successful)
         {
             current_screen = Screen::Menu;
@@ -141,7 +138,7 @@ void ScreenManager::process_current_screen()
         InputResult<int32_t> concert_id = _get_validated_input<int32_t, int32_t>(
             "concert ID", "Invalid concert ID input",
             [&]() { return ui.input.get_numerical_input<int32_t>(); },
-            [&](int32_t& input) { return validator.validate_id(input, repo.get_concerts()); });
+            [&](int32_t &input) { return validator.validate_id(input, repo.get_concerts()); });
         if (!concert_id.was_successful)
         {
             current_screen = Screen::Menu;
@@ -156,7 +153,7 @@ void ScreenManager::process_current_screen()
         InputResult<int32_t> concert_id = _get_validated_input<int32_t, int32_t>(
             "concert ID", "Invalid concert ID input",
             [&]() { return ui.input.get_numerical_input<int32_t>(); },
-            [&](int32_t& input) { return validator.validate_id(input, repo.get_concerts()); });
+            [&](int32_t &input) { return validator.validate_id(input, repo.get_concerts()); });
         if (!concert_id.was_successful)
         {
             current_screen = Screen::Menu;
@@ -166,23 +163,22 @@ void ScreenManager::process_current_screen()
         ui.menu_view.show_edit_menu();
 
         InputResult<int32_t> attribute_choice = ui.input.get_numerical_input<int32_t>();
-        if (!attribute_choice.was_successful || !validator.is_within_bounds(attribute_choice.value, 1, 5))
+        if (!attribute_choice.was_successful ||
+            !validator.is_within_bounds(attribute_choice.value, 1, 5))
         {
             LOG_WARN("Invalid attribute selection");
             ui.pop_up_view.show_error_message("Invalid attribute selection");
             break;
         }
 
-        switch(attribute_choice.value)
+        switch (attribute_choice.value)
         {
         case 1:
         {
-            auto concert_it = std::find_if(
-                repo.get_concerts().begin(), repo.get_concerts().end(),
-                [&](const Concert& concert)
-                {
-                    return concert.get_concert_id() == concert_id.value;
-                });
+            auto concert_it = std::find_if(repo.get_concerts().begin(), repo.get_concerts().end(),
+                                           [&](const Concert &concert) {
+                                               return concert.get_concert_id() == concert_id.value;
+                                           });
             if (concert_it == repo.get_concerts().end())
             {
                 LOG_WARN("Concert ID not found");
@@ -201,35 +197,42 @@ void ScreenManager::process_current_screen()
 
             if (raw_action.value == 1)
             {
-                InputResult<std::string> artist_name = _get_validated_input<std::string, std::string>(
-                    "artist name", "Invalid artist name input",
-                    [&]() { return ui.input.get_string_input(); },
-                    [&](std::string& input) { return validator.validate_artist(input); });
-                if (!artist_name.was_successful) break;
+                InputResult<std::string> artist_name =
+                    _get_validated_input<std::string, std::string>(
+                        "artist name", "Invalid artist name input",
+                        [&]() { return ui.input.get_string_input(); },
+                        [&](std::string &input) { return validator.validate_artist(input); });
+                if (!artist_name.was_successful)
+                    break;
 
-                auto artist_it = std::find_if(
-                    repo.get_artists().begin(), repo.get_artists().end(),
-                    [&](const Artist& artist) { return artist.get_name() == artist_name.value; });
+                auto artist_it = std::find_if(repo.get_artists().begin(), repo.get_artists().end(),
+                                              [&](const Artist &artist)
+                                              { return artist.get_name() == artist_name.value; });
                 if (artist_it != repo.get_artists().end() &&
-                    concert_it->get_artists().find(artist_it->get_id()) != concert_it->get_artists().end())
+                    concert_it->get_artists().find(artist_it->get_id()) !=
+                        concert_it->get_artists().end())
                 {
-                    // TODO: Should logger handle error message as well to reduce duplication of message?
+                    // TODO: Should logger handle error message as well to reduce duplication of
+                    // message?
                     LOG_WARN("Artist is already associated with this concert");
-                    ui.pop_up_view.show_error_message("Artist is already associated with this concert");
+                    ui.pop_up_view.show_error_message(
+                        "Artist is already associated with this concert");
                     break;
                 }
 
-                InputResult<ArtistRoles> artist_role = _get_validated_input<std::string, ArtistRoles>(
-                    "artist role [Headline, Support, Guest]", "Invalid artist role input",
-                    [&]() { return ui.input.get_string_input(); },
-                    [&](std::string& input) { return validator.validate_role(input); });
-                if (!artist_role.was_successful) break;
+                InputResult<ArtistRoles> artist_role =
+                    _get_validated_input<std::string, ArtistRoles>(
+                        "artist role [Headline, Support, Guest]", "Invalid artist role input",
+                        [&]() { return ui.input.get_string_input(); },
+                        [&](std::string &input) { return validator.validate_role(input); });
+                if (!artist_role.was_successful)
+                    break;
                 repo.add_artist(concert_id.value, artist_name.value, artist_role.value);
                 break;
             }
 
             std::vector<int32_t> current_artist_ids;
-            for (const auto& [artist_id, role] : concert_it->get_artists())
+            for (const auto &[artist_id, role] : concert_it->get_artists())
             {
                 current_artist_ids.push_back(artist_id);
             }
@@ -243,11 +246,11 @@ void ScreenManager::process_current_screen()
             if (raw_action.value == 2)
             {
                 std::vector<int32_t> replacement_choices;
-                for (const Artist& artist : repo.get_artists())
+                for (const Artist &artist : repo.get_artists())
                 {
                     if (artist.get_id() == artist_id ||
-                        std::find(current_artist_ids.begin(), current_artist_ids.end(), artist.get_id()) ==
-                            current_artist_ids.end())
+                        std::find(current_artist_ids.begin(), current_artist_ids.end(),
+                                  artist.get_id()) == current_artist_ids.end())
                     {
                         replacement_choices.push_back(artist.get_id());
                     }
@@ -288,7 +291,8 @@ void ScreenManager::process_current_screen()
                 ui.pop_up_view.show_error_message("Invalid venue input");
                 break;
             }
-            ValidationResult<std::string> validated_venue = validator.validate_venue(raw_venue.value);
+            ValidationResult<std::string> validated_venue =
+                validator.validate_venue(raw_venue.value);
             if (!validated_venue.is_valid)
             {
                 LOG_WARN(validated_venue.error_message);
@@ -371,27 +375,31 @@ void ScreenManager::process_current_screen()
         current_screen = Screen::Menu;
         break;
     case Screen::ArtistStats:
-        for (const Artist& artist : repo.get_artists())
+        for (const Artist &artist : repo.get_artists())
         {
-            ui.stats_view.show_artist_stats(StatsManager::get_artist_stats(artist, repo.get_concerts()));
+            ui.stats_view.show_artist_stats(
+                StatsManager::get_artist_stats(artist, repo.get_concerts()));
         }
         current_screen = Screen::Menu;
         break;
     default:
         std::string message = "Screen value is not recognised";
         LOG_ERROR(message);
-        throw std::runtime_error(message); 
+        throw std::runtime_error(message);
     }
 
     if (previous_screen == current_screen)
     {
         LOG_INFO(enum_to_string(current_screen) + " screen initialised");
-    } else {
-        LOG_INFO("Screen changed from " + enum_to_string(previous_screen) + " to " + enum_to_string(current_screen));
+    }
+    else
+    {
+        LOG_INFO("Screen changed from " + enum_to_string(previous_screen) + " to " +
+                 enum_to_string(current_screen));
     }
 }
 
-bool ScreenManager::select_artist(const std::vector<int32_t>& choices, int32_t& selected_id)
+bool ScreenManager::select_artist(const std::vector<int32_t> &choices, int32_t &selected_id)
 {
     if (choices.empty())
     {
@@ -401,11 +409,12 @@ bool ScreenManager::select_artist(const std::vector<int32_t>& choices, int32_t& 
 
     for (int32_t artist_id : choices)
     {
-        for (const Artist& artist : repo.get_artists())
+        for (const Artist &artist : repo.get_artists())
         {
             if (artist.get_id() == artist_id)
             {
-                ui.pop_up_view.show_menu_option(std::to_string(artist_id) + ": " + artist.get_name());
+                ui.pop_up_view.show_menu_option(std::to_string(artist_id) + ": " +
+                                                artist.get_name());
                 break;
             }
         }
@@ -413,7 +422,8 @@ bool ScreenManager::select_artist(const std::vector<int32_t>& choices, int32_t& 
 
     ui.pop_up_view.show_input_request("artist ID");
     InputResult<int32_t> raw_artist_id = ui.input.get_numerical_input<int32_t>();
-    if (!raw_artist_id.was_successful || std::find(choices.begin(), choices.end(), raw_artist_id.value) == choices.end())
+    if (!raw_artist_id.was_successful ||
+        std::find(choices.begin(), choices.end(), raw_artist_id.value) == choices.end())
     {
         ui.pop_up_view.show_error_message("Invalid artist ID");
         return false;
@@ -435,7 +445,7 @@ void ScreenManager::show_menu()
         return;
     }
 
-    switch(user_input.value)
+    switch (user_input.value)
     {
     case 1:
         current_screen = Screen::AddConcert;
@@ -463,26 +473,52 @@ void ScreenManager::show_menu()
 
 std::string ScreenManager::enum_to_string(Screen screen)
 {
-    switch(screen)
+    switch (screen)
     {
-    case Screen::Menu: { return "menu"; }
-    case Screen::AddConcert: { return "add concert"; }
-    case Screen::ViewConcerts: { return "view concerts"; }
-    case Screen::DeleteConcert: { return "delete concert"; }
-    case Screen::EditConcert: { return "edit concert"; }
-    case Screen::ConcertStats: { return "concert stats"; }
-    case Screen::ArtistStats: { return "artist stats"; }
-    case Screen::Exit: { return "exit"; }
-    default: { return "Error"; }
+    case Screen::Menu:
+    {
+        return "menu";
+    }
+    case Screen::AddConcert:
+    {
+        return "add concert";
+    }
+    case Screen::ViewConcerts:
+    {
+        return "view concerts";
+    }
+    case Screen::DeleteConcert:
+    {
+        return "delete concert";
+    }
+    case Screen::EditConcert:
+    {
+        return "edit concert";
+    }
+    case Screen::ConcertStats:
+    {
+        return "concert stats";
+    }
+    case Screen::ArtistStats:
+    {
+        return "artist stats";
+    }
+    case Screen::Exit:
+    {
+        return "exit";
+    }
+    default:
+    {
+        return "Error";
+    }
     }
 }
 
 template <typename InputT, typename T>
 InputResult<T> ScreenManager::_get_validated_input(
-    const std::string& prompt,
-    const std::string& invalid_input_message,
+    const std::string &prompt, const std::string &invalid_input_message,
     std::function<InputResult<InputT>()> get_input,
-    std::function<ValidationResult<T>(InputT&)> validate)
+    std::function<ValidationResult<T>(InputT &)> validate)
 {
     ui.pop_up_view.show_input_request(prompt);
     InputResult<InputT> raw_input = get_input();

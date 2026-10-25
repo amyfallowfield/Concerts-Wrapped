@@ -7,7 +7,7 @@
 
 class InputMock : public Input
 {
-public:
+  public:
     MOCK_METHOD(InputResult<std::string>, get_string_input, (), (override));
 };
 

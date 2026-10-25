@@ -6,9 +6,9 @@
 
 namespace TestData
 {
-    Artist create_test_artist(std::string name);
-    Concert create_test_concert1();
-    Concert create_test_concert2();
-};
+Artist create_test_artist(std::string name);
+Concert create_test_concert1();
+Concert create_test_concert2();
+}; // namespace TestData
 
 #endif

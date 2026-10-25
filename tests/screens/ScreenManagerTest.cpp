@@ -5,19 +5,19 @@
 #include <utility>
 #include <vector>
 
-#include "ScreenManager.h"
-#include "StorageManager.h"
 #include "ConcertRepositoryMock.h"
 #include "ConcertsViewMock.h"
 #include "InputMock.h"
 #include "MenuViewMock.h"
 #include "PopUpViewMock.h"
+#include "ScreenManager.h"
 #include "StatsViewMock.h"
+#include "StorageManager.h"
 #include "TestData.h"
 
 class ScreenManagerTest : public ::testing::Test
 {
-protected:
+  protected:
     std::unique_ptr<ConcertsViewMock> concerts_view;
     std::unique_ptr<StatsViewMock> stats_view;
     std::unique_ptr<MenuViewMock> menu_view;
@@ -32,7 +32,7 @@ protected:
     std::vector<std::string> input_responses;
     std::size_t next_input = 0;
 
-    std::streambuf* original_cerr;
+    std::streambuf *original_cerr;
 
     void SetUp() override
     {
@@ -47,14 +47,9 @@ protected:
         menu_view = std::make_unique<MenuViewMock>();
         pop_up_view = std::make_unique<PopUpViewMock>();
         input_view = std::make_unique<InputMock>();
-        ui = std::make_unique<UIComponent>(UIComponent{
-            *concerts_view,
-            *input_view,
-            *menu_view,
-            *pop_up_view,
-            *stats_view
-        });
-    
+        ui = std::make_unique<UIComponent>(
+            UIComponent{*concerts_view, *input_view, *menu_view, *pop_up_view, *stats_view});
+
         storage = std::make_unique<StorageManager>("test");
         storage->save<Artist>({});
         storage->save<Concert>({});
@@ -84,22 +79,18 @@ protected:
 
         EXPECT_CALL(*input_view, get_string_input())
             .Times(input_responses.size())
-            .WillRepeatedly([this]
-            {
-                if (next_input >= input_responses.size())
+            .WillRepeatedly(
+                [this]
                 {
-                    return InputResult<std::string>{"", false};
-                }
+                    if (next_input >= input_responses.size())
+                    {
+                        return InputResult<std::string>{"", false};
+                    }
 
-                return InputResult<std::string>{input_responses[next_input++], true};
-            });
-        ui = std::make_unique<UIComponent>(UIComponent{
-            *concerts_view,
-            *input_view,
-            *menu_view,
-            *pop_up_view,
-            *stats_view
-        });
+                    return InputResult<std::string>{input_responses[next_input++], true};
+                });
+        ui = std::make_unique<UIComponent>(
+            UIComponent{*concerts_view, *input_view, *menu_view, *pop_up_view, *stats_view});
         manager = std::make_unique<ScreenManager>(*repo, *storage, *ui);
     }
 };
@@ -112,7 +103,8 @@ TEST_F(ScreenManagerTest, run_initially_opens_menu)
     EXPECT_CALL(*pop_up_view, show_error_message("Invalid input")).Times(1);
     manager->process_current_screen();
 
-    ASSERT_NE(std::string::npos, logs.str().find("menu screen initialised")) << "Menu page should be loaded";
+    ASSERT_NE(std::string::npos, logs.str().find("menu screen initialised"))
+        << "Menu page should be loaded";
 }
 
 TEST_F(ScreenManagerTest, screen_manager_accepts_injected_input)
@@ -126,9 +118,11 @@ TEST_F(ScreenManagerTest, screen_manager_accepts_injected_input)
 
 TEST_F(ScreenManagerTest, menu_loads_add_concert_page)
 {
-    set_input({"1", "Benjamin Steer", "headline", "n", "Village Underground", "London", "23-05-2020", "20.00"});
+    set_input({"1", "Benjamin Steer", "headline", "n", "Village Underground", "London",
+               "23-05-2020", "20.00"});
 
-    EXPECT_CALL(*repo, add_concert(testing::_, "village underground", "london", "23-05-2020", 20.0)).Times(1);
+    EXPECT_CALL(*repo, add_concert(testing::_, "village underground", "london", "23-05-2020", 20.0))
+        .Times(1);
     manager->process_current_screen();
     manager->process_current_screen();
 }
@@ -137,7 +131,8 @@ TEST_F(ScreenManagerTest, invalid_artist_role_cancels_adding_concert)
 {
     set_input({"1", "Artist Name", "invalid role"});
 
-    EXPECT_CALL(*repo, add_concert(testing::_, testing::_, testing::_, testing::_, testing::_)).Times(0);
+    EXPECT_CALL(*repo, add_concert(testing::_, testing::_, testing::_, testing::_, testing::_))
+        .Times(0);
     EXPECT_CALL(*pop_up_view, show_error_message("Artist role invalid")).Times(1);
     manager->process_current_screen();
     manager->process_current_screen();
@@ -149,7 +144,8 @@ TEST_F(ScreenManagerTest, invalid_concert_date_returns_to_menu)
 {
     set_input({"1", "Artist Name", "headline", "n", "Venue", "City", "1"});
 
-    EXPECT_CALL(*repo, add_concert(testing::_, testing::_, testing::_, testing::_, testing::_)).Times(0);
+    EXPECT_CALL(*repo, add_concert(testing::_, testing::_, testing::_, testing::_, testing::_))
+        .Times(0);
     testing::InSequence sequence;
     EXPECT_CALL(*pop_up_view, show_input_request("artist name"));
     EXPECT_CALL(*pop_up_view, show_input_request("artist role [Headline, Support, Guest]"));
@@ -270,7 +266,8 @@ TEST_F(ScreenManagerTest, menu_loads_exit_page)
 
     manager->process_current_screen();
 
-    ASSERT_NE(std::string::npos, logs.str().find("Screen changed from menu to exit")) << "Exit page should be loaded";
+    ASSERT_NE(std::string::npos, logs.str().find("Screen changed from menu to exit"))
+        << "Exit page should be loaded";
 }
 
 TEST_F(ScreenManagerTest, invalid_inputs_throw_error)

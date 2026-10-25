@@ -7,7 +7,7 @@
 
 class ConsoleInput : public Input
 {
-public:
+  public:
     InputResult<std::string> get_string_input() override;
 };
 

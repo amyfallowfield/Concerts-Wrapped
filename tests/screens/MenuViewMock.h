@@ -7,7 +7,7 @@
 
 class MenuViewMock : public MenuView
 {
-public:
+  public:
     MOCK_METHOD(void, show_welcome, (), (override));
     MOCK_METHOD(void, show_main_menu, (), (override));
     MOCK_METHOD(void, show_edit_menu, (), (override));

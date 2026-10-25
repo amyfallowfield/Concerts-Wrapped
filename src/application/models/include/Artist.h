@@ -9,9 +9,9 @@ using json = nlohmann::json;
 
 class Artist
 {
-public:
-    Artist(const std::string& name);
-    Artist(const json& data);
+  public:
+    Artist(const std::string &name);
+    Artist(const json &data);
 
     json to_json() const;
 
@@ -22,7 +22,7 @@ public:
 
     static void reset();
 
-private:
+  private:
     int32_t id;
     std::string name;
 

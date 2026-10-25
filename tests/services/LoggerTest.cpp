@@ -4,11 +4,10 @@
 
 class LoggerTest : public testing::Test
 {
-public:
-
+  public:
     std::ostringstream logs;
 
-    std::streambuf* original_cerr;
+    std::streambuf *original_cerr;
 
     void SetUp() override
     {

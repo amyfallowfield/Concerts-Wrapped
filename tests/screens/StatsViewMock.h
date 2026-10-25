@@ -7,9 +7,9 @@
 
 class StatsViewMock : public StatsView
 {
-public:
-    MOCK_METHOD(void, show_artist_stats, (const ArtistStats&), (override));
-    MOCK_METHOD(void, show_concert_stats, (const ConcertStats&), (override));
+  public:
+    MOCK_METHOD(void, show_artist_stats, (const ArtistStats &), (override));
+    MOCK_METHOD(void, show_concert_stats, (const ConcertStats &), (override));
 };
 
 #endif

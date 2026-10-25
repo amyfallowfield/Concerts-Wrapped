@@ -7,7 +7,7 @@
 
 class StatsManagerTest : public testing::Test
 {
-protected:
+  protected:
     void SetUp() override
     {
         Artist::reset();

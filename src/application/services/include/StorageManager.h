@@ -9,35 +9,29 @@
 #include "Concert.h"
 #include "Logger.h"
 
-template<typename T>
-struct FilePaths;
+template <typename T> struct FilePaths;
 
-template<>
-struct FilePaths<Artist>
+template <> struct FilePaths<Artist>
 {
     static inline const std::filesystem::path path = "artist_data.json";
 };
 
-template<>
-struct FilePaths<Concert>
+template <> struct FilePaths<Concert>
 {
     static inline const std::filesystem::path path = "concert_data.json";
 };
 
 class StorageManager
 {
-public:
+  public:
     std::string directory;
-    StorageManager(std::string directory)
-    : directory(directory)
-    {};
+    StorageManager(std::string directory) : directory(directory){};
 
-    template<typename T>
-    bool save(const std::vector<T>& items)
+    template <typename T> bool save(const std::vector<T> &items)
     {
         json json_array = json::array();
 
-        for (const T& item : items)
+        for (const T &item : items)
         {
             json_array.push_back(item.to_json());
         }
@@ -59,14 +53,16 @@ public:
         return true;
     }
 
-    template<typename T>
-    std::vector<T> load()
+    template <typename T> std::vector<T> load()
     {
         std::vector<T> items;
         json json_array = json::array();
 
         std::filesystem::path path = _get_file_path<T>();
-        if (!std::filesystem::exists(path)) { return items; }
+        if (!std::filesystem::exists(path))
+        {
+            return items;
+        }
 
         std::ifstream file(path);
 
@@ -76,22 +72,26 @@ public:
             return {};
         }
 
-        if (file.peek() == std::ifstream::traits_type::eof()) { return items; }
+        if (file.peek() == std::ifstream::traits_type::eof())
+        {
+            return items;
+        }
 
         file >> json_array;
-        for (const auto& item : json_array)
+        for (const auto &item : json_array)
         {
             items.push_back(T{item});
         }
 
-        Logger::Info("StorageManager", "load", std::to_string(items.size()) + " items from " + path.string() + " loaded successfully");
+        Logger::Info("StorageManager", "load",
+                     std::to_string(items.size()) + " items from " + path.string() +
+                         " loaded successfully");
 
         return items;
     }
 
-private:
-    template<typename T>
-    std::filesystem::path _get_file_path() const
+  private:
+    template <typename T> std::filesystem::path _get_file_path() const
     {
         return std::filesystem::path(directory) / FilePaths<T>::path;
     }

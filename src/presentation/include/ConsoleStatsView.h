@@ -6,9 +6,9 @@
 
 class ConsoleStatsView : public StatsView
 {
-public:
-    void show_concert_stats(const ConcertStats& stats) override;
-    void show_artist_stats(const ArtistStats& stats) override;
+  public:
+    void show_concert_stats(const ConcertStats &stats) override;
+    void show_artist_stats(const ArtistStats &stats) override;
 };
 
 #endif

@@ -9,11 +9,11 @@
 
 struct UIComponent
 {
-    ConcertsView& concerts_view;
-    Input& input;
-    MenuView& menu_view;
-    PopUpView& pop_up_view;
-    StatsView& stats_view;
+    ConcertsView &concerts_view;
+    Input &input;
+    MenuView &menu_view;
+    PopUpView &pop_up_view;
+    StatsView &stats_view;
 };
 
 #endif

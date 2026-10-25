@@ -10,4 +10,3 @@ InputResult<std::string> ConsoleInput::get_string_input()
     input.was_successful = static_cast<bool>(std::getline(std::cin, input.value));
     return input;
 }
-

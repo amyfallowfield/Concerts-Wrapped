@@ -4,10 +4,10 @@
 
 #include "ConcertRepository.h"
 #include "ConsoleConcertsView.h"
-#include "ConsoleStatsView.h"
+#include "ConsoleInput.h"
 #include "ConsoleMenuView.h"
 #include "ConsolePopUpView.h"
-#include "ConsoleInput.h"
+#include "ConsoleStatsView.h"
 #include "ScreenManager.h"
 #include "StatsManager.h"
 
@@ -19,8 +19,8 @@ int main()
 {
     try
     {
-        StorageManager storage {"data"};
-        ConcertRepository repo {storage};
+        StorageManager storage{"data"};
+        ConcertRepository repo{storage};
 
         ConsoleConcertsView concerts_view;
         ConsoleStatsView stats_view;
@@ -28,18 +28,12 @@ int main()
         ConsolePopUpView pop_up_view;
         ConsoleInput input;
 
-        UIComponent ui {
-            concerts_view,
-            input,
-            menu_view,
-            pop_up_view,
-            stats_view
-        };
+        UIComponent ui{concerts_view, input, menu_view, pop_up_view, stats_view};
 
         ScreenManager screen_manager = ScreenManager(repo, storage, ui);
         screen_manager.run();
     }
-    catch (const std::exception& e)
+    catch (const std::exception &e)
     {
         LOG_ERROR(std::string("Fatal error: ") + e.what());
     }

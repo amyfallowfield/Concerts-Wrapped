@@ -6,9 +6,9 @@
 
 class StatsView
 {
-public:
-    virtual void show_concert_stats(const ConcertStats& stats) = 0;
-    virtual void show_artist_stats(const ArtistStats& stats) = 0;
+  public:
+    virtual void show_concert_stats(const ConcertStats &stats) = 0;
+    virtual void show_artist_stats(const ArtistStats &stats) = 0;
 };
 
 #endif
