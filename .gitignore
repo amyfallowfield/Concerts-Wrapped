@@ -71,3 +71,11 @@ Testing/
 # user data files
 data/**
 test/**
+
+# Neon local configuration and credentials
+.neon
+.env.local
+.agents/skills/
+.vscode/mcp.json
+skills-lock.json
+node_modules/
