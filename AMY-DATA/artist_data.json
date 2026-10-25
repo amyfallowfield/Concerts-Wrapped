@@ -1,0 +1,586 @@
+﻿[
+    {
+        "id":  1,
+        "name":  "Here At Last"
+    },
+    {
+        "id":  2,
+        "name":  "The Vamps"
+    },
+    {
+        "id":  3,
+        "name":  "Henry Moodie"
+    },
+    {
+        "id":  4,
+        "name":  "The Aces"
+    },
+    {
+        "id":  5,
+        "name":  "Cian Ducrot"
+    },
+    {
+        "id":  6,
+        "name":  "Anson Seabra"
+    },
+    {
+        "id":  7,
+        "name":  "James Arthur"
+    },
+    {
+        "id":  8,
+        "name":  "ADMT"
+    },
+    {
+        "id":  9,
+        "name":  "Skinny Living"
+    },
+    {
+        "id":  10,
+        "name":  "Neve"
+    },
+    {
+        "id":  11,
+        "name":  "Kezia Warwood"
+    },
+    {
+        "id":  12,
+        "name":  "Saintclair"
+    },
+    {
+        "id":  13,
+        "name":  "Rachel Newnham"
+    },
+    {
+        "id":  14,
+        "name":  "Blue"
+    },
+    {
+        "id":  15,
+        "name":  "Olly Murs"
+    },
+    {
+        "id":  16,
+        "name":  "Furnace \u0026 The Fundamentals"
+    },
+    {
+        "id":  17,
+        "name":  "Becky Hill"
+    },
+    {
+        "id":  18,
+        "name":  "Rose Gray"
+    },
+    {
+        "id":  19,
+        "name":  "Joel Corry"
+    },
+    {
+        "id":  20,
+        "name":  "Kerr Mercer"
+    },
+    {
+        "id":  21,
+        "name":  "Issey Cross"
+    },
+    {
+        "id":  22,
+        "name":  "Ben Ellis"
+    },
+    {
+        "id":  23,
+        "name":  "Talia Mar"
+    },
+    {
+        "id":  24,
+        "name":  "Long Island"
+    },
+    {
+        "id":  25,
+        "name":  "Alex Harry"
+    },
+    {
+        "id":  26,
+        "name":  "Punk Rock Factory"
+    },
+    {
+        "id":  27,
+        "name":  "Wolves Of Glendale"
+    },
+    {
+        "id":  28,
+        "name":  "Beach Front"
+    },
+    {
+        "id":  29,
+        "name":  "Joshua Bassett"
+    },
+    {
+        "id":  30,
+        "name":  "Thomas Day"
+    },
+    {
+        "id":  31,
+        "name":  "Bars \u0026 Melody"
+    },
+    {
+        "id":  32,
+        "name":  "Split The Dealer"
+    },
+    {
+        "id":  33,
+        "name":  "Mount St. Helen"
+    },
+    {
+        "id":  34,
+        "name":  "Hiccup"
+    },
+    {
+        "id":  35,
+        "name":  "Myles Smith"
+    },
+    {
+        "id":  36,
+        "name":  "Dan Smith"
+    },
+    {
+        "id":  37,
+        "name":  "Tors"
+    },
+    {
+        "id":  38,
+        "name":  "Twenty One Pilots"
+    },
+    {
+        "id":  39,
+        "name":  "Balu Brigada"
+    },
+    {
+        "id":  40,
+        "name":  "Tom Grennan"
+    },
+    {
+        "id":  41,
+        "name":  "The Zutons"
+    },
+    {
+        "id":  42,
+        "name":  "KSI"
+    },
+    {
+        "id":  43,
+        "name":  "Melanie C"
+    },
+    {
+        "id":  44,
+        "name":  "Ella Henderson"
+    },
+    {
+        "id":  45,
+        "name":  "Biffy Clyro"
+    },
+    {
+        "id":  46,
+        "name":  "Katy B"
+    },
+    {
+        "id":  47,
+        "name":  "Jazzy"
+    },
+    {
+        "id":  48,
+        "name":  "Natasha Bedingfield"
+    },
+    {
+        "id":  49,
+        "name":  "The Wombats"
+    },
+    {
+        "id":  50,
+        "name":  "Leonie Bailey"
+    },
+    {
+        "id":  51,
+        "name":  "Miles Temp"
+    },
+    {
+        "id":  52,
+        "name":  "Michael Aldag"
+    },
+    {
+        "id":  53,
+        "name":  "Soap"
+    },
+    {
+        "id":  54,
+        "name":  "Reece Bibby"
+    },
+    {
+        "id":  55,
+        "name":  "Tom Abisgold"
+    },
+    {
+        "id":  56,
+        "name":  "Sam Fender"
+    },
+    {
+        "id":  57,
+        "name":  "Blossoms"
+    },
+    {
+        "id":  58,
+        "name":  "Dirty Blonde"
+    },
+    {
+        "id":  59,
+        "name":  "Clean Bandit"
+    },
+    {
+        "id":  60,
+        "name":  "Nathan Dawe"
+    },
+    {
+        "id":  61,
+        "name":  "Panjabi Hit Squad"
+    },
+    {
+        "id":  62,
+        "name":  "Young T \u0026 Bugsey"
+    },
+    {
+        "id":  63,
+        "name":  "Neville Staple - From The Specials"
+    },
+    {
+        "id":  64,
+        "name":  "Emily Burns"
+    },
+    {
+        "id":  65,
+        "name":  "The Royals"
+    },
+    {
+        "id":  66,
+        "name":  "Ocean Colour Scene"
+    },
+    {
+        "id":  67,
+        "name":  "Rick Parfitt Jr.\u0026 The RPJ Band"
+    },
+    {
+        "id":  68,
+        "name":  "New Obsession"
+    },
+    {
+        "id":  69,
+        "name":  "Diversity"
+    },
+    {
+        "id":  70,
+        "name":  "Charlie Ward"
+    },
+    {
+        "id":  71,
+        "name":  "Five Foot Under"
+    },
+    {
+        "id":  72,
+        "name":  "David Kushner"
+    },
+    {
+        "id":  73,
+        "name":  "Declan J Donovan"
+    },
+    {
+        "id":  74,
+        "name":  "Scarlett Lorna"
+    },
+    {
+        "id":  75,
+        "name":  "Scouting For Girls"
+    },
+    {
+        "id":  76,
+        "name":  "Only The Poets"
+    },
+    {
+        "id":  77,
+        "name":  "The High Life"
+    },
+    {
+        "id":  78,
+        "name":  "Pedro Santos"
+    },
+    {
+        "id":  79,
+        "name":  "James Smith"
+    },
+    {
+        "id":  80,
+        "name":  "Jack Bruley"
+    },
+    {
+        "id":  81,
+        "name":  "Krystyn"
+    },
+    {
+        "id":  82,
+        "name":  "Zach Gordon"
+    },
+    {
+        "id":  83,
+        "name":  "Mendo"
+    },
+    {
+        "id":  84,
+        "name":  "Liv Harland"
+    },
+    {
+        "id":  85,
+        "name":  "Ansley"
+    },
+    {
+        "id":  86,
+        "name":  "Alfie Jukes"
+    },
+    {
+        "id":  87,
+        "name":  "Marti Perramon"
+    },
+    {
+        "id":  88,
+        "name":  "Dolder"
+    },
+    {
+        "id":  89,
+        "name":  "KiD RAiN"
+    },
+    {
+        "id":  90,
+        "name":  "Charlie Baker"
+    },
+    {
+        "id":  91,
+        "name":  "Evi"
+    },
+    {
+        "id":  92,
+        "name":  "Benjamin Steer"
+    },
+    {
+        "id":  93,
+        "name":  "Max Allais"
+    },
+    {
+        "id":  94,
+        "name":  "Alexander Stewart"
+    },
+    {
+        "id":  95,
+        "name":  "Sam Fischer"
+    },
+    {
+        "id":  96,
+        "name":  "Bastille"
+    },
+    {
+        "id":  97,
+        "name":  "Ruti"
+    },
+    {
+        "id":  98,
+        "name":  "Brad Simpson"
+    },
+    {
+        "id":  99,
+        "name":  "Sofia Camara"
+    },
+    {
+        "id":  100,
+        "name":  "Mackenzy Mackay"
+    },
+    {
+        "id":  101,
+        "name":  "Tom Cooper"
+    },
+    {
+        "id":  102,
+        "name":  "Lewis Fitzgerald"
+    },
+    {
+        "id":  103,
+        "name":  "The Hunna"
+    },
+    {
+        "id":  104,
+        "name":  "Arthur Hill"
+    },
+    {
+        "id":  105,
+        "name":  "FJ Law"
+    },
+    {
+        "id":  106,
+        "name":  "George Lyons"
+    },
+    {
+        "id":  107,
+        "name":  "Phoebe Hall"
+    },
+    {
+        "id":  108,
+        "name":  "Bradley Simpson"
+    },
+    {
+        "id":  109,
+        "name":  "Ber"
+    },
+    {
+        "id":  110,
+        "name":  "Elle Coves"
+    },
+    {
+        "id":  111,
+        "name":  "Charlotte Plank"
+    },
+    {
+        "id":  112,
+        "name":  "All Time Low"
+    },
+    {
+        "id":  113,
+        "name":  "Mayday Parade"
+    },
+    {
+        "id":  114,
+        "name":  "Taylor Acorn"
+    },
+    {
+        "id":  115,
+        "name":  "Dream House"
+    },
+    {
+        "id":  116,
+        "name":  "Sigrid"
+    },
+    {
+        "id":  117,
+        "name":  "Tommy Lyon"
+    },
+    {
+        "id":  118,
+        "name":  "Gia Lily"
+    },
+    {
+        "id":  119,
+        "name":  "Josie Man"
+    },
+    {
+        "id":  120,
+        "name":  "Brodie Barclay"
+    },
+    {
+        "id":  121,
+        "name":  "Rila\u0027s Edge"
+    },
+    {
+        "id":  122,
+        "name":  "Dermot Kennedy"
+    },
+    {
+        "id":  123,
+        "name":  "Jensen McRae"
+    },
+    {
+        "id":  124,
+        "name":  "Prima Queen"
+    },
+    {
+        "id":  125,
+        "name":  "Cherryholt"
+    },
+    {
+        "id":  126,
+        "name":  "Orla Gartland"
+    },
+    {
+        "id":  127,
+        "name":  "X"
+    },
+    {
+        "id":  128,
+        "name":  "Padraig Cahill"
+    },
+    {
+        "id":  129,
+        "name":  "Tommy Lyons"
+    },
+    {
+        "id":  130,
+        "name":  "Rosa"
+    },
+    {
+        "id":  131,
+        "name":  "Millichamp"
+    },
+    {
+        "id":  132,
+        "name":  "Ellis Blake"
+    },
+    {
+        "id":  133,
+        "name":  "Isaac Levi"
+    },
+    {
+        "id":  134,
+        "name":  "Ben Cottrill"
+    },
+    {
+        "id":  135,
+        "name":  "Max \u0026 Harvey"
+    },
+    {
+        "id":  136,
+        "name":  "Roe Byrne"
+    },
+    {
+        "id":  137,
+        "name":  "Fred Evans"
+    },
+    {
+        "id":  138,
+        "name":  "Jack \u0026 Jack"
+    },
+    {
+        "id":  139,
+        "name":  "Jenna Raine"
+    },
+    {
+        "id":  140,
+        "name":  "Voila"
+    },
+    {
+        "id":  141,
+        "name":  "Jack Savarotti"
+    },
+    {
+        "id":  142,
+        "name":  "James Bay"
+    },
+    {
+        "id":  143,
+        "name":  "Bear\u0027s Den"
+    },
+    {
+        "id":  144,
+        "name":  "Gabrielle Aplin"
+    },
+    {
+        "id":  145,
+        "name":  "Cameron Whitcomb"
+    },
+    {
+        "id":  146,
+        "name":  "Abbie McCarthy"
+    }
+]

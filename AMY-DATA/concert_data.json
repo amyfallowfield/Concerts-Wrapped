@@ -1,0 +1,872 @@
+﻿[
+    {
+        "concert_id":  1,
+        "artists":  {
+                        "1":  1
+                    },
+        "venue":  "BGN School",
+        "city":  "Banbury",
+        "date":  "14-10-2021",
+        "cost":  0
+    },
+    {
+        "concert_id":  2,
+        "artists":  {
+                        "2":  0,
+                        "3":  1,
+                        "4":  1
+                    },
+        "venue":  "Utilita Arena",
+        "city":  "Birmingham",
+        "date":  "11-12-2022",
+        "cost":  0
+    },
+    {
+        "concert_id":  3,
+        "artists":  {
+                        "5":  0,
+                        "6":  1
+                    },
+        "venue":  "O2 Academy",
+        "city":  "Birmingham",
+        "date":  "18-11-2023",
+        "cost":  3250
+    },
+    {
+        "concert_id":  4,
+        "artists":  {
+                        "7":  0,
+                        "8":  1,
+                        "9":  1,
+                        "10":  1,
+                        "11":  1
+                    },
+        "venue":  "The Wyldes",
+        "city":  "Bude",
+        "date":  "30-06-2024",
+        "cost":  0
+    },
+    {
+        "concert_id":  5,
+        "artists":  {
+                        "1":  0,
+                        "12":  1,
+                        "13":  1
+                    },
+        "venue":  "O2 Academy",
+        "city":  "Birmingham",
+        "date":  "31-07-2024",
+        "cost":  0
+    },
+    {
+        "concert_id":  6,
+        "artists":  {
+                        "14":  1
+                    },
+        "venue":  "South Parks",
+        "city":  "Oxford",
+        "date":  "24-08-2024",
+        "cost":  0
+    },
+    {
+        "concert_id":  7,
+        "artists":  {
+                        "15":  0,
+                        "8":  1,
+                        "16":  1
+                    },
+        "venue":  "Circuit",
+        "city":  "Silverstone",
+        "date":  "25-08-2024",
+        "cost":  0
+    },
+    {
+        "concert_id":  8,
+        "artists":  {
+                        "17":  0,
+                        "8":  1,
+                        "5":  1,
+                        "18":  1,
+                        "19":  1,
+                        "20":  1,
+                        "21":  1,
+                        "22":  1,
+                        "23":  1,
+                        "24":  1
+                    },
+        "venue":  "Don Valley Bowl",
+        "city":  "Sheffield",
+        "date":  "31-08-2023",
+        "cost":  5000
+    },
+    {
+        "concert_id":  9,
+        "artists":  {
+                        "25":  1
+                    },
+        "venue":  "The Royal Pug",
+        "city":  "Leamington Spa",
+        "date":  "07-09-2024",
+        "cost":  0
+    },
+    {
+        "concert_id":  10,
+        "artists":  {
+                        "26":  0,
+                        "27":  1,
+                        "28":  1
+                    },
+        "venue":  "O2 Institute",
+        "city":  "Birmingham",
+        "date":  "11-10-2024",
+        "cost":  0
+    },
+    {
+        "concert_id":  11,
+        "artists":  {
+                        "29":  0,
+                        "30":  1
+                    },
+        "venue":  "O2 Institute",
+        "city":  "Birmingham",
+        "date":  "18-01-2025",
+        "cost":  0
+    },
+    {
+        "concert_id":  12,
+        "artists":  {
+                        "31":  1
+                    },
+        "venue":  "The Bullingdon",
+        "city":  "Oxford",
+        "date":  "11-02-2025",
+        "cost":  2263
+    },
+    {
+        "concert_id":  13,
+        "artists":  {
+                        "32":  0,
+                        "33":  1,
+                        "34":  1
+                    },
+        "venue":  "The Bullingdon",
+        "city":  "Oxford",
+        "date":  "16-03-2025",
+        "cost":  992
+    },
+    {
+        "concert_id":  14,
+        "artists":  {
+                        "35":  0,
+                        "36":  2,
+                        "37":  1
+                    },
+        "venue":  "Eventim Apollo",
+        "city":  "Hammersmith, London",
+        "date":  "26-05-2025",
+        "cost":  3230
+    },
+    {
+        "concert_id":  15,
+        "artists":  {
+                        "38":  0,
+                        "39":  1
+                    },
+        "venue":  "BP Pulse Live",
+        "city":  "Birmingham",
+        "date":  "06-05-2025",
+        "cost":  7748
+    },
+    {
+        "concert_id":  16,
+        "artists":  {
+                        "40":  0,
+                        "41":  2,
+                        "42":  2,
+                        "43":  2,
+                        "44":  2,
+                        "45":  1,
+                        "46":  1,
+                        "47":  1,
+                        "48":  1,
+                        "49":  1,
+                        "50":  1,
+                        "51":  1
+                    },
+        "venue":  "Sefton Park",
+        "city":  "Liverpool",
+        "date":  "23-05-2025",
+        "cost":  3750
+    },
+    {
+        "concert_id":  17,
+        "artists":  {
+                        "52":  1
+                    },
+        "venue":  "Central Station",
+        "city":  "Liverpool",
+        "date":  "24-05-2025",
+        "cost":  0
+    },
+    {
+        "concert_id":  18,
+        "artists":  {
+                        "53":  0,
+                        "54":  1,
+                        "55":  1
+                    },
+        "venue":  "Arts Club",
+        "city":  "Liverpool",
+        "date":  "24-05-2025",
+        "cost":  1865
+    },
+    {
+        "concert_id":  19,
+        "artists":  {
+                        "56":  0,
+                        "57":  1,
+                        "58":  1
+                    },
+        "venue":  "Circuit",
+        "city":  "Silverstone",
+        "date":  "03-07-2025",
+        "cost":  7000
+    },
+    {
+        "concert_id":  20,
+        "artists":  {
+                        "59":  0,
+                        "60":  1,
+                        "18":  1,
+                        "61":  1,
+                        "62":  1,
+                        "63":  1,
+                        "64":  1,
+                        "65":  1
+                    },
+        "venue":  "War Memorial Park",
+        "city":  "Coventry",
+        "date":  "05-07-2025",
+        "cost":  0
+    },
+    {
+        "concert_id":  21,
+        "artists":  {
+                        "66":  0,
+                        "67":  1,
+                        "68":  1,
+                        "69":  1,
+                        "70":  1,
+                        "71":  1
+                    },
+        "venue":  "War Memorial Park",
+        "city":  "Coventry",
+        "date":  "06-07-2025",
+        "cost":  0
+    },
+    {
+        "concert_id":  22,
+        "artists":  {
+                        "72":  0,
+                        "73":  1,
+                        "74":  1
+                    },
+        "venue":  "O2 Academy",
+        "city":  "Brixton, London",
+        "date":  "08-07-2025",
+        "cost":  0
+    },
+    {
+        "concert_id":  23,
+        "artists":  {
+                        "75":  1
+                    },
+        "venue":  "Sefton Park",
+        "city":  "Oxford",
+        "date":  "25-08-2025",
+        "cost":  0
+    },
+    {
+        "concert_id":  24,
+        "artists":  {
+                        "76":  0,
+                        "77":  1
+                    },
+        "venue":  "Also Known As",
+        "city":  "Banbury",
+        "date":  "31-08-2025",
+        "cost":  0
+    },
+    {
+        "concert_id":  25,
+        "artists":  {
+                        "5":  0,
+                        "78":  1
+                    },
+        "venue":  "O2 Academy",
+        "city":  "Brixton, London",
+        "date":  "17-09-2025",
+        "cost":  4088
+    },
+    {
+        "concert_id":  26,
+        "artists":  {
+                        "79":  0,
+                        "80":  1,
+                        "81":  1
+                    },
+        "venue":  "Prince Albert",
+        "city":  "Camden, London",
+        "date":  "18-09-2025",
+        "cost":  0
+    },
+    {
+        "concert_id":  27,
+        "artists":  {
+                        "82":  0,
+                        "83":  1
+                    },
+        "venue":  "21Soho",
+        "city":  "Soho, London",
+        "date":  "22-09-2025",
+        "cost":  1650
+    },
+    {
+        "concert_id":  28,
+        "artists":  {
+                        "8":  0,
+                        "84":  1,
+                        "85":  1
+                    },
+        "venue":  "O2 Academy",
+        "city":  "Oxford",
+        "date":  "12-10-2025",
+        "cost":  2028
+    },
+    {
+        "concert_id":  29,
+        "artists":  {
+                        "22":  0,
+                        "86":  2,
+                        "87":  1,
+                        "88":  1
+                    },
+        "venue":  "The Garage",
+        "city":  "Highbury, London",
+        "date":  "23-10-2025",
+        "cost":  1775
+    },
+    {
+        "concert_id":  30,
+        "artists":  {
+                        "89":  0,
+                        "90":  1,
+                        "91":  1
+                    },
+        "venue":  "The Lower Third",
+        "city":  "Holborn, London",
+        "date":  "25-10-2025",
+        "cost":  1580
+    },
+    {
+        "concert_id":  31,
+        "artists":  {
+                        "92":  0,
+                        "93":  1
+                    },
+        "venue":  "Omeara",
+        "city":  "Southwark, London",
+        "date":  "06-11-2025",
+        "cost":  2305
+    },
+    {
+        "concert_id":  32,
+        "artists":  {
+                        "94":  0,
+                        "95":  1
+                    },
+        "venue":  "KOKO",
+        "city":  "Camden, London",
+        "date":  "17-11-2025",
+        "cost":  2587
+    },
+    {
+        "concert_id":  33,
+        "artists":  {
+                        "96":  0,
+                        "97":  2,
+                        "35":  2,
+                        "98":  1,
+                        "99":  1
+                    },
+        "venue":  "The O2 Arena",
+        "city":  "North Greenwich, London",
+        "date":  "18-11-2025",
+        "cost":  6405
+    },
+    {
+        "concert_id":  34,
+        "artists":  {
+                        "100":  0,
+                        "101":  1,
+                        "102":  1
+                    },
+        "venue":  "Hoxton Hall",
+        "city":  "Hoxton, London",
+        "date":  "21-11-2025",
+        "cost":  1677
+    },
+    {
+        "concert_id":  35,
+        "artists":  {
+                        "103":  1
+                    },
+        "venue":  "Electric Ballroom",
+        "city":  "Camden, London",
+        "date":  "25-11-2025",
+        "cost":  3245
+    },
+    {
+        "concert_id":  36,
+        "artists":  {
+                        "104":  0,
+                        "92":  1
+                    },
+        "venue":  "O2 Academy",
+        "city":  "Brixton, London",
+        "date":  "27-11-2025",
+        "cost":  2250
+    },
+    {
+        "concert_id":  37,
+        "artists":  {
+                        "105":  0,
+                        "106":  1,
+                        "107":  1
+                    },
+        "venue":  "Colours",
+        "city":  "Hoxton, London",
+        "date":  "28-11-2025",
+        "cost":  1375
+    },
+    {
+        "concert_id":  38,
+        "artists":  {
+                        "108":  0,
+                        "109":  2,
+                        "79":  2,
+                        "110":  2,
+                        "54":  2
+                    },
+        "venue":  "The Moth Club",
+        "city":  "Hackney, London",
+        "date":  "08-12-2025",
+        "cost":  3575
+    },
+    {
+        "concert_id":  39,
+        "artists":  {
+                        "111":  1,
+                        "17":  1
+                    },
+        "venue":  "Street Performace",
+        "city":  "Hackney, London",
+        "date":  "16-12-2026",
+        "cost":  0
+    },
+    {
+        "concert_id":  40,
+        "artists":  {
+                        "55":  0,
+                        "106":  1
+                    },
+        "venue":  "The Courtyard Theatre",
+        "city":  "Hoxton, London",
+        "date":  "17-01-2026",
+        "cost":  1640
+    },
+    {
+        "concert_id":  41,
+        "artists":  {
+                        "112":  0,
+                        "113":  1,
+                        "114":  1
+                    },
+        "venue":  "The O2 Arena",
+        "city":  "North Greenwich, London",
+        "date":  "24-01-2026",
+        "cost":  7510
+    },
+    {
+        "concert_id":  42,
+        "artists":  {
+                        "76":  1
+                    },
+        "venue":  "O2 Academy",
+        "city":  "Brixton, London",
+        "date":  "02-02-2026",
+        "cost":  375
+    },
+    {
+        "concert_id":  43,
+        "artists":  {
+                        "78":  1
+                    },
+        "venue":  "The Garage",
+        "city":  "Highbury, London",
+        "date":  "10-02-2026",
+        "cost":  1910
+    },
+    {
+        "concert_id":  44,
+        "artists":  {
+                        "115":  1
+                    },
+        "venue":  "The Lower Third",
+        "city":  "Holborn, London",
+        "date":  "12-03-2026",
+        "cost":  1000
+    },
+    {
+        "concert_id":  45,
+        "artists":  {
+                        "116":  1
+                    },
+        "venue":  "Roundhouse",
+        "city":  "Camden, London",
+        "date":  "13-03-2026",
+        "cost":  4344
+    },
+    {
+        "concert_id":  46,
+        "artists":  {
+                        "104":  0,
+                        "76":  1
+                    },
+        "venue":  "Wembley Arena",
+        "city":  "Wembley, London",
+        "date":  "14-03-2026",
+        "cost":  4400
+    },
+    {
+        "concert_id":  47,
+        "artists":  {
+                        "76":  1
+                    },
+        "venue":  "Queen Of Hoxton",
+        "city":  "Hoxton, London",
+        "date":  "15-03-2026",
+        "cost":  567
+    },
+    {
+        "concert_id":  48,
+        "artists":  {
+                        "76":  0,
+                        "117":  1
+                    },
+        "venue":  "Circuit",
+        "city":  "Kingston Upon Thames",
+        "date":  "01-05-2026",
+        "cost":  820
+    },
+    {
+        "concert_id":  49,
+        "artists":  {
+                        "55":  1,
+                        "118":  1,
+                        "119":  1
+                    },
+        "venue":  "The Finsbury",
+        "city":  "Finsbury, London",
+        "date":  "05-05-2026",
+        "cost":  0
+    },
+    {
+        "concert_id":  50,
+        "artists":  {
+                        "115":  0,
+                        "120":  1
+                    },
+        "venue":  "Notting Hill Arts Club",
+        "city":  "Notting Hill, London",
+        "date":  "20-05-2026",
+        "cost":  1571
+    },
+    {
+        "concert_id":  51,
+        "artists":  {
+                        "121":  0,
+                        "32":  1
+                    },
+        "venue":  "The Purple Turtle",
+        "city":  "Reading",
+        "date":  "22-05-2026",
+        "cost":  0
+    },
+    {
+        "concert_id":  52,
+        "artists":  {
+                        "92":  1
+                    },
+        "venue":  "Village Underground",
+        "city":  "Shoreditch, London",
+        "date":  "23-05-2026",
+        "cost":  1983
+    },
+    {
+        "concert_id":  53,
+        "artists":  {
+                        "92":  1
+                    },
+        "venue":  "The Deaf Institute",
+        "city":  "Manchester",
+        "date":  "30-05-2026",
+        "cost":  1800
+    },
+    {
+        "concert_id":  54,
+        "artists":  {
+                        "122":  0,
+                        "123":  1
+                    },
+        "venue":  "The O2 Arena",
+        "city":  "North Greenwich, London",
+        "date":  "05-06-2026",
+        "cost":  6785
+    },
+    {
+        "concert_id":  55,
+        "artists":  {
+                        "35":  1
+                    },
+        "venue":  "Circuit",
+        "city":  "Kingston Upon Thames",
+        "date":  "07-06-2026",
+        "cost":  1320
+    },
+    {
+        "concert_id":  56,
+        "artists":  {
+                        "22":  1
+                    },
+        "venue":  "Cafe Bara",
+        "city":  "Peckham, London",
+        "date":  "08-06-2026",
+        "cost":  1155
+    },
+    {
+        "concert_id":  57,
+        "artists":  {
+                        "96":  0,
+                        "49":  0,
+                        "124":  1,
+                        "125":  1
+                    },
+        "venue":  "Crystal Palace Bowl",
+        "city":  "Crystal Palace, London",
+        "date":  "13-08-2026",
+        "cost":  5203
+    },
+    {
+        "concert_id":  58,
+        "artists":  {
+                        "96":  0,
+                        "126":  1,
+                        "76":  1
+                    },
+        "venue":  "Dreamland",
+        "city":  "Margate",
+        "date":  "22-08-2026",
+        "cost":  5075
+    },
+    {
+        "concert_id":  59,
+        "artists":  {
+                        "96":  0,
+                        "104":  1,
+                        "126":  1,
+                        "76":  1,
+                        "127":  1
+                    },
+        "venue":  "Castle Park",
+        "city":  "Colchester",
+        "date":  "23-08-2026",
+        "cost":  5883
+    },
+    {
+        "concert_id":  60,
+        "artists":  {
+                        "38":  1
+                    },
+        "venue":  "Victoria Park",
+        "city":  "Victoria, London",
+        "date":  "30-08-2026",
+        "cost":  8725
+    },
+    {
+        "concert_id":  61,
+        "artists":  {
+                        "128":  1
+                    },
+        "venue":  "Wombat\u0027s City Hostel",
+        "city":  "Tower Hamlets, London",
+        "date":  "01-10-2026",
+        "cost":  0
+    },
+    {
+        "concert_id":  62,
+        "artists":  {
+                        "129":  0,
+                        "130":  1
+                    },
+        "venue":  "Barfly",
+        "city":  "Camden, London",
+        "date":  "11-10-2026",
+        "cost":  1776
+    },
+    {
+        "concert_id":  63,
+        "artists":  {
+                        "22":  0,
+                        "131":  1,
+                        "132":  1
+                    },
+        "venue":  "Scala",
+        "city":  "Kings Cross, London",
+        "date":  "13-10-2026",
+        "cost":  2070
+    },
+    {
+        "concert_id":  64,
+        "artists":  {
+                        "79":  0,
+                        "81":  1
+                    },
+        "venue":  "The Garage",
+        "city":  "Highbury, London",
+        "date":  "22-10-2026",
+        "cost":  2130
+    },
+    {
+        "concert_id":  65,
+        "artists":  {
+                        "92":  0,
+                        "133":  1,
+                        "134":  1
+                    },
+        "venue":  "KOKO",
+        "city":  "Camden, London",
+        "date":  "25-10-2026",
+        "cost":  2612
+    },
+    {
+        "concert_id":  66,
+        "artists":  {
+                        "135":  0,
+                        "136":  1
+                    },
+        "venue":  "O2 Academy",
+        "city":  "Islington, London",
+        "date":  "04-11-2026",
+        "cost":  5470
+    },
+    {
+        "concert_id":  67,
+        "artists":  {
+                        "76":  1
+                    },
+        "venue":  "Sub89",
+        "city":  "Reading",
+        "date":  "06-11-2026",
+        "cost":  2365
+    },
+    {
+        "concert_id":  68,
+        "artists":  {
+                        "137":  1
+                    },
+        "venue":  "Folklore",
+        "city":  "Hackney, London",
+        "date":  "16-11-2026",
+        "cost":  1354
+    },
+    {
+        "concert_id":  69,
+        "artists":  {
+                        "138":  0,
+                        "12":  1
+                    },
+        "venue":  "Dingwalls",
+        "city":  "Camden, London",
+        "date":  "22-11-2026",
+        "cost":  2080
+    },
+    {
+        "concert_id":  70,
+        "artists":  {
+                        "139":  1
+                    },
+        "venue":  "O2 Academy",
+        "city":  "Islington, London",
+        "date":  "24-11-2026",
+        "cost":  2185
+    },
+    {
+        "concert_id":  71,
+        "artists":  {
+                        "140":  1
+                    },
+        "venue":  "O2 Shepherds Bush Empire",
+        "city":  "Shepherds Bush, London",
+        "date":  "26-11-2026",
+        "cost":  3330
+    },
+    {
+        "concert_id":  72,
+        "artists":  {
+                        "141":  1,
+                        "142":  1,
+                        "36":  1,
+                        "116":  1,
+                        "143":  1,
+                        "144":  1
+                    },
+        "venue":  "Eventim Apolo",
+        "city":  "Hammersmith, London",
+        "date":  "08-12-2026",
+        "cost":  5650
+    },
+    {
+        "concert_id":  73,
+        "artists":  {
+                        "145":  1
+                    },
+        "venue":  "O2 Academy",
+        "city":  "Brixton, London",
+        "date":  "05-02-2007",
+        "cost":  4400
+    },
+    {
+        "concert_id":  74,
+        "artists":  {
+                        "104":  0,
+                        "22":  1
+                    },
+        "venue":  "Eventim Apolo",
+        "city":  "Hammersmith, London",
+        "date":  "19-03-2027",
+        "cost":  4610
+    },
+    {
+        "concert_id":  75,
+        "artists":  {
+                        "49":  0,
+                        "125":  1,
+                        "146":  1
+                    },
+        "venue":  "O2 Academy",
+        "city":  "Brixton, London",
+        "date":  "17-04-2026",
+        "cost":  5590
+    }
+]
