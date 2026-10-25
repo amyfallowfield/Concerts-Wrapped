@@ -10,7 +10,7 @@ add_executable(concert-wrapped
     src/application/models/src/Artist.cpp
     src/application/models/src/Concert.cpp
     src/application/repositories/src/ConcertRepository.cpp
-    src/application/screens/src/screenManager.cpp
+    src/application/screens/src/ScreenManager.cpp
     src/application/services/src/Logger.cpp
     src/application/services/src/StatsManager.cpp
     src/application/services/src/ValidationManager.cpp
@@ -80,5 +80,6 @@ target_link_libraries(unit-tests PRIVATE
     nlohmann_json::nlohmann_json
 )
 
+enable_testing()
 include(GoogleTest)
 gtest_discover_tests(unit-tests)

@@ -1,0 +1,9 @@
+{
+  "name": "concerts-wrapped",
+  "version-string": "1.0.0",
+  "builtin-baseline": "c16c1bd46c7f6de21efc6dcf19c1069d6825df23",
+  "dependencies": [
+    "gtest",
+    "nlohmann-json"
+  ]
+}
