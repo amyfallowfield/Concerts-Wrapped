@@ -1,10 +1,11 @@
+#include <algorithm>
 #include <iomanip>
 #include <iostream>
-#include <unordered_map>
 #include <vector>
 
 #include "Artist.h"
 #include "Concert.h"
+#include "ConcertArtist.h"
 #include "StatsManager.h"
 #include "Utilities.h"
 
@@ -29,7 +30,8 @@ ConcertStats get_concert_stats(const std::vector<Concert> &concerts)
     return output;
 }
 
-ArtistStats get_artist_stats(const Artist &artist, const std::vector<Concert> &concerts)
+ArtistStats get_artist_stats(const Artist &artist, const std::vector<Concert> &concerts,
+                             const std::vector<ConcertArtist> &concert_artists)
 {
     ArtistStats output;
 
@@ -37,9 +39,14 @@ ArtistStats get_artist_stats(const Artist &artist, const std::vector<Concert> &c
 
     for (const Concert &concert : concerts)
     {
-        const std::unordered_map<int32_t, ArtistRoles> &artist_id_role_map = concert.get_artists();
-        auto it = artist_id_role_map.find(artist.get_id());
-        if (it == artist_id_role_map.end())
+        auto it = std::find_if(
+            concert_artists.begin(), concert_artists.end(),
+            [&](const ConcertArtist &concert_artist_data)
+            {
+                return concert_artist_data.get_artist_id() == artist.get_id() &&
+                       concert_artist_data.get_concert_id() == concert.get_concert_id();
+            });
+        if (it == concert_artists.end())
         {
             continue;
         }

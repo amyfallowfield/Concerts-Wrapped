@@ -6,13 +6,14 @@
 #include <vector>
 
 #include "Artist.h"
+#include "ConcertArtist.h"
 #include "Concert.h"
-#include "StorageManager.h"
+#include "IStorageManager.h"
 
 class ConcertRepository
 {
   public:
-    ConcertRepository(StorageManager &storage);
+    ConcertRepository(IStorageManager &storage);
 
     virtual void add_concert(std::map<std::string, ArtistRoles> artists, std::string venue,
                              std::string city, std::string date, double cost);
@@ -28,13 +29,14 @@ class ConcertRepository
 
     const std::vector<Concert> &get_concerts() const;
     const std::vector<Artist> &get_artists() const;
+    const std::vector<ConcertArtist> &get_concert_artists() const;
 
   private:
-    StorageManager storage = StorageManager("data");
     std::vector<Artist> artists;
     std::vector<Concert> concerts;
+    std::vector<ConcertArtist> concert_artists;
 
-    void _refresh_artists(const Concert &concert);
+    void _remove_unused_artists();
 
     std::vector<Concert>::iterator _find_concert_by_id(int32_t id);
     std::vector<Artist>::iterator _find_artist_by_id(int32_t id);

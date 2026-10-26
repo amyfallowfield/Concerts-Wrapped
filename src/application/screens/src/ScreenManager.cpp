@@ -5,19 +5,20 @@
 
 #include "ComponentManager.h"
 #include "Concert.h"
+#include "ConcertArtist.h"
 #include "ConcertRepository.h"
 #include "Input.h"
 #include "Logger.h"
 #include "MenuView.h"
 #include "ScreenManager.h"
 #include "StatsManager.h"
-#include "StorageManager.h"
+#include "IStorageManager.h"
 
 #define LOG_INFO(message) Logger::Info(__FILE__, __func__, message)
 #define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
 #define LOG_ERROR(message) Logger::Error(__FILE__, __func__, message)
 
-ScreenManager::ScreenManager(ConcertRepository &repo, StorageManager &storage, UIComponent &ui)
+ScreenManager::ScreenManager(ConcertRepository &repo, IStorageManager &storage, UIComponent &ui)
     : current_screen(Screen::Menu), repo(repo), storage(storage), ui(ui)
 {
 }
@@ -31,8 +32,9 @@ void ScreenManager::run()
         process_current_screen();
     }
 
-    storage.save(repo.get_artists());
-    storage.save(repo.get_concerts());
+    storage.save_artists(repo.get_artists());
+    storage.save_concert_artists(repo.get_concert_artists());
+    storage.save_concerts(repo.get_concerts());
 }
 
 void ScreenManager::process_current_screen()
@@ -130,7 +132,8 @@ void ScreenManager::process_current_screen()
         break;
     }
     case Screen::ViewConcerts:
-        ui.concerts_view.show(repo.get_concerts(), repo.get_artists());
+        ui.concerts_view.show(repo.get_concerts(), repo.get_artists(),
+                              repo.get_concert_artists());
         current_screen = Screen::Menu;
         break;
     case Screen::DeleteConcert:
@@ -208,16 +211,24 @@ void ScreenManager::process_current_screen()
                 auto artist_it = std::find_if(repo.get_artists().begin(), repo.get_artists().end(),
                                               [&](const Artist &artist)
                                               { return artist.get_name() == artist_name.value; });
-                if (artist_it != repo.get_artists().end() &&
-                    concert_it->get_artists().find(artist_it->get_id()) !=
-                        concert_it->get_artists().end())
+
+                if (artist_it != repo.get_artists().end())
                 {
-                    // TODO: Should logger handle error message as well to reduce duplication of
-                    // message?
-                    LOG_WARN("Artist is already associated with this concert");
-                    ui.pop_up_view.show_error_message(
-                        "Artist is already associated with this concert");
-                    break;
+                    auto concert_artist_it =
+                        std::find_if(repo.get_concert_artists().begin(),
+                                     repo.get_concert_artists().end(),
+                                     [&](const ConcertArtist &artist_concert)
+                                     {
+                                         return artist_concert.get_concert_id() == concert_id.value &&
+                                                artist_concert.get_artist_id() == artist_it->get_id();
+                                     });
+                    if (concert_artist_it != repo.get_concert_artists().end())
+                    {
+                        LOG_WARN("Artist is already associated with this concert");
+                        ui.pop_up_view.show_error_message(
+                            "Artist is already associated with this concert");
+                        break;
+                    }
                 }
 
                 InputResult<ArtistRoles> artist_role =
@@ -232,9 +243,12 @@ void ScreenManager::process_current_screen()
             }
 
             std::vector<int32_t> current_artist_ids;
-            for (const auto &[artist_id, role] : concert_it->get_artists())
+            for (const ConcertArtist &concert_artist : repo.get_concert_artists())
             {
-                current_artist_ids.push_back(artist_id);
+                if (concert_artist.get_concert_id() == concert_id.value)
+                {
+                    current_artist_ids.push_back(concert_artist.get_artist_id());
+                }
             }
 
             int32_t artist_id;
@@ -378,7 +392,8 @@ void ScreenManager::process_current_screen()
         for (const Artist &artist : repo.get_artists())
         {
             ui.stats_view.show_artist_stats(
-                StatsManager::get_artist_stats(artist, repo.get_concerts()));
+                StatsManager::get_artist_stats(artist, repo.get_concerts(),
+                                               repo.get_concert_artists()));
         }
         current_screen = Screen::Menu;
         break;

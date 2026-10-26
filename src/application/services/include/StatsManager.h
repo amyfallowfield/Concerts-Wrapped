@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Artist.h"
+#include "ConcertArtist.h"
 #include "Concert.h"
 
 struct ArtistStats
@@ -26,7 +27,8 @@ struct ConcertStats
 namespace StatsManager
 {
 ConcertStats get_concert_stats(const std::vector<Concert> &concerts);
-ArtistStats get_artist_stats(const Artist &artist, const std::vector<Concert> &concerts);
+ArtistStats get_artist_stats(const Artist &artist, const std::vector<Concert> &concerts,
+                             const std::vector<ConcertArtist> &concert_artists);
 }; // namespace StatsManager
 
 #endif

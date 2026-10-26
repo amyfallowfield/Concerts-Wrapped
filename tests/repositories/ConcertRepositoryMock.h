@@ -4,12 +4,12 @@
 #include <gmock/gmock.h>
 
 #include "ConcertRepository.h"
-#include "StorageManager.h"
+#include "IStorageManager.h"
 
 class ConcertRepositoryMock : public ConcertRepository
 {
   public:
-    ConcertRepositoryMock(StorageManager &storage) : ConcertRepository(storage)
+    ConcertRepositoryMock(IStorageManager &storage) : ConcertRepository(storage)
     {
     }
 

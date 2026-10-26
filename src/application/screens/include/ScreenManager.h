@@ -9,7 +9,7 @@
 #include "ComponentManager.h"
 #include "ConcertRepository.h"
 #include "StatsManager.h"
-#include "StorageManager.h"
+#include "IStorageManager.h"
 #include "ValidationManager.h"
 
 enum class Screen
@@ -27,13 +27,13 @@ enum class Screen
 class ScreenManager
 {
   public:
-    ScreenManager(ConcertRepository &repo, StorageManager &storage, UIComponent &ui);
+    ScreenManager(ConcertRepository &repo, IStorageManager &storage, UIComponent &ui);
 
     void run();
     void process_current_screen();
 
   private:
-    StorageManager storage;
+    IStorageManager &storage;
     ConcertRepository &repo;
     UIComponent &ui;
     Screen current_screen;

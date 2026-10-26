@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Concert.h"
+#include "ConcertArtist.h"
 
 template <typename T> struct ValidationResult
 {

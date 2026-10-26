@@ -8,9 +8,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(concert-wrapped
     src/Main.cpp
     src/application/models/src/Artist.cpp
+    src/application/models/src/ConcertArtist.cpp
     src/application/models/src/Concert.cpp
     src/application/repositories/src/ConcertRepository.cpp
     src/application/screens/src/ScreenManager.cpp
+    src/application/services/src/JSONStorageManager.cpp
     src/application/services/src/Logger.cpp
     src/application/services/src/StatsManager.cpp
     src/application/services/src/ValidationManager.cpp
@@ -37,9 +39,11 @@ target_include_directories(concert-wrapped PRIVATE
 
 add_executable(unit-tests
     src/application/models/src/Artist.cpp
+    src/application/models/src/ConcertArtist.cpp
     src/application/models/src/Concert.cpp
     src/application/repositories/src/ConcertRepository.cpp
     src/application/screens/src/ScreenManager.cpp
+    src/application/services/src/JSONStorageManager.cpp
     src/application/services/src/Logger.cpp
     src/application/services/src/StatsManager.cpp
     src/application/services/src/ValidationManager.cpp

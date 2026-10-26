@@ -12,7 +12,7 @@
 #include "PopUpViewMock.h"
 #include "ScreenManager.h"
 #include "StatsViewMock.h"
-#include "StorageManager.h"
+#include "JSONStorageManager.h"
 #include "TestData.h"
 
 class ScreenManagerTest : public ::testing::Test
@@ -26,7 +26,7 @@ class ScreenManagerTest : public ::testing::Test
     std::unique_ptr<UIComponent> ui;
     std::unique_ptr<ScreenManager> manager;
     std::unique_ptr<ConcertRepositoryMock> repo;
-    std::unique_ptr<StorageManager> storage;
+    std::unique_ptr<JSONStorageManager> storage;
 
     std::ostringstream logs;
     std::vector<std::string> input_responses;
@@ -36,7 +36,9 @@ class ScreenManagerTest : public ::testing::Test
 
     void SetUp() override
     {
+        std::filesystem::remove_all("test");
         Artist::reset();
+        Concert::reset();
 
         original_cerr = std::cerr.rdbuf();
 
@@ -50,15 +52,15 @@ class ScreenManagerTest : public ::testing::Test
         ui = std::make_unique<UIComponent>(
             UIComponent{*concerts_view, *input_view, *menu_view, *pop_up_view, *stats_view});
 
-        storage = std::make_unique<StorageManager>("test");
-        storage->save<Artist>({});
-        storage->save<Concert>({});
+        storage = std::make_unique<JSONStorageManager>("test");
+        storage->save_artists({});
+        storage->save_concerts({});
 
         manager.reset();
         repo = std::make_unique<ConcertRepositoryMock>(*storage);
 
-        storage->save<Artist>({});
-        storage->save<Concert>({});
+        storage->save_artists({});
+        storage->save_concerts({});
     }
 
     void TearDown() override
@@ -163,7 +165,7 @@ TEST_F(ScreenManagerTest, invalid_concert_date_returns_to_menu)
 TEST_F(ScreenManagerTest, menu_loads_view_concerts_page)
 {
     set_input({"2"});
-    EXPECT_CALL(*concerts_view, show(testing::_, testing::_)).Times(1);
+    EXPECT_CALL(*concerts_view, show(testing::_, testing::_, testing::_)).Times(1);
     manager->process_current_screen();
     manager->process_current_screen();
 }
@@ -173,9 +175,12 @@ TEST_F(ScreenManagerTest, menu_loads_delete_concert_page)
     Artist main_artist = TestData::create_test_artist("Benjamin Steer");
     Artist support_artist = TestData::create_test_artist("Dolder");
     Concert concert = TestData::create_test_concert1();
+    ConcertArtist concert_artist1 = TestData::create_artist_concert(1, 1, ArtistRoles::Headline);
+    ConcertArtist concert_artist2 = TestData::create_artist_concert(1, 2, ArtistRoles::Support);
 
-    storage->save<Artist>({main_artist, support_artist});
-    storage->save<Concert>({concert});
+    storage->save_artists({main_artist, support_artist});
+    storage->save_concerts({concert});
+    storage->save_concert_artists({concert_artist1, concert_artist2});
 
     manager.reset();
     repo = std::make_unique<ConcertRepositoryMock>(*storage);
@@ -192,9 +197,12 @@ TEST_F(ScreenManagerTest, menu_loads_edit_concert_page)
     Artist main_artist = TestData::create_test_artist("Benjamin Steer");
     Artist support_artist = TestData::create_test_artist("Dolder");
     Concert concert = TestData::create_test_concert1();
+    ConcertArtist concert_artist1 = TestData::create_artist_concert(1, 1, ArtistRoles::Headline);
+    ConcertArtist concert_artist2 = TestData::create_artist_concert(1, 2, ArtistRoles::Support);
 
-    storage->save<Artist>({main_artist, support_artist});
-    storage->save<Concert>({concert});
+    storage->save_artists({main_artist, support_artist});
+    storage->save_concerts({concert});
+    storage->save_concert_artists({concert_artist1, concert_artist2});
 
     manager.reset();
     repo = std::make_unique<ConcertRepositoryMock>(*storage);
@@ -223,9 +231,12 @@ TEST_F(ScreenManagerTest, edit_concert_can_add_new_artist)
     Artist main_artist = TestData::create_test_artist("Benjamin Steer");
     Artist support_artist = TestData::create_test_artist("Dolder");
     Concert concert = TestData::create_test_concert1();
+    ConcertArtist concert_artist1 = TestData::create_artist_concert(1, 1, ArtistRoles::Headline);
+    ConcertArtist concert_artist2 = TestData::create_artist_concert(1, 2, ArtistRoles::Support);
 
-    storage->save<Artist>({main_artist, support_artist});
-    storage->save<Concert>({concert});
+    storage->save_artists({main_artist, support_artist});
+    storage->save_concerts({concert});
+    storage->save_concert_artists({concert_artist1, concert_artist2});
 
     manager.reset();
     repo = std::make_unique<ConcertRepositoryMock>(*storage);
@@ -249,7 +260,7 @@ TEST_F(ScreenManagerTest, menu_loads_concert_stats_page)
 TEST_F(ScreenManagerTest, menu_loads_artist_stats_page)
 {
     Artist artist = TestData::create_test_artist("Benjamin Steer");
-    storage->save<Artist>({artist});
+    storage->save_artists({artist});
     manager.reset();
     repo = std::make_unique<ConcertRepositoryMock>(*storage);
 

@@ -12,14 +12,14 @@ Artist::Artist(const std::string &name) : id(_next_id), name(name)
     _next_id = id > _next_id ? ++id : ++_next_id;
 }
 
-Artist::Artist(const json &data) : id(data.at("id")), name(data.at("name"))
+Artist::Artist(const json &data) : id(data.at("artist_id")), name(data.at("name"))
 {
     _next_id = id > _next_id ? id + 1 : ++_next_id;
 }
 
 json Artist::to_json() const
 {
-    return json{{"id", id}, {"name", name}};
+    return json{{"artist_id", id}, {"name", name}};
 }
 
 int32_t Artist::get_id() const

@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "Artist.h"
+#include "ConcertArtist.h"
 #include "Concert.h"
 #include "StatsManager.h"
 #include "TestData.h"
@@ -18,7 +19,7 @@ class StatsManagerTest : public testing::Test
 TEST_F(StatsManagerTest, print_empty_artists)
 {
     Artist artist = TestData::create_test_artist("Benjamin Steer");
-    ArtistStats stats = StatsManager::get_artist_stats(artist, {});
+    ArtistStats stats = StatsManager::get_artist_stats(artist, {}, {});
 
     ASSERT_TRUE(stats.name.empty()) << "Name should be empty";
     ASSERT_TRUE(stats.first_seen.empty()) << "First seen should be empty";
@@ -31,8 +32,10 @@ TEST_F(StatsManagerTest, print_one_artist_one_concert)
 {
     Concert concert = TestData::create_test_concert1();
     Artist artist = TestData::create_test_artist("Benjamin Steer");
-
-    ArtistStats stats = StatsManager::get_artist_stats(artist, {concert});
+    ConcertArtist concert_artist1 = TestData::create_artist_concert(1, 1, ArtistRoles::Headline);
+    ConcertArtist concert_artist2 = TestData::create_artist_concert(1, 2, ArtistRoles::Support);
+    
+    ArtistStats stats = StatsManager::get_artist_stats(artist, {concert}, {concert_artist1, concert_artist2});
 
     ASSERT_EQ("Benjamin Steer", stats.name) << "Name should equal Benjamin Steer";
     ASSERT_EQ("23-05-2026", stats.first_seen) << "First seen should equal 23-05-2026";
@@ -47,8 +50,12 @@ TEST_F(StatsManagerTest, print_one_artist_two_concerts)
     Concert concert1 = TestData::create_test_concert1();
     Concert concert2 = TestData::create_test_concert2();
     Artist artist = TestData::create_test_artist("Benjamin Steer");
+    ConcertArtist concert_artist1 = TestData::create_artist_concert(1, 1, ArtistRoles::Headline);
+    ConcertArtist concert_artist2 = TestData::create_artist_concert(1, 2, ArtistRoles::Support);
+    ConcertArtist concert_artist3 = TestData::create_artist_concert(2, 1, ArtistRoles::Headline);
+    ConcertArtist concert_artist4 = TestData::create_artist_concert(2, 2, ArtistRoles::Support);
 
-    ArtistStats stats = StatsManager::get_artist_stats(artist, {concert1, concert2});
+    ArtistStats stats = StatsManager::get_artist_stats(artist, {concert1, concert2}, {concert_artist1, concert_artist2, concert_artist3, concert_artist4});
 
     ASSERT_EQ("Benjamin Steer", stats.name) << "Name should equal Benjamin Steer";
     ASSERT_EQ("23-05-2026", stats.first_seen) << "First seen should equal 23-05-2026";

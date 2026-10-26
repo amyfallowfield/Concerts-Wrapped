@@ -62,11 +62,7 @@ TEST_F(ArtistTest, id_not_reused_after_artist_removed)
 TEST_F(ArtistTest, multiple_concerts_multiple_roles_from_params)
 {
     Concert concert1 = TestData::create_test_concert1();
-    std::unordered_map<int32_t, ArtistRoles> artist_id_role_map{};
-    artist_id_role_map.emplace(2, ArtistRoles::Headline);
-    artist_id_role_map.emplace(1, ArtistRoles::Support);
-    Concert concert2 =
-        Concert{artist_id_role_map, "O2 Academy Brixton", "London", "27-11-2025", 3000};
+    Concert concert2{"O2 Academy Brixton", "London", "27-11-2025", 3000};
 
     std::vector<Concert> concerts{};
     concerts.push_back(concert1);
@@ -84,7 +80,7 @@ TEST_F(ArtistTest, multiple_concerts_multiple_roles_from_params)
 
 TEST_F(ArtistTest, one_concert_from_json)
 {
-    json artist_data = {{"id", 1}, {"name", "Benjamin Steer"}};
+    json artist_data = {{"artist_id", 1}, {"name", "Benjamin Steer"}};
     Artist artist = Artist(artist_data);
 
     ASSERT_EQ(1, artist.get_id()) << "Artist ID should be 1";
@@ -97,7 +93,7 @@ TEST_F(ArtistTest, to_json)
     Artist artist = TestData::create_test_artist("Benjamin Steer");
 
     json artist_data = {
-        {"id", 1},
+        {"artist_id", 1},
         {"name", "Benjamin Steer"},
     };
 

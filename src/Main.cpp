@@ -8,6 +8,7 @@
 #include "ConsoleMenuView.h"
 #include "ConsolePopUpView.h"
 #include "ConsoleStatsView.h"
+#include "JSONStorageManager.h"
 #include "ScreenManager.h"
 #include "StatsManager.h"
 
@@ -19,7 +20,7 @@ int main()
 {
     try
     {
-        StorageManager storage{"data"};
+        JSONStorageManager storage{"data"};
         ConcertRepository repo{storage};
 
         ConsoleConcertsView concerts_view;
