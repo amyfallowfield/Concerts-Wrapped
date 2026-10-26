@@ -39,13 +39,13 @@ ArtistStats get_artist_stats(const Artist &artist, const std::vector<Concert> &c
 
     for (const Concert &concert : concerts)
     {
-        auto it = std::find_if(
-            concert_artists.begin(), concert_artists.end(),
-            [&](const ConcertArtist &concert_artist_data)
-            {
-                return concert_artist_data.get_artist_id() == artist.get_id() &&
-                       concert_artist_data.get_concert_id() == concert.get_concert_id();
-            });
+        auto it = std::find_if(concert_artists.begin(), concert_artists.end(),
+                               [&](const ConcertArtist &concert_artist_data)
+                               {
+                                   return concert_artist_data.get_artist_id() == artist.get_id() &&
+                                          concert_artist_data.get_concert_id() ==
+                                              concert.get_concert_id();
+                               });
         if (it == concert_artists.end())
         {
             continue;

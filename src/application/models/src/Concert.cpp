@@ -16,8 +16,7 @@ Concert::Concert(std::string venue, std::string city, std::string date, int32_t 
 }
 
 Concert::Concert(const json &data)
-    : concert_id(data.at("concert_id")),
-      venue(data.at("venue")), city(data.at("city")),
+    : concert_id(data.at("concert_id")), venue(data.at("venue")), city(data.at("city")),
       date(data.at("event_date")), cost(data.at("cost"))
 {
     _next_id = concert_id > _next_id ? concert_id + 1 : ++_next_id;

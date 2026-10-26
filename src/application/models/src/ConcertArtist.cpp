@@ -42,16 +42,15 @@ ArtistRoles role_from_string(const std::string &role)
 } // namespace
 
 ConcertArtist::ConcertArtist(int32_t concert_id, int32_t artist_id, ArtistRoles role)
-    : concert_id(concert_id),
-      artist_id(artist_id),
-      artist_role(role)
-{}
+    : concert_id(concert_id), artist_id(artist_id), artist_role(role)
+{
+}
 
 ConcertArtist::ConcertArtist(const json &data)
-    : concert_id(data.at("concert_id")),
-      artist_id(data.at("artist_id")),
+    : concert_id(data.at("concert_id")), artist_id(data.at("artist_id")),
       artist_role(role_from_string(data.at("role").get<std::string>()))
-{}
+{
+}
 
 json ConcertArtist::to_json() const
 {

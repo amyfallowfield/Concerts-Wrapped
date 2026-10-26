@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(git rev-parse --show-toplevel)
+cd "$repo_root"
+
+echo "Building and running unit tests before push..."
+if [ -z "${VCPKG_ROOT:-}" ] && [ -f "$repo_root/../vcpkg/scripts/buildsystems/vcpkg.cmake" ]; then
+    VCPKG_ROOT=$(cd "$repo_root/../vcpkg" && pwd)
+    export VCPKG_ROOT
+fi
+
+if [ -z "${VCPKG_ROOT:-}" ]; then
+    echo "VCPKG_ROOT must point to a vcpkg checkout." >&2
+    exit 1
+fi
+
+cmake --preset vcpkg-debug
+cmake --build build --config Release --target unit-tests --parallel 1
+ctest --test-dir build -C Release --output-on-failure

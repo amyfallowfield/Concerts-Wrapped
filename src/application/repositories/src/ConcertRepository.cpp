@@ -101,10 +101,13 @@ void ConcertRepository::edit_artist(int32_t concert_id, int32_t artist_id,
         return;
     }
 
-    auto concert_artist_it = std::find_if(
-        concert_artists.begin(), concert_artists.end(),
-        [&](const ConcertArtist &concert_artist)
-        { return concert_artist.get_concert_id() == concert_id && concert_artist.get_artist_id() == artist_id; });
+    auto concert_artist_it =
+        std::find_if(concert_artists.begin(), concert_artists.end(),
+                     [&](const ConcertArtist &concert_artist)
+                     {
+                         return concert_artist.get_concert_id() == concert_id &&
+                                concert_artist.get_artist_id() == artist_id;
+                     });
     if (concert_artist_it == concert_artists.end())
     {
         LOG_ERROR("Artist is not associated with this concert");
@@ -117,8 +120,7 @@ void ConcertRepository::edit_artist(int32_t concert_id, int32_t artist_id,
     }
     if (artist_id != replacement_artist_id &&
         std::find_if(concert_artists.begin(), concert_artists.end(),
-                     [&](const ConcertArtist &row)
-                     {
+                     [&](const ConcertArtist &row) {
                          return row.get_concert_id() == concert_id &&
                                 row.get_artist_id() == replacement_artist_id;
                      }) != concert_artists.end())
@@ -135,10 +137,13 @@ void ConcertRepository::edit_artist(int32_t concert_id, int32_t artist_id,
 
 void ConcertRepository::delete_artist(int32_t concert_id, int32_t artist_id)
 {
-    auto concert_artists_it = std::find_if(
-        concert_artists.begin(), concert_artists.end(),
-        [&](const ConcertArtist &concert_artist)
-        { return concert_artist.get_concert_id() == concert_id && concert_artist.get_artist_id() == artist_id; });
+    auto concert_artists_it =
+        std::find_if(concert_artists.begin(), concert_artists.end(),
+                     [&](const ConcertArtist &concert_artist)
+                     {
+                         return concert_artist.get_concert_id() == concert_id &&
+                                concert_artist.get_artist_id() == artist_id;
+                     });
     if (concert_artists_it == concert_artists.end())
     {
         LOG_ERROR("Concert or artist pair not found");
@@ -248,14 +253,16 @@ void ConcertRepository::add_concert(std::map<std::string, ArtistRoles> unprocess
 
 void ConcertRepository::_remove_unused_artists()
 {
-    std::erase_if(artists, [&](const Artist &artist)
-    {
-        bool artist_still_used =
-            std::any_of(concert_artists.begin(), concert_artists.end(),
-                        [&](const ConcertArtist &concert_artist)
-                        { return concert_artist.get_artist_id() == artist.get_id(); });
-        return !artist_still_used;
-    });
+    std::erase_if(artists,
+                  [&](const Artist &artist)
+                  {
+                      bool artist_still_used =
+                          std::any_of(concert_artists.begin(), concert_artists.end(),
+                                      [&](const ConcertArtist &concert_artist) {
+                                          return concert_artist.get_artist_id() == artist.get_id();
+                                      });
+                      return !artist_still_used;
+                  });
 }
 
 std::vector<Concert>::iterator ConcertRepository::_find_concert_by_id(int32_t id)

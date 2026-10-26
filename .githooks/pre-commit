@@ -1,0 +1,32 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(git rev-parse --show-toplevel)
+cd "$repo_root"
+
+echo "Checking C++ formatting before commit..."
+formatter=${CLANG_FORMAT:-clang-format-15}
+if ! command -v "$formatter" >/dev/null 2>&1; then
+    formatter=clang-format
+fi
+if ! command -v "$formatter" >/dev/null 2>&1; then
+    visual_studio_formatter="C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/Llvm/bin/clang-format.exe"
+    if [ -x "$visual_studio_formatter" ]; then
+        formatter=$visual_studio_formatter
+    else
+        echo "clang-format-15 is required; install it or set CLANG_FORMAT to its path." >&2
+        exit 1
+    fi
+fi
+
+formatter_version=$("$formatter" --version)
+case "$formatter_version" in
+    *"version 15."*) ;;
+    *)
+        echo "clang-format 15 is required; found: $formatter_version" >&2
+        exit 1
+        ;;
+esac
+
+find src tests -type f \( -name "*.cpp" -o -name "*.h" \) -print0 \
+    | xargs -0 "$formatter" --dry-run --Werror

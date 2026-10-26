@@ -2,8 +2,8 @@
 #define TEST_DATA_H
 
 #include "Artist.h"
-#include "ConcertArtist.h"
 #include "Concert.h"
+#include "ConcertArtist.h"
 
 namespace TestData
 {

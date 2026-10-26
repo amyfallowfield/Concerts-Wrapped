@@ -55,8 +55,10 @@ TEST_F(ConcertTest, id_not_reused_after_concert_removed)
 
 TEST_F(ConcertTest, first_instantiation_from_json)
 {
-    json concert_data = {{"concert_id", 1},           {"venue", "Deaf Institute"},
-                         {"city", "Manchester"},      {"event_date", "30-05-2026"},
+    json concert_data = {{"concert_id", 1},
+                         {"venue", "Deaf Institute"},
+                         {"city", "Manchester"},
+                         {"event_date", "30-05-2026"},
                          {"cost", 2500}};
     Concert concert = Concert(concert_data);
 
@@ -71,9 +73,11 @@ TEST_F(ConcertTest, second_instantiation_from_json)
 {
     Concert concert1 = TestData::create_test_concert1();
 
-    json concert_data = {
-        {"concert_id", 3},  {"venue", "Village Underground"},
-        {"city", "London"}, {"event_date", "23-05-2026"}, {"cost", 2000}};
+    json concert_data = {{"concert_id", 3},
+                         {"venue", "Village Underground"},
+                         {"city", "London"},
+                         {"event_date", "23-05-2026"},
+                         {"cost", 2000}};
     Concert concert2 = Concert{concert_data};
 
     ASSERT_EQ(3, concert2.get_concert_id()) << "ID should be 3";
@@ -83,18 +87,22 @@ TEST_F(ConcertTest, to_json)
 {
     Concert concert = TestData::create_test_concert1();
 
-    json concert_data = {
-        {"concert_id", 1},  {"venue", "Village Underground"},
-        {"city", "London"}, {"event_date", "23-05-2026"}, {"cost", 2000}};
+    json concert_data = {{"concert_id", 1},
+                         {"venue", "Village Underground"},
+                         {"city", "London"},
+                         {"event_date", "23-05-2026"},
+                         {"cost", 2000}};
 
     ASSERT_EQ(concert_data, concert.to_json()) << "Concert data should be formatted as json";
 }
 
 TEST_F(ConcertTest, operator_equals_when_equal)
 {
-    json duplicate_concert_data = {
-        {"concert_id", 1},  {"venue", "Village Underground"},
-        {"city", "London"}, {"event_date", "23-05-2026"}, {"cost", 2000}};
+    json duplicate_concert_data = {{"concert_id", 1},
+                                   {"venue", "Village Underground"},
+                                   {"city", "London"},
+                                   {"event_date", "23-05-2026"},
+                                   {"cost", 2000}};
 
     Concert concert1 = TestData::create_test_concert1();
     Concert concert2 = Concert(duplicate_concert_data);

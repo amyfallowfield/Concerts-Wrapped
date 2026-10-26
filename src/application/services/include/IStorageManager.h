@@ -4,8 +4,8 @@
 #include <vector>
 
 #include "Artist.h"
-#include "ConcertArtist.h"
 #include "Concert.h"
+#include "ConcertArtist.h"
 
 class IStorageManager
 {

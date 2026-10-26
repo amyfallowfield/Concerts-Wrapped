@@ -3,8 +3,8 @@
 #include <sstream>
 
 #include "Artist.h"
-#include "ConcertArtist.h"
 #include "Concert.h"
+#include "ConcertArtist.h"
 #include "ConcertRepository.h"
 #include "JSONStorageManager.h"
 
@@ -162,7 +162,7 @@ TEST_F(ConcertRepositoryTest, remove_one_of_two_concerts)
     ConcertArtist concert1_artist2 = TestData::create_artist_concert(1, 2, ArtistRoles::Support);
     ConcertArtist concert2_artist1 = TestData::create_artist_concert(2, 1, ArtistRoles::Headline);
     ConcertArtist concert2_artist2 = TestData::create_artist_concert(2, 2, ArtistRoles::Support);
-    
+
     storage.save_artists({main_artist, support_artist});
     storage.save_concerts({concert1, concert2});
     storage.save_concert_artists(

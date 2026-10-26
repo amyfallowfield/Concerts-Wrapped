@@ -8,11 +8,11 @@
 #include "ConcertRepositoryMock.h"
 #include "ConcertsViewMock.h"
 #include "InputMock.h"
+#include "JSONStorageManager.h"
 #include "MenuViewMock.h"
 #include "PopUpViewMock.h"
 #include "ScreenManager.h"
 #include "StatsViewMock.h"
-#include "JSONStorageManager.h"
 #include "TestData.h"
 
 class ScreenManagerTest : public ::testing::Test

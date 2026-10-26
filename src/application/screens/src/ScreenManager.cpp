@@ -7,12 +7,12 @@
 #include "Concert.h"
 #include "ConcertArtist.h"
 #include "ConcertRepository.h"
+#include "IStorageManager.h"
 #include "Input.h"
 #include "Logger.h"
 #include "MenuView.h"
 #include "ScreenManager.h"
 #include "StatsManager.h"
-#include "IStorageManager.h"
 
 #define LOG_INFO(message) Logger::Info(__FILE__, __func__, message)
 #define LOG_WARN(message) Logger::Warn(__FILE__, __func__, message)
@@ -132,8 +132,7 @@ void ScreenManager::process_current_screen()
         break;
     }
     case Screen::ViewConcerts:
-        ui.concerts_view.show(repo.get_concerts(), repo.get_artists(),
-                              repo.get_concert_artists());
+        ui.concerts_view.show(repo.get_concerts(), repo.get_artists(), repo.get_concert_artists());
         current_screen = Screen::Menu;
         break;
     case Screen::DeleteConcert:
@@ -214,14 +213,13 @@ void ScreenManager::process_current_screen()
 
                 if (artist_it != repo.get_artists().end())
                 {
-                    auto concert_artist_it =
-                        std::find_if(repo.get_concert_artists().begin(),
-                                     repo.get_concert_artists().end(),
-                                     [&](const ConcertArtist &artist_concert)
-                                     {
-                                         return artist_concert.get_concert_id() == concert_id.value &&
-                                                artist_concert.get_artist_id() == artist_it->get_id();
-                                     });
+                    auto concert_artist_it = std::find_if(
+                        repo.get_concert_artists().begin(), repo.get_concert_artists().end(),
+                        [&](const ConcertArtist &artist_concert)
+                        {
+                            return artist_concert.get_concert_id() == concert_id.value &&
+                                   artist_concert.get_artist_id() == artist_it->get_id();
+                        });
                     if (concert_artist_it != repo.get_concert_artists().end())
                     {
                         LOG_WARN("Artist is already associated with this concert");
@@ -391,9 +389,8 @@ void ScreenManager::process_current_screen()
     case Screen::ArtistStats:
         for (const Artist &artist : repo.get_artists())
         {
-            ui.stats_view.show_artist_stats(
-                StatsManager::get_artist_stats(artist, repo.get_concerts(),
-                                               repo.get_concert_artists()));
+            ui.stats_view.show_artist_stats(StatsManager::get_artist_stats(
+                artist, repo.get_concerts(), repo.get_concert_artists()));
         }
         current_screen = Screen::Menu;
         break;

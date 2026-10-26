@@ -8,8 +8,8 @@
 
 #include "ComponentManager.h"
 #include "ConcertRepository.h"
-#include "StatsManager.h"
 #include "IStorageManager.h"
+#include "StatsManager.h"
 #include "ValidationManager.h"
 
 enum class Screen

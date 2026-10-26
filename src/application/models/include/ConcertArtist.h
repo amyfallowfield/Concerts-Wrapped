@@ -16,7 +16,7 @@ enum class ArtistRoles
 
 class ConcertArtist
 {
-public:
+  public:
     ConcertArtist(int32_t concert_id, int32_t artist_id, ArtistRoles role);
     ConcertArtist(const json &data);
 
@@ -30,7 +30,7 @@ public:
     void set_artist_id(int32_t id);
     void set_role(ArtistRoles role);
 
-private:
+  private:
     int32_t concert_id;
     int32_t artist_id;
     ArtistRoles artist_role;

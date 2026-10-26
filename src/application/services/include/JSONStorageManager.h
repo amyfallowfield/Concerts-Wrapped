@@ -42,14 +42,11 @@ class JSONStorageManager : public IStorageManager
     std::vector<Concert> load_concerts() override;
 
   private:
-    template <typename T>
-    bool _save(const std::vector<T> &items);
+    template <typename T> bool _save(const std::vector<T> &items);
 
-    template <typename T>
-    std::vector<T> _load();
+    template <typename T> std::vector<T> _load();
 
-    template <typename T>
-    std::filesystem::path _get_file_path() const;
+    template <typename T> std::filesystem::path _get_file_path() const;
 };
 
 #endif

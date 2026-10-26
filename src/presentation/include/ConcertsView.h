@@ -2,8 +2,8 @@
 #define CONCERTS_VIEW_H
 
 #include "Artist.h"
-#include "ConcertArtist.h"
 #include "Concert.h"
+#include "ConcertArtist.h"
 #include <vector>
 
 class ConcertsView

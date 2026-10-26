@@ -4,14 +4,14 @@
 #include <vector>
 
 #include "Artist.h"
-#include "ConcertArtist.h"
 #include "Concert.h"
+#include "ConcertArtist.h"
 #include "JSONStorageManager.h"
 #include "Logger.h"
 
-JSONStorageManager::JSONStorageManager(std::string directory)
-    : directory(directory)
-{}
+JSONStorageManager::JSONStorageManager(std::string directory) : directory(directory)
+{
+}
 
 bool JSONStorageManager::save_artists(const std::vector<Artist> &items)
 {
@@ -43,8 +43,7 @@ std::vector<Concert> JSONStorageManager::load_concerts()
     return _load<Concert>();
 }
 
-template <typename T>
-std::vector<T> JSONStorageManager::_load()
+template <typename T> std::vector<T> JSONStorageManager::_load()
 {
     std::vector<T> items;
     json json_array = json::array();
@@ -79,8 +78,7 @@ std::vector<T> JSONStorageManager::_load()
     return items;
 }
 
-template <typename T>
-bool JSONStorageManager::_save(const std::vector<T> &items)
+template <typename T> bool JSONStorageManager::_save(const std::vector<T> &items)
 {
     json json_array = json::array();
 
@@ -105,8 +103,7 @@ bool JSONStorageManager::_save(const std::vector<T> &items)
     return true;
 }
 
-template <typename T>
-std::filesystem::path JSONStorageManager::_get_file_path() const
+template <typename T> std::filesystem::path JSONStorageManager::_get_file_path() const
 {
     return std::filesystem::path(directory) / FilePaths<T>::path;
 }

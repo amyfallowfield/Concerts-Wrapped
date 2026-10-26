@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
 #include "Artist.h"
-#include "ConcertArtist.h"
 #include "Concert.h"
+#include "ConcertArtist.h"
 #include "StatsManager.h"
 #include "TestData.h"
 
@@ -34,8 +34,9 @@ TEST_F(StatsManagerTest, print_one_artist_one_concert)
     Artist artist = TestData::create_test_artist("Benjamin Steer");
     ConcertArtist concert_artist1 = TestData::create_artist_concert(1, 1, ArtistRoles::Headline);
     ConcertArtist concert_artist2 = TestData::create_artist_concert(1, 2, ArtistRoles::Support);
-    
-    ArtistStats stats = StatsManager::get_artist_stats(artist, {concert}, {concert_artist1, concert_artist2});
+
+    ArtistStats stats =
+        StatsManager::get_artist_stats(artist, {concert}, {concert_artist1, concert_artist2});
 
     ASSERT_EQ("Benjamin Steer", stats.name) << "Name should equal Benjamin Steer";
     ASSERT_EQ("23-05-2026", stats.first_seen) << "First seen should equal 23-05-2026";
@@ -55,7 +56,9 @@ TEST_F(StatsManagerTest, print_one_artist_two_concerts)
     ConcertArtist concert_artist3 = TestData::create_artist_concert(2, 1, ArtistRoles::Headline);
     ConcertArtist concert_artist4 = TestData::create_artist_concert(2, 2, ArtistRoles::Support);
 
-    ArtistStats stats = StatsManager::get_artist_stats(artist, {concert1, concert2}, {concert_artist1, concert_artist2, concert_artist3, concert_artist4});
+    ArtistStats stats = StatsManager::get_artist_stats(
+        artist, {concert1, concert2},
+        {concert_artist1, concert_artist2, concert_artist3, concert_artist4});
 
     ASSERT_EQ("Benjamin Steer", stats.name) << "Name should equal Benjamin Steer";
     ASSERT_EQ("23-05-2026", stats.first_seen) << "First seen should equal 23-05-2026";
